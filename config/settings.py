@@ -12,6 +12,27 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+# from environ import Env
+# import os
+# env = Env()
+
+# Read .env file
+# env.read_env(".env")
+# import environenv = environ.Env()
+# # reading .env file
+# environ.Env.read_env()
+# Access environment variables
+# //////////////////////////////////
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+
+
+DEBUG = os.environ['DEBUG']
+SECRET_KEY = os.environ['SECRET_KEY']
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +41,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+1zup^*78$-cbf&^g9@7b%=4ma&)yv((c%v$eha4zwop)vqd1j'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS =[f'{os.environ["ALLOWED_HOSTS"]}']
+
 
 
 # Application definition
@@ -79,8 +101,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ['ENGINE'],
+        'NAME': os.environ['NAME'],
+        'USER': os.environ['USER'],
+        'PASSWORD':os.environ['PASSWORD'],
+        'HOST':os.environ['HOST'],
+        'PORT':os.environ['PORT'],
     }
 }
 
@@ -114,7 +140,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
+# SECRET_KEY = 'django-insecure-+1zup^*78$-cbf&^g9@7b%=4ma&)yv((c%v$eha4zwop)vqd1j'
+# DEBUG = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
