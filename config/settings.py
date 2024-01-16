@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'postgresql': {
         'ENGINE': os.environ['ENGINE'],
         'NAME': os.environ['NAME'],
         'USER': os.environ['USER'],
@@ -152,3 +152,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = "member.CustomUser"
