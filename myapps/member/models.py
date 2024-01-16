@@ -10,7 +10,7 @@ class Status(models.Model):
     is_deleted=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     class Meta:
-        abstrac=True
+        abstract=True
 
 class Province(models.Model):
     name=models.CharField(max_length=100,unique=True)
@@ -19,6 +19,7 @@ class Province(models.Model):
 class City(models.Model):
     province_id=models.ForeignKey(Province,on_delete=models.SET("deleted"),related_name='province')
     name=models.CharField(max_length=100,unique=True)
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, firstname,lastname,phone, email,created_at,is_deleted,username, password, **extra_fields):
@@ -31,7 +32,7 @@ class CustomUserManager(BaseUserManager):
         user = self.model(first_name=firstname,last_name=lastname,phonenumber=phone,email= email,created_at=created_at,is_deleted=is_deleted,username=username, password=password, **extra_fields)
         user.set_password(password)
         user.is_active = False
-        user.save(using="postgresql")
+        user.save(using="default")
         return user
 
     def create_superuser(self,firstname,lastname,phone, email,created_at,is_deleted,username, password=None, **extra_fields):
@@ -44,10 +45,10 @@ class CustomUserManager(BaseUserManager):
         user.is_admin = True
        
         user.set_password(password)
-        user.save(using="postgresql")
+        user.save(using="default")
         return user
 
-class CustomerUser(AbstractUser,Status):
+class CustomUser(AbstractUser,Status):
     phonenumber = models.CharField(max_length=50, validators=[RegexValidator(
         regex=r'^(?:\+98|0)?9[0-9]{2}(?:[0-9](?:[ -]?[0-9]{3}){2}|[0-9]{8})$',
         message="Invalid phone number format. Example: +989123456789 or 09123456789", ),
@@ -69,6 +70,20 @@ class CustomerUser(AbstractUser,Status):
 
 
 class UserAddress(models.Model):
-    user_id=models.ForeignKey(CustomerUser, related_name="user",ondelete=models.CASCADE)
+    user_id=models.ForeignKey(CustomUser, related_name="user",on_delete=models.CASCADE)
     city=models.ForeignKey(Province,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)
+
+class Staff(Status):
+    POSITOINS=[
+        ("controller","controller"),
+        ("operator","operator"),
+        ("observer","observer"),
+    ]
+    user_id=models.ForeignKey(CustomUser, related_name="customuser", on_delete=models.CASCADE)
+    expiration=models.DateTimeField()
+    position=models.CharField(max_length=100,choices=POSITOINS)
+
+class Admin(CustomUser):
+    class Meta:
+        proxy=True
