@@ -5,11 +5,20 @@ from django.core.validators import validate_email, RegexValidator
 
 # Create your models here.
 
+
 class Status(models.Model):
     is_deleted=models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     class Meta:
         abstrac=True
+
+class Province(models.Model):
+    name=models.CharField(max_length=100,unique=True)
+    
+    
+class City(models.Model):
+    province_id=models.ForeignKey(Province,on_delete=models.SET("deleted"),related_name='province')
+    name=models.CharField(max_length=100,unique=True)
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, firstname,lastname,phone, email,created_at,is_deleted,username, password, **extra_fields):
@@ -61,11 +70,5 @@ class CustomerUser(AbstractUser,Status):
 
 class UserAddress(models.Model):
     user_id=models.ForeignKey(CustomerUser, related_name="user",ondelete=models.CASCADE)
-    MONTH_CHOICES=[
-        ("Tehran",),
-        ("Mashhad",),
-        ("Isfahan",)
-        ]
-    privince=models.CharField(max_length=20,choices=MONTH_CHOICES, default="Tehran")
-    city=models.CharField(max_length=20,choices=MONTH_CHOICES, default="Tehran")
+    city=models.ForeignKey(Province,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)
