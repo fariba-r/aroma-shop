@@ -1,19 +1,42 @@
 from django.db import models
-
+from ..member.models import CustomUser
+from ..product.models import Product
+from django.core.validators import  RegexValidator
+from django.core.exceptions import ValidationError
 # Create your models here.
 from django.db import models
 class Status(models.Model):
-    is_deleted = models.BooleanField()
+    is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey('User', on_delete=models.CASCADE)
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='%(class)s')
 
     class Meta:
         abstract = True
-class Item(Status):
+
+# class Category(Status):
+#     title = models.CharField(max_length=50)
+#     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE)
+    
+class Detail(Status):
     title = models.CharField(max_length=50)
+    parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE,related_name='detail')
+    
+
+class Item(Status):
+    title = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=500)
-    category_id = models.ForeignKey(Category)
-    detail_id =  models.ForeignKey(Detail)
-    count = models.IntegerField()
+    detail_id =  models.ManyToManyField(Detail)
+    count = models.PositiveIntegerField()
     price = models.FloatField()
+    
+    def clean_price(self):
+        if not 0<self.price<10000:
+            raise ValidationError("Price must be positive and smaller than 10000")
+        return True
+
+class Comment(Status):
+    content=models.TextField(max_length=600)
+    is_ok=models.BooleanField(default=False)
+    parent=models.ForeignKey("self",on_delete=models.SET("replyed to a deleted comment"),null=True,blank=True)
+    item_id=models.ForeignKey(Product,on_delete=models.CASCADE)
     
