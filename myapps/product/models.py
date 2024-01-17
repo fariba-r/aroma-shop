@@ -11,9 +11,7 @@ class Status(models.Model):
     class Meta:
         abstract = True
 
-# class Category(Status):
-#     title = models.CharField(max_length=50)
-#     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE)
+
     
 class Detail(Status):
     title = models.CharField(max_length=50,unique=True)
@@ -38,7 +36,7 @@ class Comment(Status):
     parent=models.ForeignKey("self",on_delete=models.SET("replyed to a deleted comment"),null=True,blank=True)
     item_id=models.ForeignKey(Product,on_delete=models.CASCADE)
 
-class Dicount_percent(Status):
+class DicountPercent(Status):
     expiration=models.DateTimeField()
     percent=models.FloatField(default=0.0)
     product_id=models.ManyToManyField(Product)

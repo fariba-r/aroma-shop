@@ -22,28 +22,30 @@ class City(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, firstname,lastname,phone, email,created_at,is_deleted,username, password, **extra_fields):
+    def create_user(self, firstname,lastname,phone, email,username, password, **extra_fields):
         """
         Creates and saves a User with the given phonenumber,email and password.
         """
         if not username or not password:
             raise ValueError("Users must have username and password")
         
-        user = self.model(first_name=firstname,last_name=lastname,phonenumber=phone,email= email,created_at=created_at,is_deleted=is_deleted,username=username, password=password, **extra_fields)
+        user = self.model(first_name=firstname,last_name=lastname,phonenumber=phone,email= email,username=username, password=password, **extra_fields)
         user.set_password(password)
         user.is_active = False
         user.save(using="default")
         return user
 
-    def create_superuser(self,firstname,lastname,phone, email,created_at,is_deleted,username, password=None, **extra_fields):
+    def create_superuser(self,first_name,last_name,phonenumber, email,username, password=None, **extra_fields):
         """
         Creates and saves a superuser with the given phonenumber, nickname, email and password.
         """
         user = self.create_user(
-           first_name=firstname,last_name=lastname,phonenumber=phone,email= email,created_at=created_at,is_deleted=is_deleted,username=username, password=password, **extra_fields
+           firstname=first_name,lastname=last_name,phone=phonenumber,email= email,username=username, password=password, **extra_fields
         )
         user.is_admin = True
-       
+        user.is_superuser=True
+        user.is_active=True
+        user.is_staff = True
         user.set_password(password)
         user.save(using="default")
         return user
@@ -53,14 +55,14 @@ class CustomUser(AbstractUser,Status):
         regex=r'^(?:\+98|0)?9[0-9]{2}(?:[0-9](?:[ -]?[0-9]{3}){2}|[0-9]{8})$',
         message="Invalid phone number format. Example: +989123456789 or 09123456789", ),
     ], verbose_name="Phone number", unique=True)
-    email = models.EmailField(max_length=100, verbose_name="email address", validators=[validate_email],
+    email = models.EmailField(max_length=80, verbose_name="email address", validators=[validate_email],
                               unique=True
                               )
     
    
-    password = models.CharField(max_length=20)
+    password = models.CharField(max_length=200)
     
-    
+    REQUIRED_FIELDS = ["email","first_name","last_name","phonenumber" ]
     
     
 
