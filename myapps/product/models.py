@@ -1,7 +1,5 @@
 from django.db import models
 from ..member.models import CustomUser
-from ..product.models import Product
-from django.core.validators import  RegexValidator
 from django.core.exceptions import ValidationError
 # Create your models here.
 from django.db import models
@@ -18,12 +16,12 @@ class Status(models.Model):
 #     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE)
     
 class Detail(Status):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50,unique=True)
     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE,related_name='detail')
     
 
 class Product(Status):
-    title = models.CharField(max_length=50,unique=True)
+    title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     detail_id =  models.ManyToManyField(Detail)
     count = models.PositiveIntegerField()
@@ -45,3 +43,10 @@ class Dicount_percent(Status):
     percent=models.FloatField(default=0.0)
     product_id=models.ManyToManyField(Product)
     
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(percent__gt=0), name="positive_percent"
+            ),
+        ]
+
