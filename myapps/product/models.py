@@ -22,7 +22,7 @@ class Detail(Status):
     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE,related_name='detail')
     
 
-class Item(Status):
+class Product(Status):
     title = models.CharField(max_length=50,unique=True)
     description = models.CharField(max_length=500)
     detail_id =  models.ManyToManyField(Detail)
@@ -39,4 +39,9 @@ class Comment(Status):
     is_ok=models.BooleanField(default=False)
     parent=models.ForeignKey("self",on_delete=models.SET("replyed to a deleted comment"),null=True,blank=True)
     item_id=models.ForeignKey(Product,on_delete=models.CASCADE)
+
+class Dicount_percent(Status):
+    expiration=models.DateTimeField()
+    percent=models.FloatField(default=0.0)
+    product_id=models.ManyToManyField(Product)
     
