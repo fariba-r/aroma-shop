@@ -75,6 +75,7 @@ class UserAddress(models.Model):
     user_id=models.ForeignKey(CustomUser, related_name="user",on_delete=models.CASCADE)
     city=models.ForeignKey(Province,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)
+    is_deleted=models.BooleanField(default=False)
 
 class Staff(Status):
     POSITOINS=[
@@ -85,6 +86,7 @@ class Staff(Status):
     user_id=models.ForeignKey(CustomUser, related_name="customuser", on_delete=models.CASCADE)
     expiration=models.DateTimeField()
     position=models.CharField(max_length=100,choices=POSITOINS)
+    salary=models.PositiveIntegerField()
 
 class Admin(CustomUser):
     class Meta:
