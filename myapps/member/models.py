@@ -1,77 +1,63 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_email, RegexValidator
+from .manager import CustomUserManager
+from ..core.manager import CustomBaseManager,DeleteMixin
 
 
-# Create your models here.
-
-
-class Status(models.Model):
-    is_deleted=models.BooleanField(default=False)
-    created_at=models.DateTimeField(auto_now_add=True)
-    class Meta:
-        abstract=True
-
-class Province(models.Model):
-    name=models.CharField(max_length=100,unique=True)
-    
-    
-class City(models.Model):
-    province_id=models.ForeignKey(Province,on_delete=models.SET("deleted"),related_name='province')
-    name=models.CharField(max_length=100,unique=True)
-
-
-class CustomUserManager(BaseUserManager):
-    def create_user(self, firstname,lastname,phone, email,username, password, **extra_fields):
-        """
-        Creates and saves a User with the given phonenumber,email and password.
-        """
-        if not username or not password:
-            raise ValueError("Users must have username and password")
-        
-        user = self.model(first_name=firstname,last_name=lastname,phonenumber=phone,email= email,username=username, password=password, **extra_fields)
-        user.set_password(password)
-        user.is_active = False
-        user.save(using="default")
-        return user
-
-    def create_superuser(self,first_name,last_name,phonenumber, email,username, password=None, **extra_fields):
-        """
-        Creates and saves a superuser with the given phonenumber, nickname, email and password.
-        """
-        user = self.create_user(
-           firstname=first_name,lastname=last_name,phone=phonenumber,email= email,username=username, password=password, **extra_fields
-        )
-        user.is_admin = True
-        user.is_superuser=True
-        user.is_active=True
-        user.is_staff = True
-        user.set_password(password)
-        user.save(using="default")
-        return user
-
-class CustomUser(AbstractUser,Status):
+class CustomUser(AbstractUser):
     phonenumber = models.CharField(max_length=50, validators=[RegexValidator(
         regex=r'^(?:\+98|0)?9[0-9]{2}(?:[0-9](?:[ -]?[0-9]{3}){2}|[0-9]{8})$',
         message="Invalid phone number format. Example: +989123456789 or 09123456789", ),
     ], verbose_name="Phone number", unique=True)
     email = models.EmailField(max_length=80, verbose_name="email address", validators=[validate_email],
-                              unique=True
-                              )
+                              unique=True)
     
    
     password = models.CharField(max_length=200)
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
     
     REQUIRED_FIELDS = ["email","first_name","last_name","phonenumber" ]
     
     
 
     objects = CustomUserManager()
+class Status(models.Model,DeleteMixin):
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='%(class)s')
+    class Meta:
+        abstract = True
+
+# Create your models here.
+
+
+
+class Province(Status,DeleteMixin):
+    name=models.CharField(max_length=100,unique=True)
+    objects=CustomBaseManager()
+   
+    def delete(self, using=None, keep_parents=False):
+        print("pppppppppppppppvvvvvvvvv"*10)
+        self.is_deleted = True
+        self.save()
+
+    
+    
+class City(Status,DeleteMixin):
+    province_id=models.ForeignKey(Province,on_delete=models.SET("deleted"),related_name='province')
+    name=models.CharField(max_length=100,unique=True)
+    objects=CustomBaseManager()
 
 
 
 
-class UserAddress(models.Model):
+
+
+
+
+class UserAddress(models.Model,DeleteMixin):
     user_id=models.ForeignKey(CustomUser, related_name="user",on_delete=models.CASCADE)
     city=models.ForeignKey(Province,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)

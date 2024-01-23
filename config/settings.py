@@ -15,6 +15,7 @@ from pathlib import Path
 
 import os
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
 
 
 load_dotenv()
@@ -88,9 +89,10 @@ DATABASES = {
         'PASSWORD':os.environ['PASSWORD'],
         'HOST':os.environ['HOST'],
         'PORT':os.environ['PORT'],
+        
+
     }
 }
-
 
 
 
@@ -133,3 +135,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "member.CustomUser"
+LOGIN_URL = reverse_lazy('core:login')
