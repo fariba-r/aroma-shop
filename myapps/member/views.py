@@ -3,7 +3,7 @@ from django.views.generic import ListView, View, CreateView, TemplateView, FormV
 from django.contrib.auth.views import LoginView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserAuthenticationForm
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
@@ -21,7 +21,7 @@ class LoginPassView(LoginView):
     
 
 class SignUpView(SuccessMessageMixin,CreateView):
-    form_class = UserCreationForm
+    form_class = CustomUserAuthenticationForm
     template_name ="member/signup.html"
     success_url = reverse_lazy('member:login')
     success_message = "Your account was created successfully"
