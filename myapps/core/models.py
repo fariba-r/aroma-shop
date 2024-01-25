@@ -19,6 +19,11 @@ def get_image_path(instance, filename):
         return os.path.join('images','profile', filename)
     if instance.content_type_id==19:
         return os.path.join('images','product', filename)
+    if instance.content_type_id==22:
+        return os.path.join('images','category', filename)
+    else:
+        return os.path.join('images', 'other', filename)
+
 
 class Image(Status):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)

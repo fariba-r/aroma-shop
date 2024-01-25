@@ -9,11 +9,19 @@ class CustomUserManager(DeleteMixin,CustomBaseManager,BaseUserManager):
         """
         if not username or not password:
             raise ValueError("Users must have username and password")
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
         user = self.model(first_name=firstname,last_name=lastname,phonenumber=phone,email= email,username=username, password=password, **extra_fields)
         user.set_password(password)
         user.is_active = False
         user.save(using="default")
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         return user
 
     def create_superuser(self,first_name,last_name,phonenumber, email,username, password=None, **extra_fields):
