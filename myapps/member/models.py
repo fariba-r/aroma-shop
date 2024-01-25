@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_email, RegexValidator
 from .manager import CustomUserManager
 from ..core.manager import CustomBaseManager,DeleteMixin
+from django.contrib.auth.hashers import make_password
 
 
 class CustomUser(AbstractUser):
@@ -21,6 +22,12 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ["email","first_name","last_name","phonenumber" ]
     
     
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
 
     objects = CustomUserManager()
 class Status(models.Model,DeleteMixin):

@@ -13,6 +13,8 @@ class Detail(Status):
     objects=CustomBaseManager()
     
 
+
+
 class Product(Status):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
