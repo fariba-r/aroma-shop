@@ -7,6 +7,7 @@ from .forms import CustomUserAuthenticationForm,EmailLoginForm
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import CustomUser
+from django.http import JsonResponse
 # Create your views here.
 
 class LoginPassView(LoginView):
@@ -53,4 +54,12 @@ class SignUpView(SuccessMessageMixin,CreateView):
 
    
 
-    
+class ValidateEmailView(View):
+    def post(self,request,*args,**kwargs):
+        email = request.POST['email']
+        try:
+            CustomUser.objects.get(email=email)
+            return JsonResponse({'valid': 'true'})
+        except:
+            return  JsonResponse({'valid': 'false'})
+

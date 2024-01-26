@@ -10,5 +10,6 @@ urlpatterns = [
     path('loginemail/', views.LoginEmailView.as_view(), name='loginemail'),
     path('logout/', LogoutView.as_view(next_page=reverse_lazy('core:home')),name='logout'),
     path('singup/', views.SignUpView.as_view(), name='signup'),
+path('check_email/', views.ValidateEmailView.as_view(), name='check_email'),
 
 ]
