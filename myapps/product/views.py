@@ -32,4 +32,7 @@ def product_view(request,id):
             "images":images
         }
         return render(request, 'products.html',context)
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

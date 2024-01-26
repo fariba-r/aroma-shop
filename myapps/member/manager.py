@@ -10,7 +10,11 @@ class CustomUserManager(DeleteMixin,CustomBaseManager,BaseUserManager):
         if not username or not password:
             raise ValueError("Users must have username and password")
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -19,6 +23,10 @@ class CustomUserManager(DeleteMixin,CustomBaseManager,BaseUserManager):
         user.is_active = False
         user.save(using="default")
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes

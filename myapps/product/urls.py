@@ -9,5 +9,8 @@ urlpatterns = [
     path('category/', views.CategoryView.as_view(), name='category'),
 path('products/<int:id>/', views.product_view, name='products'),
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 ]
