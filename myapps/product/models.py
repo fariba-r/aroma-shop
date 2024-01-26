@@ -12,12 +12,42 @@ class Detail(Status):
     parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE,related_name='detail')
     objects=CustomBaseManager()
     
+class Category(Status):
+    title = models.CharField(max_length=50, unique=True)
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='detail')
+    objects = CustomBaseManager()
+
+    def get_products_recursively(self):
+        products = []
+        for category in self.__class__.objects.all():
+            while (category.parent is not None):
+                category = category.parent
+            if category == self:
+                logical_queryset=Product.objects.filter(product=category)
+                if logical_queryset.exists():
+                    products.append(logical_queryset)
+        return set(products)
+    @property
+    def cout_product(self):
+
+        p=self.get_products_recursively()
+        return len(p)
+        # return Product.objects.filter(product=self).all().count()
+
+
+
+
+
+
+
+
 
 
 
 class Product(Status):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
+    category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product")
     detail_id =  models.ManyToManyField(Detail)
     count = models.PositiveIntegerField()
     price = models.FloatField()
