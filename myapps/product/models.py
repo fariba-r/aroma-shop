@@ -25,8 +25,9 @@ class Category(Status):
             if category == self:
                 logical_queryset=Product.objects.filter(product=category)
                 if logical_queryset.exists():
-                    products.append(logical_queryset)
-        return set(products)
+                    for pr in logical_queryset:
+                        products.append(pr)
+        return products
     @property
     def cout_product(self):
 
@@ -39,11 +40,6 @@ class Category(Status):
 
 
 
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
 
 
 

@@ -1,8 +1,5 @@
 from django.shortcuts import render
-<<<<<<< Updated upstream
 
-# Create your views here.
-=======
 from django.views.generic import ListView, View, CreateView, TemplateView, FormView, UpdateView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -25,14 +22,10 @@ class CategoryView(View):
 def product_view(request,id):
     if request.method == 'GET':
         category=Category.objects.get(id=id)
-        products=category.get_products_recursively()
+        products=Product.objects.filter(product=category)
         images = Image.objects.filter(content_type=ContentType.objects.get_for_model(Product))
         context={
-           " products":products,
+           " productts":products,
             "images":images
         }
-        return render(request, 'products.html',context)
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+        return render(request, 'product/products.html',context)

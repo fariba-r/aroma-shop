@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{%  load static %}
+
+
+
+{%block content%}
+{#<h1>{{productts}},{{ images }}</h1>#}
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Shop Products</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% static 'base.html' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Shop Category</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+	<!-- ================ category section start ================= -->		  
+
+
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+                {% for product in productts %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="card text-center card-product">
+                          <div class="card-product__img">
+                               {% for image in images %}
+
+                                        {% if image.object_id == product.id %}
+                                            <img class="card-img" src="{{image.image.url}}" alt="">
+                                        {% endif %}
+                                    {% endfor %}
+
+                            <ul class="card-product__imgOverlay">
+                              <li><button><i class="ti-search"></i></button></li>
+                              <li><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><button><i class="ti-heart"></i></button></li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <p>{{ product.title }}</p>
+                            <h4 class="card-product__title"><a href="#">{{ product.description|truncatewords:10 }}</a></h4>
+                            <p class="card-product__price">${{ product.price }}</p>
+                          </div>
+                        </div>
+                      </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->		  
+
+
+{% endblock %}
