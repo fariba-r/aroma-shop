@@ -7,7 +7,7 @@ __pycache__/
 # C extensions
 *.so
 config/database_config.ini
-
+*/*__pychace__*/*
 # Distribution / packaging
 .Python
 build/
