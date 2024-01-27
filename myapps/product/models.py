@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from ..core.manager import CustomBaseManager
 from ..member.models import Status
+from django.db.models.base import ModelBase
 
 
     
@@ -20,13 +21,20 @@ class Category(Status):
     def get_products_recursively(self):
         products = []
         for category in self.__class__.objects.all():
-            while (category.parent is not None):
+            old_cat=category
+            while (category  is not None):
+
+                if category == self:
+                    logical_queryset=Product.objects.filter(product=old_cat)
+                    if logical_queryset.exists():
+                        for pr in logical_queryset:
+                            products.append(pr.id)
                 category = category.parent
-            if category == self:
-                logical_queryset=Product.objects.filter(product=category)
-                if logical_queryset.exists():
-                    for pr in logical_queryset:
-                        products.append(pr)
+
+            logical_queryset = Product.objects.filter(product=category)
+            if logical_queryset.exists():
+                for pr in logical_queryset:
+                    products.append(pr.id)
         return products
     @property
     def cout_product(self):
@@ -35,7 +43,9 @@ class Category(Status):
         return len(p)
         # return Product.objects.filter(product=self).all().count()
 
+    def list_to_queryset(self, data):
 
+       return Product.objects.filter(pk__in=data)
 
 
 
@@ -57,6 +67,18 @@ class Product(Status):
             raise ValidationError("Price must be positive and smaller than 10000")
         return True
     
+    def all_categoryes(self):
+        all_cat=[]
+        cat=self.product
+        while(cat is not None):
+            all_cat.append(cat.id)
+            cat=cat.parent
+        all_cat=reversed(all_cat)
+        return Category.objects.filter(pk__in=all_cat)
+
+
+
+
 
 class Comment(Status):
     content=models.TextField(max_length=600)

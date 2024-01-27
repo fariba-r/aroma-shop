@@ -4,8 +4,9 @@
 {%  load static %}
 
 
-<h1>{{ all_category }}</h1>
+
 {%block content%}
+
 	<!-- ================ start banner area ================= -->	
 	<section class="blog-banner-area" id="category">
 		<div class="container h-100">
@@ -32,13 +33,14 @@
     <div class="container">
       <div class="row">
         {%  for cat in all_category %}
+
         <div class="col-sm-6 col-lg-4 mb-4 mb-lg-0" style="margin-bottom: 25px !important;">
             <div class="categories_post">
                 {% for image in images %}
 
                     {% if image.object_id == cat.id %}
 
-                <img class="card-img rounded-0" style="width: 400px; height: 250px;" alt="post" src="{{image.image.url}}" >
+                        <img class="card-img rounded-0" style="width: 400px; height: 250px;" alt="post" src="{{image.image.url}}" >
                     {% endif %}
                 {% endfor %}
                 <div class="categories_details">
