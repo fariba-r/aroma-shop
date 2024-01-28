@@ -4,8 +4,7 @@
 
 
 {%block content%}
-<h1>{{ qs_products }}, {{ images }}</h1>
-    <h1>lllllllllllllllllllllllllllllllllllllll</h1>
+
 	<!-- ================ start banner area ================= -->	
 	<section class="blog-banner-area" id="category">
 		<div class="container h-100">
@@ -50,7 +49,7 @@
                           </div>
                           <div class="card-body">
                             <p>{{ product.title }}</p>
-                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatewords:10 }}</a></h4>
+                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatewords:10 }}...</a></h4>
                             <p class="card-product__price">${{ product.price }}</p>
                           </div>
                         </div>

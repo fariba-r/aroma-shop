@@ -9,10 +9,16 @@ from django.db.models.base import ModelBase
 
     
 class Detail(Status):
-    name = models.CharField(max_length=50,unique=True)
-    value = models.CharField(max_length=50,unique=True)
+    name = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
     product=models.ForeignKey('Product',on_delete=models.CASCADE)
+    dependency=models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True,name="dependency")
     objects=CustomBaseManager()
+    @property
+    def detail_line(self):
+        return Detail.objects.prefetch_related("dependency").filter(parent=self)
+
+
     
 class Category(Status):
     title = models.CharField(max_length=50, unique=True)
@@ -59,6 +65,11 @@ class Product(Status):
     description = models.CharField(max_length=500)
     category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product")
     objects=CustomBaseManager()
+    @property
+    def base_group(self):
+
+        return Detail.objects.filter(parent=None, object_id=self.id)
+
 
     def clean_price(self):
         if not 0<self.price<10000:

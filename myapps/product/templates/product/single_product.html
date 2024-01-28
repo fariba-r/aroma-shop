@@ -50,7 +50,13 @@
 							<li><a class="active" href="#"><span>Category</span> : {% for cat in categories %} {{ cat.title }} {% endfor %}</a></li>
 
 
-							<li><a href="#"><span>Availibility</span> : {% if product.count > 30 %} available  {% elif product.count == 0 %} not available {% else %} {{ product.count }} reminded in shop  {% endif %} </a></li>
+							<li><a href="#"><span>Availibility</span> : </a></li>
+                        {% for bg in product.base_group %}
+
+                            {% for d in bg.detail_line %}
+                                <h1>{{ d.name }}:{{ d.value }}</h1>
+                                {% endfor %}
+                        {% endfor %}
 						</ul>
 						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling

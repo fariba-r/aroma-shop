@@ -38,16 +38,16 @@ class SingleProduct(DetailView):
     model = Product
     template_name = 'product/single_product.html'
     context_object_name="product"
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         images=Image.objects.filter(content_type=ContentType.objects.get_for_model(Product),object_id=self.kwargs['pk'])
         context['images'] = images
-        context["categories"]=Product.objects.get(id=self.kwargs['pk']).all_categoryes()
-        context["colors"]=Product.objects.get(id=self.kwargs['pk'])
         return context
 
-# cclass SingleProduct(View):
+# class SingleProduct(View):
 #     def get(self, request, *args, **kwargs):
 #         objs=Product.objects.get(id=self.kwargs['pk'])
 #
