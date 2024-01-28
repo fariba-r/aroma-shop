@@ -9,8 +9,9 @@ from django.db.models.base import ModelBase
 
     
 class Detail(Status):
-    title = models.CharField(max_length=50,unique=True)
-    parent = models.ForeignKey('self',null=True,blank=True,on_delete=models.CASCADE,related_name='detail')
+    name = models.CharField(max_length=50,unique=True)
+    value = models.CharField(max_length=50,unique=True)
+    product=models.ForeignKey('Product',on_delete=models.CASCADE)
     objects=CustomBaseManager()
     
 class Category(Status):
@@ -57,9 +58,6 @@ class Product(Status):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product")
-    detail_id =  models.ManyToManyField(Detail)
-    count = models.PositiveIntegerField()
-    price = models.FloatField()
     objects=CustomBaseManager()
 
     def clean_price(self):

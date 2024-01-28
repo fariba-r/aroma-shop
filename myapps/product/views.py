@@ -24,6 +24,7 @@ def products_view(request,id):
         category=Category.objects.get(id=id)
         products_id=category.get_products_recursively()
         qs_products=category.list_to_queryset(products_id)
+        # n_cat=Category.objects.filter(parent=category)
         images = Image.objects.filter(content_type=ContentType.objects.get_for_model(Product))
         context={
            "qs_products":qs_products,
@@ -46,3 +47,10 @@ class SingleProduct(DetailView):
         context["colors"]=Product.objects.get(id=self.kwargs['pk'])
         return context
 
+# cclass SingleProduct(View):
+#     def get(self, request, *args, **kwargs):
+#         objs=Product.objects.get(id=self.kwargs['pk'])
+#
+#         context={
+#             "product":Product.objects.filter(product=objs.product)
+#         }
