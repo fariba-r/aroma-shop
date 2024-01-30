@@ -1,0 +1,20 @@
+
+                                    <div class="review_item" style="background-color:#cce6ff">
+									<div class="media">
+										<div class="d-flex">
+											<img src="img/product/review-1.png" alt="">
+										</div>
+										<div class="media-body">
+											<h4>{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h4>
+											<h5>{{ comment.created_at }}</h5>
+											<a class="reply_btn" href="#">Reply</a>
+
+										</div>
+									</div>
+									<p>{{ comment.content }}</p>
+
+                                         {% if comment.find_replied != None %}
+                                            <h5>-------------------------------------------</h5>
+                                                <div id="show_answer">{% include 'product/partial/reply_comment.html' with comment=comment.find_replied %}</div>
+                                         {% endif %}
+								</div>

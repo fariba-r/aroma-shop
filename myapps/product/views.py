@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from urllib import request
 
+from django.db.models import Q
+from django.shortcuts import render
+import requests
 from django.views.generic import ListView, View, CreateView, TemplateView, FormView, UpdateView, DetailView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -24,14 +27,17 @@ def products_view(request,id):
         category=Category.objects.get(id=id)
         products_id=category.get_products_recursively()
         qs_products=category.list_to_queryset(products_id)
+        bgd=Detail.objects.filter(Q(detaill__in=products_id),dependency=None)
+        # cost=Detail.objects.filter(name="cost",dependency=bgd.first())
+        cost = Detail.objects.filter( Q(detaill__in=products_id),name="cost")
         # n_cat=Category.objects.filter(parent=category)
-        images = Image.objects.filter(content_type=ContentType.objects.get_for_model(Product))
+        images = Image.objects.filter(content_type=ContentType.objects.get_for_model(Detail))
         context={
            "qs_products":qs_products,
-
+            "cost":cost,
             "images":images
         }
-        print(context)
+        # print(context)
         return render(request, 'product/products.html',context)
 
 class SingleProduct(DetailView):
@@ -42,9 +48,22 @@ class SingleProduct(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        images=Image.objects.filter(content_type=ContentType.objects.get_for_model(Product),object_id=self.kwargs['pk'])
+        object=Product.objects.get(id=self.kwargs['pk'])
+        detail=Detail.objects.filter(detaill=self.kwargs["pk"])
+        base_g=object.base_group
+        images=Image.objects.filter(content_type=ContentType.objects.get_for_model(Detail),object_id=base_g.first().id )
         context['images'] = images
+        context["details"]=detail
+        context["categories"]=object.all_categoryes()
+        context["example"]=base_g.first()
+        context["comments"]=Comment.objects.filter(item_id=self.kwargs['pk'],is_ok=True)
+
+
+        # sesion
+        # session = requests.Session()
+        for bg in base_g:
+            self.request.session['idempresa'] = "mm"
+            # requests.session[f"{bg.id}"] =bg
         return context
 
 # class SingleProduct(View):

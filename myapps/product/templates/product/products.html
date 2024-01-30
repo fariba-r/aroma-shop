@@ -25,7 +25,9 @@
 
 
 	<!-- ================ category section start ================= -->		  
-
+    <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
 
           <!-- Start Best Seller -->
           <section class="lattest-product-area pb-40 category-list">
@@ -35,9 +37,8 @@
                         <div class="card text-center card-product">
                           <div class="card-product__img">
                                {% for image in images %}
-
-                                        {% if image.object_id == product.id %}
-                                            <img class="card-img" src="{{image.image.url}}" alt="">
+                                        {% if image.object_id == product.base_group.first.id %}
+                                            <img class="card-img" src="{{image.image.url}}" alt="" >
                                         {% endif %}
                                     {% endfor %}
 
@@ -49,8 +50,8 @@
                           </div>
                           <div class="card-body">
                             <p>{{ product.title }}</p>
-                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatewords:10 }}...</a></h4>
-                            <p class="card-product__price">${{ product.price }}</p>
+                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
+                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id and forloop.counter0 == 0 %}{{price.value}}{% endif %}{% endfor %}</p>
                           </div>
                         </div>
                       </div>
@@ -62,7 +63,9 @@
       </div>
     </div>
   </section>
-	<!-- ================ category section end ================= -->		  
+	<!-- ================ category section end ================= -->
+</div>
+    </div>
 
 
 {% endblock %}
