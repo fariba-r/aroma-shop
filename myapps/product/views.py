@@ -1,7 +1,9 @@
 from urllib import request
 
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 from django.views.generic import ListView, View, CreateView, TemplateView, FormView, UpdateView, DetailView
 from django.shortcuts import get_object_or_404
@@ -73,3 +75,27 @@ class SingleProduct(DetailView):
 #         context={
 #             "product":Product.objects.filter(product=objs.product)
 #         }
+
+class CreateComment(View,LoginRequiredMixin):
+
+    def handle_no_permission(self):
+        messages.warning(request, "you should login first .")
+        return redirect(render(reverse("member:login")))
+    def post(self,request,id):
+
+        product = Product.objects.get(id=id)
+        comment=request.POST.get('message')
+        Comment.objects.create(content=comment,creator=self.request.user,item_id=product)
+        return redirect(reverse("product:single_product",  args=(product.id,)))
+
+class CreateReplyComment(View, LoginRequiredMixin):
+
+        def handle_no_permission(self):
+            messages.warning(request, "you should be staff to can reply .")
+            return redirect(render(reverse("member:login")))
+
+        def post(self, request, id_p,id_r):
+            product = Product.objects.get(id=id_p)
+            comment=Comment.objects.get(id=id_r)
+            content = request.POST.get('comment')
+            Comment.objects.create(content=content, creator=self.request.user, item_id=product,parent=comment)

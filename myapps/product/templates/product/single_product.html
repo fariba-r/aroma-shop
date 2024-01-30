@@ -4,19 +4,6 @@
 
 
 {%block content%}
-<h1>{{ example.detail_line }}</h1>
-							<h1>
-                            {% for detail in example.detail_line %}
-
-                                        <h1>,,</h1>
-										<h5>{{ detail.name }}</h5>
-
-										<h5>{{ detail.value }}</h5>
-
-
-                            {% endfor %}
-                            </h1>
-
 	<!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="blog">
 		<div class="container h-100">
@@ -43,7 +30,13 @@
 				<div class="col-lg-6">
 					<div class="owl-carousel owl-theme s_Product_carousel">
 						<div class="single-prd-item">
-							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+                            {% for image in images %}
+
+                                {% if image.object_id == example.detaill.id %}
+
+							<img class="img-fluid" src={{ image.image.url }} alt="" style="height: 400px">
+                                {% endif %}
+                            {% endfor %}
 						</div>
 						<!-- <div class="single-prd-item">
 							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
@@ -180,25 +173,11 @@
 						<div class="col-lg-6">
 							<div class="review_box">
 								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+								<form class="row contact_form" action={% url 'product:create_comment' product.id %} method="post" id="contactForm" novalidate="novalidate">
+                                    {% csrf_token %}
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+											<textarea class="form-control" name="comment" id="message" rows="1" placeholder="Message"></textarea>
 										</div>
 									</div>
 									<div class="col-md-12 text-right">

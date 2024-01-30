@@ -62,6 +62,9 @@ class Category(Status):
 
        return Product.objects.filter(pk__in=data)
 
+    def childrn(self):
+
+        return Category.objects.filter(parent=self)
 
 
 
