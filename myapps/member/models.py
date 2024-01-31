@@ -27,8 +27,6 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.password = make_password(self.password)
-        group = Group.objects.get(name='autenticated')
-        self.groups.add(group)
         super().save(*args, **kwargs)
 
     objects = CustomUserManager()
@@ -75,20 +73,13 @@ class Staff(Status):
         ("operator","operator"),
         ("observer","observer"),
     ]
-    user_id=models.ForeignKey(CustomUser, related_name="customuser", on_delete=models.CASCADE)
+
+    user_id = models.OneToOneField(CustomUser, related_name="customuser", on_delete=models.CASCADE)
     expiration=models.DateTimeField()
     position=models.CharField(max_length=100,choices=POSITOINS)
     salary=models.PositiveIntegerField()
 
-    def save(self, *args, **kwargs):
-        if self.position=="controller":
-            group = Group.objects.get(name='master_product')
-        elif self.position=="operator":
-            group = Group.objects.get(name='operator')
-        elif self.position=="observer":
-            group = Group.objects.get(name='controller')
-        self.groups.add(group)
-        super().save(*args, **kwargs)
+
 
 class Admin(CustomUser):
     class Meta:
