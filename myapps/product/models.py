@@ -1,5 +1,8 @@
+from django.contrib import messages
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.shortcuts import redirect
+
 from ..member.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -137,3 +140,12 @@ class DicountPercent(Status):
             ),
         ]
 
+class StaffAccessMixin():
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated (LoginRequiredMixin already handles this)
+        if not request.user.groups.filter(name__in=["master_product","controller","operator"]).exists():
+            url=request.META.get('HTTP_REFERER')
+            messages.warning(request, "You should be staff to reply.")
+            return redirect(url)
+
+        return super().dispatch(request, *args, **kwargs)

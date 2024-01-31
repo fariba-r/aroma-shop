@@ -89,20 +89,15 @@ class CreateComment(PermissionRequiredMixin,View,LoginRequiredMixin):
         return redirect(reverse("product:single_product",  args=(product.id,)))
 
 class CreateReplyComment( LoginRequiredMixin,View):
-    def dispatch(self, request, *args, **kwargs):
-        # Check if the user is authenticated (LoginRequiredMixin already handles this)
-        if not request.user.groups.filter(name__in=["master_product","controller","operator"]).exists():
-            url=request.META.get('HTTP_REFERER')
-            messages.warning(request, "You should be staff to reply.")
-            return redirect(url)
 
-        return super().dispatch(request, *args, **kwargs)
         def handle_no_permission(self):
             messages.warning(request, "you should be staff to can reply .")
             return redirect(render(reverse("member:login")))
 
-        def post(self, request, id_p,id_r):
+        def post(self, request, id_p,id_c):
             product = Product.objects.get(id=id_p)
-            comment=Comment.objects.get(id=id_r)
+            comment=Comment.objects.get(id=id_c)
             content = request.POST.get('comment')
             Comment.objects.create(content=content, creator=self.request.user, item_id=product,parent=comment)
+            messages.warning(request, "reply save succes fully .")
+            return redirect(reverse("product:single_product",  args=(id_p,)))

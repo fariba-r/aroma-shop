@@ -146,7 +146,34 @@
                                                 <div class="media-body">
                                                     <h4>{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h4>
                                                     <h5>{{ comment.created_at }}</h5>
-                                                    <a class="reply_btn" href="#">Reply</a>
+{#                                                   <h1>{{ user.groups.all }} ... {{ perms }}</h1>#}
+                                                    {% for group in  user.groups.all %}
+{#                                                        <h1>{{ group }}</h1>#}
+{#                                                        {% if group == "master_product" %}#}
+                                                        <p id="reply" class="reply_btn"
+                                                          >Reply {{ p }}</p>
+
+                                                        <form id="replyy" class="row contact_form"
+                                                              action={% url "product:reply_comment" id_p=product.id id_c=comment.id %} method="post"
+                                                              id="contactForm" novalidate="novalidate">
+                                                            {% csrf_token %}
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" name="comment"
+                                                                              id="message" rows="1"
+                                                                              placeholder="Message"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 text-right">
+                                                                <button id ="ssubmit" type="submit" value="submit"
+                                                                        class="btn primary-btn">Submit Now
+                                                                </button>
+                                                            </div>
+                                                        </form>
+
+{#                                                        {% endif %}#}
+                                                    {% endfor %}
+
 
                                                 </div>
                                             </div>
@@ -226,11 +253,12 @@
         const elements = document.querySelectorAll('.review_item_selector')
 
         elements.forEach(function (item, index) {
-            debugger;
+
             var show= item.querySelector('[id*="show_answer"]')
             if(show){
                  console.log(item);
             item.querySelector('[id*="show_answer"]').style.display = "none";
+            item.querySelector('[id*="replyy"]').style.display = "none"
 
             item.querySelector('[id*="close"]').style.display = "none";
 
@@ -245,10 +273,18 @@
                 item.querySelector('[id*="close"]').style.display = "none";
 });
 
-            }
+          item.querySelector('[id="reply"]').addEventListener("click", function () {
+                item.querySelector('[id*="replyy"]').style.display = "block"
+});
+          item.querySelector('[id="ssubmit"]').addEventListener("click", function () {
+                item.querySelector('[id*="replyy"]').style.display = "none"
+});
 
 
-    })
+            }//end show
+
+
+    })//end fore each
 
 
     </script>
