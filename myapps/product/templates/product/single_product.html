@@ -138,7 +138,7 @@
 
                                 {% for comment in comments  %}
                                     {% if comment.parent == None %}
-                                        <div class="review_item" style="background-color: #e6f2ff">
+                                        <div class="review_item review_item_selector" style="background-color: #e6f2ff">
                                             <div class="media">
                                                 <div class="d-flex">
                                                     <img src="img/product/review-1.png" alt="">
@@ -153,10 +153,10 @@
                                             <p>{{ comment.content }}</p>
 
                                          {% if comment.find_replied != None %}
-                                                    <button class="alert-info"  id="see" class="reply_btn" >show answer</button>
-                                                    <button class="alert-info"  id="close" class="reply_btn" >close</button>
+                                                    <button class="alert-info"  id="see__{{ forloop.counter0 }}" class="reply_btn" >show answer</button>
+                                                    <button class="alert-info"  id="close__{{ forloop.counter0 }}"  class="reply_btn" >close</button>
                                              <h5>-------------------------------------------------------</h5>
-                                                        <div id="show_answer">{% include 'product/partial/reply_comment.html' with comment=comment.find_replied %}</div>
+                                                        <div id="show_answer__{{ forloop.counter0 }}" >{% include 'product/partial/reply_comment.html' with comment=comment.find_replied %}</div>
                                                     {%else %}
                                                         <a style="color: #721c24" class="alert">Not answered </a>
 
@@ -199,23 +199,56 @@
 {%block extra_js %}
 
     <script>
-    window.onload = function() {
-          document.getElementById("show_answer").style.display = "none";
-          document.getElementById("close").style.display = "none";
+{#    window.onload = function() {#}
+{#          document.getElementById("show_answer").style.display = "none";#}
+{#          document.getElementById("close").style.display = "none";#}
+{##}
+{##}
+{#    document.getElementById("see").addEventListener("click", function() {#}
+{#        document.getElementById("see").style.display = "none";#}
+{#  document.getElementById("show_answer").style.display = "block";#}
+{#  document.getElementById("close").style.display = "block";#}
+//});
+{#    document.getElementById("close").addEventListener("click", function() {#}
+{#        document.getElementById("see").style.display = "block";#}
+{#  document.getElementById("show_answer").style.display = "none";#}
+{#  document.getElementById("close").style.display = "none";#}
+//});
+{#    }#}
+{##}
+{##}
+{##}
+{##}
+    </script>
 
-    document.getElementById("see").addEventListener("click", function() {
-        document.getElementById("see").style.display = "none";
-  document.getElementById("show_answer").style.display = "block";
-  document.getElementById("close").style.display = "block";
+    <script>
+
+        const elements = document.querySelectorAll('.review_item_selector')
+
+        elements.forEach(function (item, index) {
+            debugger;
+            var show= item.querySelector('[id*="show_answer"]')
+            if(show){
+                 console.log(item);
+            item.querySelector('[id*="show_answer"]').style.display = "none";
+
+            item.querySelector('[id*="close"]').style.display = "none";
+
+            item.querySelector('[id*="see__"]').addEventListener("click", function () {
+                item.querySelector('[id*="see__"]').style.display = "none";
+                item.querySelector('[id*="show_answer"]').style.display = "block";
+                item.querySelector('[id*="close"]').style.display = "block";
 });
-    document.getElementById("close").addEventListener("click", function() {
-        document.getElementById("see").style.display = "block";
-  document.getElementById("show_answer").style.display = "none";
-  document.getElementById("close").style.display = "none";
+           item.querySelector('[id*="close__"]').addEventListener("click", function () {
+                item.querySelector('[id*="see__"]').style.display = "block";
+                item.querySelector('[id*="show_answer"]').style.display = "none";
+                item.querySelector('[id*="close"]').style.display = "none";
 });
-    }
+
+            }
 
 
+    })
 
 
     </script>
