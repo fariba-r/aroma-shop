@@ -4,6 +4,7 @@ from django.core.validators import validate_email, RegexValidator
 from .manager import CustomUserManager
 from ..core.manager import CustomBaseManager,DeleteMixin
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 
 
 class CustomUser(AbstractUser):
@@ -26,8 +27,9 @@ class CustomUser(AbstractUser):
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.password = make_password(self.password)
+        group = Group.objects.get(name='autenticated')
+        self.groups.add(group)
         super().save(*args, **kwargs)
-
 
     objects = CustomUserManager()
 class Status(models.Model,DeleteMixin):
@@ -45,10 +47,7 @@ class Province(Status,DeleteMixin):
     name=models.CharField(max_length=100,unique=True)
     objects=CustomBaseManager()
    
-    def delete(self, using=None, keep_parents=False):
-        print("pppppppppppppppvvvvvvvvv"*10)
-        self.is_deleted = True
-        self.save()
+
 
     
     
@@ -81,6 +80,21 @@ class Staff(Status):
     position=models.CharField(max_length=100,choices=POSITOINS)
     salary=models.PositiveIntegerField()
 
+    def save(self, *args, **kwargs):
+        if self.position=="controller":
+            group = Group.objects.get(name='master_product')
+        elif self.position=="operator":
+            group = Group.objects.get(name='operator')
+        elif self.position=="observer":
+            group = Group.objects.get(name='controller')
+        self.groups.add(group)
+        super().save(*args, **kwargs)
+
 class Admin(CustomUser):
     class Meta:
         proxy=True
+
+    def save(self, *args, **kwargs):
+        group = Group.objects.get(name='"Administrators"')
+        self.groups.add(group)
+        super().save(*args, **kwargs)
