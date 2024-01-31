@@ -1,5 +1,5 @@
 from urllib import request
-
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -76,8 +76,8 @@ class SingleProduct(DetailView):
 #             "product":Product.objects.filter(product=objs.product)
 #         }
 
-class CreateComment(View,LoginRequiredMixin):
-
+class CreateComment(PermissionRequiredMixin,View,LoginRequiredMixin):
+    permission_required = "add_comment"
     def handle_no_permission(self):
         messages.warning(request, "you should login first .")
         return redirect(render(reverse("member:login")))
@@ -88,8 +88,15 @@ class CreateComment(View,LoginRequiredMixin):
         Comment.objects.create(content=comment,creator=self.request.user,item_id=product)
         return redirect(reverse("product:single_product",  args=(product.id,)))
 
-class CreateReplyComment(View, LoginRequiredMixin):
+class CreateReplyComment( LoginRequiredMixin,View):
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated (LoginRequiredMixin already handles this)
+        if not request.user.groups.filter(name__in=["master_product","controller","operator"]).exists():
+            url=request.META.get('HTTP_REFERER')
+            messages.warning(request, "You should be staff to reply.")
+            return redirect(url)
 
+        return super().dispatch(request, *args, **kwargs)
         def handle_no_permission(self):
             messages.warning(request, "you should be staff to can reply .")
             return redirect(render(reverse("member:login")))
