@@ -146,12 +146,11 @@
                                                 <div class="media-body">
                                                     <h4>{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h4>
                                                     <h5>{{ comment.created_at }}</h5>
-{#                                                   <h1>{{ user.groups.all }} ... {{ perms }}</h1>#}
+
                                                     {% for group in  user.groups.all %}
-{#                                                        <h1>{{ group }}</h1>#}
-{#                                                        {% if group == "master_product" %}#}
-                                                        <p id="reply" class="reply_btn"
-                                                          >Reply {{ p }}</p>
+
+                                                        {% if group.name == "master_product" %}
+                                                        <p id="reply" class="reply_btn">Reply {{ p }}</p>
 
                                                         <form id="replyy" class="row contact_form"
                                                               action={% url "product:reply_comment" id_p=product.id id_c=comment.id %} method="post"
@@ -171,7 +170,7 @@
                                                             </div>
                                                         </form>
 
-{#                                                        {% endif %}#}
+                                                        {% endif %}
                                                     {% endfor %}
 
 
@@ -256,9 +255,10 @@
 
             var show= item.querySelector('[id*="show_answer"]')
             if(show){
-                 console.log(item);
+                 console.log(item.querySelector('[id="replyy"]'));
             item.querySelector('[id*="show_answer"]').style.display = "none";
-            item.querySelector('[id*="replyy"]').style.display = "none"
+            if(item.querySelector('[id*="replyy"]')){item.querySelector('[id*="replyy"]').style.display = "none"};
+
 
             item.querySelector('[id*="close"]').style.display = "none";
 
@@ -272,13 +272,15 @@
                 item.querySelector('[id*="show_answer"]').style.display = "none";
                 item.querySelector('[id*="close"]').style.display = "none";
 });
-
-          item.querySelector('[id="reply"]').addEventListener("click", function () {
+if(item.querySelector('[id="reply"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
                 item.querySelector('[id*="replyy"]').style.display = "block"
-});
-          item.querySelector('[id="ssubmit"]').addEventListener("click", function () {
-                item.querySelector('[id*="replyy"]').style.display = "none"
-});
+});};
+
+if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
+               item.querySelector('[id*="replyy"]').style.display = "none"
+});};
+
+
 
 
             }//end show

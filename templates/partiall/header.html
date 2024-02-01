@@ -1,6 +1,6 @@
  {% load static %}
 <!--================ Start Header Menu Area =================-->
- <h1> cache.keys('*') </h1>
+{# <h1> cache.keys('*') </h1>#}
 	<header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -12,9 +12,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
+
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
               <li class="nav-item active"><a class="nav-link" href={% url 'core:index'%}>Home</a></li>
+
+{#                <li class="nav-item active">{% include "partiall/category.html" %}</li>#}
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">category</a>
@@ -57,4 +60,6 @@
       </nav>
     </div>
   </header>
-	<!--================ End Header Menu Area =================-->
+
+
+{#     {% include './category.html' %}#}

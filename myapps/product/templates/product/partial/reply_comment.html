@@ -7,7 +7,32 @@
 										<div class="media-body">
 											<h4>{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h4>
 											<h5>{{ comment.created_at }}</h5>
-											<a class="reply_btn" href="#">Reply</a>
+											{% for group in  user.groups.all %}
+
+                                                        {% if group.name == "master_product" %}
+                                                        <p id="reply" class="reply_btn">Reply {{ p }}</p>
+
+                                                        <form id="replyy" class="row contact_form"
+                                                              action={% url "product:reply_comment" id_p=product.id id_c=comment.id %} method="post"
+                                                              id="contactForm" novalidate="novalidate">
+                                                            {% csrf_token %}
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" name="comment"
+                                                                              id="message" rows="1"
+                                                                              placeholder="Message"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 text-right">
+                                                                <button id ="ssubmit" type="submit" value="submit"
+                                                                        class="btn primary-btn">Submit Now
+                                                                </button>
+                                                            </div>
+                                                        </form>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+
 
 										</div>
 									</div>
