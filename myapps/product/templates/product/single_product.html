@@ -1,0 +1,293 @@
+{%extends 'base.html'%}
+{%  load static %}
+
+
+
+{%block content%}
+	<!-- ================ start banner area ================= -->
+	<section class="blog-banner-area" id="blog">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Shop Single</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Shop Single</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+  <!--================Single Product Area =================-->
+	<div class="product_image_area">
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div class="owl-carousel owl-theme s_Product_carousel">
+						<div class="single-prd-item">
+                            {% for image in images %}
+
+                                {% if image.object_id == example.detaill.id %}
+
+							<img class="img-fluid" src={{ image.image.url }} alt="" style="height: 400px">
+                                {% endif %}
+                            {% endfor %}
+						</div>
+						<!-- <div class="single-prd-item">
+							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+						</div>
+						<div class="single-prd-item">
+							<img class="img-fluid" src="img/category/s-p1.jpg" alt="">
+						</div> -->
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+
+
+						<ul class="list">
+							<li><a class="active" href="#"><span>Category</span> : {% for cat in categories %} {{ cat.title }} {% endfor %}</a></li>
+                            <li>{% for d in product.base_group %} {% if forloop.counter0 == 0 %}<span>{{ d.name}}:</span>{% endif %}<a>{{ d.value}} ,</a> {% endfor %}</li>
+                        </ul>
+
+						<div class="product_count">
+              <label for="qty">Quantity:</label>
+              <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+							 class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+							<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+               class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
+							<a class="button primary-btn" href="#">Add to Cart</a>
+						</div>
+						<div class="card_area d-flex align-items-center">
+							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->
+
+	<!--================Product Description Area =================-->
+	<section class="product_description_area">
+		<div class="container">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+					 aria-selected="false">Specification</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+					 aria-selected="false">Comments</a>
+				</li>
+
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+					<p>{{ product.description }}</p>
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+                             <tr>
+                                  {% for d in product.base_group %}
+                                            {% if d.id == example.detail_line.first.dependency.id  %}
+									            <td>
+                                                    <h5>{{ d.name }}</h5>
+									            </td>
+									            <td>
+										            <h5>{{ d.value }}</h5>
+									            </td>
+                                  {% endif %}
+                                        {% endfor %}
+								</tr>
+
+                            {% for detail in example.detail_line %}
+                                <tr>
+									<td>
+
+										<h5>{{ detail.name }}</h5>
+									</td>
+									<td>
+										<h5>{{ detail.value }}</h5>
+									</td>
+								</tr>
+
+                            {% endfor %}
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="comment_list">
+
+                                {% for comment in comments  %}
+                                    {% if comment.parent == None %}
+                                        <div class="review_item review_item_selector" style="background-color: #e6f2ff">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img src="img/product/review-1.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h4>
+                                                    <h5>{{ comment.created_at }}</h5>
+
+                                                    {% for group in  user.groups.all %}
+
+                                                        {% if group.name == "master_product" %}
+                                                        <p id="reply" class="reply_btn">Reply {{ p }}</p>
+
+                                                        <form id="replyy" class="row contact_form"
+                                                              action={% url "product:reply_comment" id_p=product.id id_c=comment.id %} method="post"
+                                                              id="contactForm" novalidate="novalidate">
+                                                            {% csrf_token %}
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" name="comment"
+                                                                              id="message" rows="1"
+                                                                              placeholder="Message"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 text-right">
+                                                                <button id ="ssubmit" type="submit" value="submit"
+                                                                        class="btn primary-btn">Submit Now
+                                                                </button>
+                                                            </div>
+                                                        </form>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+
+
+                                                </div>
+                                            </div>
+                                            <p>{{ comment.content }}</p>
+
+                                         {% if comment.find_replied != None %}
+                                                    <button class="alert-info"  id="see__{{ forloop.counter0 }}" class="reply_btn" >show answer</button>
+                                                    <button class="alert-info"  id="close__{{ forloop.counter0 }}"  class="reply_btn" >close</button>
+                                             <h5>-------------------------------------------------------</h5>
+                                                        <div id="show_answer__{{ forloop.counter0 }}" >{% include 'product/partial/reply_comment.html' with comment=comment.find_replied %}</div>
+                                                    {%else %}
+                                                        <a style="color: #721c24" class="alert">Not answered </a>
+
+                                                    {% endif %}
+                                        </div>
+
+                                {% endif %}
+                                {% empty %}
+                                    <h4>There isn't any comment for it yet !</h4>
+                            {% endfor %}
+
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="review_box">
+								<h4>Post a comment</h4>
+								<form class="row contact_form" action={% url 'product:create_comment' product.id %} method="post" id="contactForm" novalidate="novalidate">
+                                    {% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<textarea class="form-control" name="comment" id="message" rows="1" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<div class="col-md-12 text-right">
+										<button type="submit" value="submit" class="btn primary-btn">Submit Now</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+		</div>
+	</section>
+	<!--================End Product Description Area =================-->
+
+
+
+{% endblock content %}
+{%block extra_js %}
+
+    <script>
+{#    window.onload = function() {#}
+{#          document.getElementById("show_answer").style.display = "none";#}
+{#          document.getElementById("close").style.display = "none";#}
+{##}
+{##}
+{#    document.getElementById("see").addEventListener("click", function() {#}
+{#        document.getElementById("see").style.display = "none";#}
+{#  document.getElementById("show_answer").style.display = "block";#}
+{#  document.getElementById("close").style.display = "block";#}
+//});
+{#    document.getElementById("close").addEventListener("click", function() {#}
+{#        document.getElementById("see").style.display = "block";#}
+{#  document.getElementById("show_answer").style.display = "none";#}
+{#  document.getElementById("close").style.display = "none";#}
+//});
+{#    }#}
+{##}
+{##}
+{##}
+{##}
+    </script>
+
+    <script>
+
+        const elements = document.querySelectorAll('.review_item_selector')
+
+        elements.forEach(function (item, index) {
+
+            var show= item.querySelector('[id*="show_answer"]')
+            if(show){
+                 console.log(item.querySelector('[id="replyy"]'));
+            item.querySelector('[id*="show_answer"]').style.display = "none";
+            if(item.querySelector('[id*="replyy"]')){item.querySelector('[id*="replyy"]').style.display = "none"};
+
+
+            item.querySelector('[id*="close"]').style.display = "none";
+
+            item.querySelector('[id*="see__"]').addEventListener("click", function () {
+                item.querySelector('[id*="see__"]').style.display = "none";
+                item.querySelector('[id*="show_answer"]').style.display = "block";
+                item.querySelector('[id*="close"]').style.display = "block";
+});
+           item.querySelector('[id*="close__"]').addEventListener("click", function () {
+                item.querySelector('[id*="see__"]').style.display = "block";
+                item.querySelector('[id*="show_answer"]').style.display = "none";
+                item.querySelector('[id*="close"]').style.display = "none";
+});
+if(item.querySelector('[id="reply"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
+                item.querySelector('[id*="replyy"]').style.display = "block"
+});};
+
+if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
+               item.querySelector('[id*="replyy"]').style.display = "none"
+});};
+
+
+
+
+            }//end show
+
+
+    })//end fore each
+
+
+    </script>
+  {% endblock extra_js %}

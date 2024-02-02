@@ -1,0 +1,71 @@
+{%extends 'base.html'%}
+{%  load static %}
+
+
+
+{%block content%}
+
+	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Shop Products</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% static 'base.html' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Shop Category</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+
+	<!-- ================ category section start ================= -->		  
+    <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+                {% for product in qs_products %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="card text-center card-product">
+                          <div class="card-product__img">
+                               {% for image in images %}
+                                        {% if image.object_id == product.base_group.first.id %}
+                                            <img class="card-img" src="{{image.image.url}}" alt="" >
+                                        {% endif %}
+                                    {% endfor %}
+
+                            <ul class="card-product__imgOverlay">
+                              <li><button><i class="ti-search"></i></button></li>
+                              <li><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><button><i class="ti-heart"></i></button></li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <p>{{ product.title }}</p>
+                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
+                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id and forloop.counter0 == 0 %}{{price.value}}{% endif %}{% endfor %}</p>
+                          </div>
+                        </div>
+                      </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->
+</div>
+    </div>
+
+
+{% endblock %}
