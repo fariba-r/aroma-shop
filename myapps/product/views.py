@@ -63,8 +63,8 @@ class SingleProduct(DetailView):
 
         # sesion
         # session = requests.Session()
-        for bg in base_g:
-            self.request.session['idempresa'] = "mm"
+        # for bg in base_g:
+        #     self.request.session['idempresa'] = "mm"
             # requests.session[f"{bg.id}"] =bg
         return context
 
@@ -84,7 +84,7 @@ class CreateComment(PermissionRequiredMixin,View,LoginRequiredMixin):
     def post(self,request,id):
 
         product = Product.objects.get(id=id)
-        comment=request.POST.get('message')
+        comment=request.POST.get('comment')
         Comment.objects.create(content=comment,creator=self.request.user,item_id=product)
         return redirect(reverse("product:single_product",  args=(product.id,)))
 

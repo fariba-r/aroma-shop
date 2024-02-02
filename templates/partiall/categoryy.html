@@ -42,13 +42,13 @@
 {#                <h1>empty</h1>#}
 {#            {% endfor %}#}
         {% for car in category.childrn %}
-            <div class="btn-group dropright">
-                    <button type="button" class="btn btn-secondary">
-                        {{car.title }}
-                    </button>
-
-            </div>
-{#            {% include "partiall/categoryy.html" with category=car %}#}
+{#            <div class="btn-group dropright">#}
+{#                    <button type="button" class="btn btn-secondary">#}
+{#                        {{car.title }}#}
+{#                    </button>#}
+{##}
+{#            </div>#}
+            {% include "partiall/categoryy.html" with category=car %}
             {% empty %}
         {% endfor %}
 
