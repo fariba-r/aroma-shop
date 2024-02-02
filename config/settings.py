@@ -90,7 +90,7 @@ DATABASES = {
     'default': {
         'ENGINE': os.environ['ENGINE'],
         'NAME': os.environ['NAME'],
-        'USER': os.environ['USER'],
+        'USER': os.environ['PG_USER'],
         'PASSWORD':os.environ['PASSWORD'],
         'HOST':os.environ['HOST'],
         'PORT':os.environ['PORT'],
