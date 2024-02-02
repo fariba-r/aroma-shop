@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import validate_email, RegexValidator
 from .manager import CustomUserManager
 from ..core.manager import CustomBaseManager,DeleteMixin
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
 
 
 class CustomUser(AbstractUser):
@@ -22,6 +24,11 @@ class CustomUser(AbstractUser):
     
     
 
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
     objects = CustomUserManager()
 class Status(models.Model,DeleteMixin):
     is_deleted = models.BooleanField(default=False)
@@ -38,10 +45,7 @@ class Province(Status,DeleteMixin):
     name=models.CharField(max_length=100,unique=True)
     objects=CustomBaseManager()
    
-    def delete(self, using=None, keep_parents=False):
-        print("pppppppppppppppvvvvvvvvv"*10)
-        self.is_deleted = True
-        self.save()
+
 
     
     
@@ -69,11 +73,19 @@ class Staff(Status):
         ("operator","operator"),
         ("observer","observer"),
     ]
-    user_id=models.ForeignKey(CustomUser, related_name="customuser", on_delete=models.CASCADE)
+
+    user_id = models.OneToOneField(CustomUser, related_name="customuser", on_delete=models.CASCADE)
     expiration=models.DateTimeField()
     position=models.CharField(max_length=100,choices=POSITOINS)
     salary=models.PositiveIntegerField()
 
+
+
 class Admin(CustomUser):
     class Meta:
         proxy=True
+
+    def save(self, *args, **kwargs):
+        group = Group.objects.get(name='"Administrators"')
+        self.groups.add(group)
+        super().save(*args, **kwargs)

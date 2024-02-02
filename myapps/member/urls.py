@@ -6,7 +6,10 @@ from django.contrib.auth.views import LogoutView
 
 app_name = 'member'
 urlpatterns = [
-    path('login/', views.LoginPassView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(next_page=reverse_lazy('core:home')),name='logout')
+    path('loginpass/', views.LoginPassView.as_view(), name='loginpass'),
+    path('loginemail/', views.LoginEmailView.as_view(), name='loginemail'),
+    path('logout/', LogoutView.as_view(next_page=reverse_lazy('core:home')),name='logout'),
+    path('singup/', views.SignUpView.as_view(), name='signup'),
+path('check_email/', views.ValidateEmailView.as_view(), name='check_email'),
 
 ]

@@ -5,6 +5,7 @@
 
 
 
+
 {%block content%}
 
 	<!-- ================ start banner area ================= -->	
@@ -66,7 +67,7 @@
 
                     {% if image.object_id == cat.id %}
 
-                        <img class="card-img rounded-0" style="width: 400px; height: 250px;" alt="post" src="{{image.image.url}}" >
+
                     {% endif %}
                 {% endfor %}
                 <div class="categories_details">
@@ -75,7 +76,9 @@
                             <h5>{{cat.title}}</h5>
                         </a>
                         <div class="border_line"></div>
+<<<<<<< HEAD
                         <p>There are {{  cat.count_product }} products.</p>
+
                     </div>
                 </div>
             </div>

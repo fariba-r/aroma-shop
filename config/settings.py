@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+'rest_framework',
+    'corsheaders',
     "myapps.member",
     "myapps.core",
     "myapps.order",
@@ -52,11 +54,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -85,7 +90,7 @@ DATABASES = {
     'default': {
         'ENGINE': os.environ['ENGINE'],
         'NAME': os.environ['NAME'],
-        'USER': os.environ['USER'],
+        'USER': os.environ['PG_USER'],
         'PASSWORD':os.environ['PASSWORD'],
         'HOST':os.environ['HOST'],
         'PORT':os.environ['PORT'],
@@ -113,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -136,3 +141,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "member.CustomUser"
 LOGIN_URL = reverse_lazy('core:login')
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = 'faribarezaee321@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'faribarezaee321@gmail.com'
+EMAIL_HOST_PASSWORD = 'aoop ifvp bylo sllb'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

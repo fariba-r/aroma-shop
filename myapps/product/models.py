@@ -1,8 +1,9 @@
+from charset_normalizer import models
 from django.contrib import messages
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.shortcuts import redirect
-
+from django.db import models
 from ..member.models import CustomUser
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -39,6 +40,7 @@ class Category(Status):
     def get_products_recursively(self):
         products = []
         for category in self.__class__.objects.all():
+
             old_cat=category
             while (category  is not None):
 
@@ -49,17 +51,16 @@ class Category(Status):
                             products.append(pr.id)
                 category = category.parent
 
-            logical_queryset = Product.objects.filter(product=category)
-            if logical_queryset.exists():
-                for pr in logical_queryset:
-                    products.append(pr.id)
+
         return products
     @property
     def count_product(self):
 
+
         p=self.get_products_recursively()
         return len(p)
         # return Product.objects.filter(product=self).all().count()
+
 
     def list_to_queryset(self, data):
 
@@ -72,13 +73,13 @@ class Category(Status):
 
 
 
-
-
 class Product(Status):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
+
     category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product",related_name="product")
     comments=GenericRelation('Comment')
+
     objects=CustomBaseManager()
     @property
     def base_group(self):

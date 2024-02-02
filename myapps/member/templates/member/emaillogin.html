@@ -1,0 +1,120 @@
+{%extends 'base.html'%}
+{% load static %}
+{%block content%}
+  {% comment %} <div class="center">
+	  <form method="post" class="card" novalidate>
+	  	{% csrf_token %}
+	    <h2 class="text-center">Log in to your account</h2>
+		{% for field in form %}
+	    		{{ field.label_tag }} 
+	        	{{ field }}
+	        	{% if field.errors %}
+	        		<small>{{ field.errors|striptags }}</small> 
+	        	{% endif %}
+		{% endfor %}
+		
+		<input type="submit" value="Login" class="btn btn-primary full-width">
+		<hr>
+		<p class="text-center">Forgot your password <a href="#">Reset Password</a></p>
+		<p class="text-center">Don't have a account? <a href="#">Join Now</a></p>
+	</form>
+</div> {% endcomment %}
+{% comment %} ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,, {% endcomment %}
+ <!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area" id="category">
+		<div class="container h-100">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Login / Register</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Login/Register</li>
+            </ol>
+          </nav>
+				</div>
+			</div>
+    </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+  
+  <!--================Login Box Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<div class="hover">
+							<h4>New to our website?</h4>
+							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+							<a class="button button-account" href="{% url 'member:signup' %}">Create an Account</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3>Log in to enter</h3>
+{#                        <form method="post" class="row login_form" action="#/" id="contactForm" >#}
+{#                        {% csrf_token %}#}
+{#                        {% for field in form %}#}
+{#							<div class="col-md-12 form-group">#}
+{##}
+{#								{{ field.lable }}#}
+{#                                {{ field }}#}
+{##}
+{#                                {% if field.errors %}#}
+{#	        		                <small>{{ field.errors|striptags }}</small>#}
+{#	        	                {% endif %}#}
+{##}
+{#							</div>#}
+{#                            {% endfor %}#}
+{#							<div class="col-md-12 form-group">#}
+{#								<button type="submit" value="submit" class="button button-login w-100">Send Code </button>#}
+{#								<a href={%  url 'member:loginpass' %}>Login With Username and Password ?</a>#}
+{#							</div>#}
+{#						</form>#}
+                    <form class="row login_form" method="post" action="#/" id="contactForm" >
+                        {% csrf_token %}
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="emaill" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+                                <p id="error-email">email does not signup !please signup first </p>
+							</div>
+                            <div class="col-md-12 form-group" >
+								<p id="check_email" class="button button-login w-100">Send Email </p>
+
+							</div>
+                        <div id="hided_section" class="col-md-12 form-group">
+                            <div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="code" name="code" placeholder="Enter sended code" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter sended code '">
+							</div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="button button-login w-100">Done </button>
+                                </div>
+                        </div>
+
+
+							<div class="col-md-12 form-group">
+{#								<button type="submit" value="submit" class="button button-login w-100">Done </button>#}
+								<a href={%  url 'member:loginpass' %}>Login With Username and Password ?</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+                       
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+
+{%endblock content%}
+{%block extra_js %}
+    <script src="{% static 'js/loginemail.js' %}"></script>
+  {% endblock extra_js %}
+
+
