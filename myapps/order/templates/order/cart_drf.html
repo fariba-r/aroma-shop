@@ -1,0 +1,30 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Page</title>
+</head>
+<body>
+    <h1>My Cart</h1>
+    <ul>
+        {% for order in orders %}
+            <li>{{ order.order_number }} - ${{ order.total_price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+ <script>
+        // Fetch order data from the backend
+        fetch('http://127.0.0.1:8000/order/card/')
+            .then(response => response.json())
+            .then(data => {
+                const orderList = document.getElementById('order-list');
+                data.forEach(order => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Order #${order.pyment_status}}`;
+                    orderList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>

@@ -16,13 +16,14 @@ class DiscountCodeUsed(models.Model,DeleteMixin,ValidationMixin):
     created_at = models.DateTimeField()
     date_used = models.DateTimeField(auto_now=True)
     value=models.FloatField(validators=[ValidationMixin.validate_payment])
+    is_deleted = models.BooleanField(default=False)
     objects=CustomBaseManager()
 
     
 
 
     
-class Order(Status,ValidationMixin):
+class Order(Status):
     product_id= models.ManyToManyField(Product, through='ProductOrder', related_name='order')
     discount_code_id = models.OneToOneField(DiscountCodeUsed,null=True,blank=True, related_name='orderr',on_delete=models.PROTECT)
     final_payment = models.FloatField(validators=[ValidationMixin.validate_payment])
@@ -40,4 +41,4 @@ class ProductOrder(models.Model,DeleteMixin):
     product_id=models.ForeignKey(Product,on_delete=models.CASCADE)
     order_id=models.ForeignKey(Order,on_delete=models.CASCADE)
     count=models.PositiveIntegerField()
-    objects=CustomBaseManager()
+    # objects=CustomBaseManager()

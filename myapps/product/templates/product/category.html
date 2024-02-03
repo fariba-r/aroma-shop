@@ -26,30 +26,30 @@
     </div>
 
 {#    {% include '../partiall/categoryy.html' with category=all_category %}#}
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-<!-- Split dropright button -->
-<div class="btn-group dropright">
-    <button type="button" class="btn btn-secondary">
-        categories
-    </button>
-    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropright</span>
-    </button>
-    <div class="dropdown-menu">
-
-        {% for cat in all_category %}
-            //.........................................
-
-            {% include '../partiall/categoryy.html' with category=cat %}
-            //.........................................
-        {% endfor %}
-    </div>
-</div>
-        //////////////////////////////////////////////////////////////////////////
+{#/////////////////////////////////////////////////////////////////////////////#}
+{##}
+{##}
+{##}
+{#<!-- Split dropright button -->#}
+{#<div class="btn-group dropright">#}
+{#    <button type="button" class="btn btn-secondary">#}
+{#        categories#}
+{#    </button>#}
+{#    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"#}
+{#            aria-haspopup="true" aria-expanded="false">#}
+{#        <span class="sr-only">Toggle Dropright</span>#}
+{#    </button>#}
+{#    <div class="dropdown-menu">#}
+{##}
+{#        {% for cat in all_category %}#}
+{#            //.........................................#}
+{##}
+{#            {% include '../partiall/categoryy.html' with category=cat %}#}
+{#            //.........................................#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</div>#}
+{#        //////////////////////////////////////////////////////////////////////////#}
 	</section>
 
 
@@ -68,6 +68,7 @@
                     {% if image.object_id == cat.id %}
 
 
+                        <img class="card-img rounded-0" style="width: 400px; height: 250px;" alt="post" src="{{image.image.url}}" >
                     {% endif %}
                 {% endfor %}
                 <div class="categories_details">
@@ -76,7 +77,7 @@
                             <h5>{{cat.title}}</h5>
                         </a>
                         <div class="border_line"></div>
-<<<<<<< HEAD
+
                         <p>There are {{  cat.count_product }} products.</p>
 
                     </div>

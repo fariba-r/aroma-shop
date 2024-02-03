@@ -51,7 +51,7 @@
                           <div class="card-body">
                             <p>{{ product.title }}</p>
                             <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
-                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id and forloop.counter0 == 0 %}{{price.value}}{% endif %}{% endfor %}</p>
+                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id  %}{{price.value}}{% endif %}{% endfor %}</p>
                           </div>
                         </div>
                       </div>
