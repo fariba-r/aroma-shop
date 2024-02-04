@@ -3,6 +3,6 @@ from . import views
 
 app_name = 'order'
 urlpatterns = [
-     path('cart_drf/', views.CartApiView.as_view(), name='cart_drf'),
-     path('cart/', views.CartView.as_view(), name='cart'),
+     path('profile_drf/', views.ProfileApiView.as_view(), name='profile_drf'),
+     path('profile/', views.ProfileView.as_view(), name='profile'),
 ]

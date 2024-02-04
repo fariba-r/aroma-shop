@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from .models import Order
 from ..product.models import  Product
-
+from ..core.models import  Image
 class DiscountCodeSerializer(serializers.Serializer):
     value = serializers.FloatField()
 
@@ -18,14 +18,23 @@ class DiscountCodeSerializer(serializers.Serializer):
     #     instance.save()
     #     return instance
 class ProductSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Product
-        fields = '__all__'  # Include all fields from the Product model
+        fields =('title','description')
 
 class OrderSerializer(serializers.ModelSerializer):
-    product_id=ProductSerializer(read_only=True)
     discount_code_id=DiscountCodeSerializer(read_only=True)
     class Meta:
         model = Order
+        fields = ('discount_code_id', 'pyment_status','final_payment','created_at')
 
-        fields = '__all__'  # Include all fields from the Order model
+class ProductOrderSerializer(serializers.Serializer):
+    product_id = ProductSerializer(read_only=True)
+    order_id = OrderSerializer(read_only=True)
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('image',)
