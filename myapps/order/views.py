@@ -5,18 +5,22 @@ from rest_framework.views import APIView
 from django.views.generic import ListView, View, CreateView, TemplateView, FormView, UpdateView
 from ..product.models import  Detail
 from django.contrib.contenttypes.models import ContentType
-
+from ..member.models import *
 # Create your views he
 # cart/views.py
 from rest_framework.generics import ListAPIView
 from .models import Order,ProductOrder
 from ..core.models import Image
-from .serializers import OrderSerializer,ProductSerializer,ProductOrderSerializer,ImageSerializer
+from .serializers import *
 
 class ProfileApiView(APIView):
    serializer_class = OrderSerializer
    def get(self, request):
         user = self.request.user.id
+        user_obj=CustomUser.objects.filter(id=user)
+        address=UserAddress.objects.filter(user_id=user_obj.first())
+        cities=City.objects.all()
+        provinces=Province.objects.all()
         sessin=request.session.get('order')
         orders = Order.objects.filter(creator=user)
         list_order=[]
@@ -37,10 +41,21 @@ class ProfileApiView(APIView):
         product_serializer =ProductOrderSerializer(order_product, many=True)
         images=Image.objects.filter(object_id__in=list_bg,content_type=ContentType.objects.get_for_model(Detail))
         image_serializer=ImageSerializer(images,many=True)
+        user_serializer=CustomerUserSerializer(user_obj,many=True)
+        address_serializer=AddressSerializer(address,many=True)
+        city_serializer=CitySerializer(cities,many=True)
+        province_serializer=ProvinceSerializer(provinces,many=True)
+
         response_data = {
             'orders': order_serializer.data,
             'products': product_serializer.data,
             'images':image_serializer.data,
+            'user':user_serializer.data,
+            'addresses':address_serializer.data,
+            'city':city_serializer.data,
+            'provinces':province_serializer.data
+
+
         }
         # print("k"*50,order_serializer.data)
         # print("k" * 50, response_data)

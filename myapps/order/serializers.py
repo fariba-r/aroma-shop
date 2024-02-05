@@ -38,3 +38,26 @@ class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = ('image',)
+
+class ProvinceSerializer(serializers.Serializer):
+    name=serializers.CharField()
+
+
+class CitySerializer(serializers.Serializer):
+    province_id = ProvinceSerializer(read_only=True)
+    name = serializers.CharField()
+
+class CustomerUserSerializer(serializers.Serializer):
+    first_name=serializers.CharField(allow_null=True)
+    last_name=serializers.CharField(allow_null=True)
+    created_at=serializers.DateTimeField(allow_null=True)
+    is_active=serializers.BooleanField()
+    email=serializers.EmailField(allow_null=True)
+    phonenumber=serializers.CharField(max_length=11)
+    username=serializers.CharField()
+
+
+class AddressSerializer(serializers.Serializer):
+    city=CitySerializer(read_only=True)
+    description=serializers.CharField()
+

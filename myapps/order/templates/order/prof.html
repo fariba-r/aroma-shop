@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+    <h1 id="123">clike me</h1>
         <ul id='order-list'>
 
     </ul>
@@ -8,11 +9,11 @@
 		<div class="container h-100">
 			<div class="blog-banner">
 				<div class="text-center">
-					<h1>Blog Details</h1>
+					<h1>My Portal</h1>
 					<nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Blog Details</li>
+              <li class="breadcrumb-item active" aria-current="page">My Portal</li>
             </ol>
           </nav>
 				</div>
@@ -31,26 +32,24 @@
 
                     <div class="comments-area">
                         <h4>All Orders</h4>
-                        <div class="comment-list">
-                            <div class="single-comment justify-content-between d-flex">
-                                <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/blog/c1.jpg" alt="">
-                                    </div>
-                                    <div class="desc">
-                                        <h5>
-                                            <a href="#">Emilly Blunt</a>
-                                        </h5>
-                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                        <p class="comment">
-                                            Never say goodbye till the end comes!
-                                        </p>
-                                    </div>
-                                </div>
+
+                        <div id="comment-list" class="comment-list">
+{#                            <div class="single-comment justify-content-between d-flex ">#}
+{#                                <div class="user justify-content-between d-flex">#}
+{#                                    <div class="thumb">#}
+{#                                        <img src="img/blog/c1.jpg" alt="">#}
+{#                                    </div>#}
+{#                                    <div class="desc">#}
+{##}
+{#                                        <p href="#">status payment</p>#}
+{#                                        <p class="date">created at </p>#}
+{#                                        <p class="comment">total peyment</p>#}
+{#                                    </div>#}
+{#                                </div>#}
 {#                                <div class="reply-btn">#}
 {#                                    <a href="#" class="btn-reply text-uppercase">reply</a>#}
 {#                                </div>#}
-                            </div>
+{#                            </div>#}
                         </div>
 {#                        <div class="comment-list left-padding">#}
 {#                            <div class="single-comment justify-content-between d-flex">#}
@@ -81,32 +80,27 @@
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
                             <div class="comment-form">
-                                <h4>Leave a Reply</h4>
-                                <form>
-                                    <div class="form-group form-inline">
-                                        <div class="form-group col-lg-6 col-md-6 name">
-                                            <input type="text" class="form-control" id="name" placeholder="Enter Name"
-                                                   onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'Enter Name'">
-                                        </div>
-                                        <div class="form-group col-lg-6 col-md-6 email">
-                                            <input type="email" class="form-control" id="email"
-                                                   placeholder="Enter email address" onfocus="this.placeholder = ''"
-                                                   onblur="this.placeholder = 'Enter email address'">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'">
-                                    </div>
-                                    <div class="form-group">
-															<textarea class="form-control mb-10" rows="5" name="message"
-                                                                      placeholder="Messege"
-                                                                      onfocus="this.placeholder = ''"
-                                                                      onblur="this.placeholder = 'Messege'"
-                                                                      required=""></textarea>
-                                    </div>
-                                    <a href="#" class="button button-postComment button--active">Post Comment</a>
+                                <h4>Information</h4>
+                                <form id="Info">
+{#                                    <div class="form-group form-inline">#}
+{#                                        <div class="form-group col-lg-6 col-md-6 name">#}
+{#                                            <input type="text" class="form-control" id="name" placeholder="Enter Name"#}
+{#                                                   onfocus="this.placeholder = ''"#}
+{#                                                   onblur="this.placeholder = 'Enter Name'">#}
+{#                                        </div>#}
+{#                                        <div class="form-group col-lg-6 col-md-6 email">#}
+{#                                            <input type="email" class="form-control" id="email"#}
+{#                                                   placeholder="Enter email address" onfocus="this.placeholder = ''"#}
+{#                                                   onblur="this.placeholder = 'Enter email address'">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="form-group">#}
+{#                                         <label for="fname">First name:</label>#}
+{#                                        <input type="text" id="fname" name="fname" value="John"><br>#}
+{##}
+{#                                    </div>#}
+
+                                    <a href="#" class="button button-postComment button--active m-5">Update Information</a>
                                 </form>
                             </div>
                         </aside>
@@ -129,30 +123,8 @@
   <section class="order_details section-margin--small">
     <div class="container">
 
-      <div class="row mb-5">
-        <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-          <div class="confirmation-card">
-            <h3 class="billing-title">Order Info</h3>
-            <table class="order-rable">
-              <tr>
-                <td>Order number</td>
-                <td>: 60235</td>
-              </tr>
-              <tr>
-                <td>Date</td>
-                <td>: Oct 03, 2017</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td>: USD 2210</td>
-              </tr>
-              <tr>
-                <td>Payment method</td>
-                <td>: Check payments</td>
-              </tr>
-            </table>
-          </div>
-        </div>
+      <div id="oorder"  class="row mb-5">
+
 
       </div>
     </div>
@@ -165,7 +137,7 @@
                 <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
                     <div class="col-md-12 form-group">
 
-                        <select class="form-control form-control-sm">
+                        <select  id="prvnc" class="form-control form-control-sm">
                             <option>Province</option>
                         </select>
                     </div>
@@ -198,24 +170,193 @@
         <script>
             window.onload = function() {
                 // Fetch order data from the backend
-                document.getElementById("123").addEventListener("click", function(e) {
+               // document.getElementById("123").addEventListener("click", function(e) {
+                    //let lastname = sessionStorage.getItem("order");
+                    //console.log(lastname)
 
-                fetch('http://localhost:8000/order/cart_drf/#')
+                fetch('http://localhost:8000/order/profile_drf/#')
 
                     .then(response => response.json())
                     .then(data => {
                         console.log(data)
-                        const orderList = document.getElementById('order-list');
+
+                        /////////////////////////////////////////////////////////////////////
+                        const commentlist = document.getElementById('comment-list');
                         data.orders.forEach(order => {
                             console.log(order)
-                            const listItem = document.createElement('li');
-                            listItem.textContent = `${order.pyment_status}`;
-                            orderList.appendChild(listItem);
-                        });
-                    })
+                            const iner_div = document.createElement('div');
+                            iner_div.className += "desc";
+                            const outer_div=document.createElement('div');
+                            outer_div.className +="single-comment justify-content-center d-flex  border mt-3"
+                            const ptag1 = document.createElement('p');
+
+                            ptag1.textContent =    `  status:  ${  order.pyment_status}`;
+                            iner_div.appendChild(ptag1);
+
+                             const ptag2 = document.createElement('p');
+                            ptag2.textContent = `  created at:  ${order.created_at}`;
+                            iner_div.appendChild(ptag2);
+
+                             const ptag3 = document.createElement('p');
+                            ptag3.textContent = `final payment :  ${order.final_payment}`;
+                            iner_div.appendChild(ptag3);
+
+                            outer_div.appendChild(iner_div);
+
+                            commentlist.appendChild(outer_div)
+
+
+                        });//end for each orders
+                        ///////////////////////////////////////////////////////////////////////start info
+                        const info = document.getElementById('Info');
+                         //data.user.forEach(user => {
+                        const input1 = document.createElement('input');
+
+                        input1.setAttribute("value", `${data.user[0].first_name}`);
+                        const lable1 = document.createElement('label');
+                         lable1.textContent = `first name`;
+                        const div1 = document.createElement('div');
+                        div1.className += 'form-group';
+                        div1.appendChild(lable1);
+                        div1.appendChild(input1)
+                        info.appendChild(div1)
+
+
+
+                        const input2 = document.createElement('input');
+
+                        input2.setAttribute("value", `${data.user[0].last_name}`);
+                        const lable2 = document.createElement('label');
+                         lable2.textContent = `last name`;
+                        const div2 = document.createElement('div');
+                        div2.className += 'form-group';
+                        div2.appendChild(lable2);
+                        div2.appendChild(input2)
+                        info.appendChild(div2)
+
+
+
+                        const input3 = document.createElement('input');
+                        input3.setAttribute("value", `${data.user[0].username}`);
+                        const lable3 = document.createElement('label');
+                         lable3.textContent = `username`;
+                        const div3 = document.createElement('div');
+                        div3.className += 'form-group';
+                        div3.appendChild(lable3);
+                        div3.appendChild(input3)
+                        info.appendChild(div3)
+
+
+                        const input4 = document.createElement('input');
+                        input4.setAttribute("value", `${data.user[0].phonenumber}`);
+                        const lable4 = document.createElement('label');
+                         lable4.textContent = `phonenumber `;
+                        const div4 = document.createElement('div');
+                        div4.className += 'form-group';
+                        div4.appendChild(lable4);
+                        div4.appendChild(input4)
+                        info.appendChild(div4)
+
+
+
+                        const input5 = document.createElement('input');
+                        input5.setAttribute("value", `${data.user[0].email}`);
+                        const lable5= document.createElement('label');
+                         lable5.textContent = `email`;
+                        const div5 = document.createElement('div');
+                        div5.className += 'form-group';
+                        div5.appendChild(lable5);
+                        div5.appendChild(input5)
+                        info.appendChild(div5)
+
+
+
+                        const input6 = document.createElement('input');
+                        input6.setAttribute("value", `${data.user[0].created_at}`);
+                        const lable6 = document.createElement('label');
+                         lable6.textContent = `join us in `;
+                        const div6 = document.createElement('div');
+                        div6.className += 'form-group';
+                        div6.appendChild(lable6);
+                        div6.appendChild(input6)
+                        info.appendChild(div6)
+
+
+                        const input7 = document.createElement('input');
+                        input7.value=`${data.user.first_name}`
+                        input7.setAttribute("value", `${data.user[0].is_active}`);
+                        const lable7 = document.createElement('label');
+                         lable7.textContent = `is active ?  `;
+                        const div7 = document.createElement('div');
+                        div7.className += 'form-group';
+                        div7.appendChild(lable7);
+                        div7.appendChild(input7)
+                        info.appendChild(div7)
+
+
+
+                         //////////////////////////////////////////////////////////////////start address
+
+                        const address = document.getElementById('oorder');
+                        data.addresses.forEach(adr => {
+                            const div = document.createElement('div');
+                            div.className += 'confirmation-card'
+                            const div_out=document.createElement('div')
+                            div_out.className += "col-md-6 col-xl-4 mb-4 mb-xl-0"
+                            const table = document.createElement('table')
+                            table.className += 'order-rable'
+
+                            const tr1 = document.createElement('tr')
+                            const td1 = document.createElement('td')
+                            td1.textContent = "Province"
+                            const td2 = document.createElement('td')
+
+                            tr1.appendChild(td1)
+                            tr1.appendChild(td2)
+                            table.appendChild(tr1)
+
+                            const tr2 = document.createElement('tr')
+                            const td3 = document.createElement('td')
+                            td3.textContent = "City"
+                            const td4 = document.createElement('td')
+                            td4.textContent = `${adr.city.name}`
+                            tr2.appendChild(td3)
+                            tr2.appendChild(td4)
+                            table.appendChild(tr2)
+
+                            const tr3 = document.createElement('tr')
+                            const td5 = document.createElement('td')
+                            td5.textContent = "Description"
+                            const td6 = document.createElement('td')
+                            td6.textContent = `${adr.description}`
+                            tr3.appendChild(td5)
+                            tr3.appendChild(td6)
+                            table.appendChild(tr3)
+
+
+                            div.appendChild(table)
+                            div_out.appendChild(div)
+                            address.appendChild(div_out)
+
+                        });//enf for each address
+                        /////////////////////////////////////////////////////////start address
+                        const prvnc = document.getElementById('prvnd');
+                        data.provinces.forEach(pro => {
+                        if (pro){
+                            const np=document.createElement("option")
+                            np.textContent= `${pro.name}`
+                            console.log("ll")
+                            prvnc.appendChild(np)
+                        }
+
+
+                        });//end for each province
+
+                    })//end then
                     .catch(error => console.log(error));
-            }//end add lessener
-            )}//end load
+            //}//end add lessener
+           // )
+            }//end load
     </script>
 
 {% endblock extra_js %}
