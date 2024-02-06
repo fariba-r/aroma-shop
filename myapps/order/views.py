@@ -8,11 +8,11 @@ from django.contrib.contenttypes.models import ContentType
 from ..member.models import *
 # Create your views he
 # cart/views.py
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from .models import Order,ProductOrder
 from ..core.models import Image
 from .serializers import *
-
+import json
 class ProfileApiView(APIView):
    serializer_class = OrderSerializer
    def get(self, request):
@@ -63,3 +63,44 @@ class ProfileApiView(APIView):
 
 class ProfileView(TemplateView):
     template_name = 'order/prof.html'
+
+
+class CreateAddressView(APIView):
+    # serializer_class = OrderSerializer
+
+    def post(self, request):
+        city_name=request.data.get('city')
+        province_name=request.data.get('province')
+        description=request.data.get('description')
+        province_obj=Province.objects.get(name=province_name)
+        city_obj=City.objects.get(name=city_name,province_id=province_obj)
+        UserAddress(city=city_obj,description=description,user_id=request.user).save()
+        return Response({"status":"success","message":"your addres save successfully"})
+
+class UpdateUserView(APIView):
+    def post(self, request):
+        user_obj=request.user
+
+        serializer = CustomerUserSerializer(user_obj, data=request.data,partial=True)
+        if serializer.is_valid():
+
+                serializer.save()
+                return Response({"status": "success", "message": "update success"})
+
+
+        else:
+            return Response({"status":"fail","message":"fail to update"})
+
+
+class CartView(APIView):
+    def get(self,request):
+        return render(request,'order/cart.html')
+
+    def post(self,request):
+        # info=request.data
+        # print(type(info))
+        for id,count in request.data.items():
+            product=Product.objects.get(id=id)
+
+
+        return Response({"status":"success","message":"your addres save successfully"})

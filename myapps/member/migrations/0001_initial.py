@@ -101,15 +101,5 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model, myapps.core.manager.DeleteMixin),
         ),
-        migrations.CreateModel(
-            name='UserAddress',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField(max_length=200)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('city', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='member.province')),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user', to=settings.AUTH_USER_MODEL)),
-            ],
-            bases=(models.Model, myapps.core.manager.DeleteMixin),
-        ),
+
     ]

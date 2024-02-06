@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1 id="123">clike me</h1>
-        <ul id='order-list'>
 
-    </ul>
 	<!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="blog">
 		<div class="container h-100">
@@ -81,6 +78,7 @@
                         <aside class="single_sidebar_widget search_widget">
                             <div class="comment-form">
                                 <h4>Information</h4>
+                                <p id="message1"></p>
                                 <form id="Info">
 {#                                    <div class="form-group form-inline">#}
 {#                                        <div class="form-group col-lg-6 col-md-6 name">#}
@@ -100,7 +98,7 @@
 {##}
 {#                                    </div>#}
 
-                                    <a href="#" class="button button-postComment button--active m-5">Update Information</a>
+                                    <p  id="infoo" class="button button-postComment button--active m-5">Update Information</p>
                                 </form>
                             </div>
                         </aside>
@@ -115,6 +113,7 @@
 
 				<div class="text-center">
 					<h1>All Addresses</h1>
+
                 </div>
 
     </section>
@@ -134,26 +133,28 @@
         <div class="container">
             <div class="tracking_box_inner">
                 <h3 class="text-center mb-5">create new address here</h3>
-                <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
+                <p id="message"></p>
+                <form class="row tracking_form" id="myForm" action='http://localhost:8000/order/create_address/'  method="post" novalidate="novalidate">
+{#                 <input type="hidden" name="csrfmiddlewaretoken" >#}
                     <div class="col-md-12 form-group">
+                        <p>Enter your province:</p>
+                        <select name="province"  id="prvnc" class="form-control form-control-sm" >
 
-                        <select  id="prvnc" class="form-control form-control-sm">
-                            <option>Province</option>
                         </select>
                     </div>
                     <div class="col-md-12 form-group">
+                        <p>Enter your city:</p>
+                        <select name="city" id="city" class="form-control form-control-sm">
 
-                        <select class="form-control form-control-sm">
-                            <option>city</option>
                         </select>
                     </div>
                     <div class="col-md-12 form-group">
-                        <input type="text" class="form-control" id="t" name="description"
+                        <input type="text" class="form-control" id="description" name="description"
                                placeholder="write your address " onfocus="this.placeholder = ''"
                                onblur="this.placeholder = 'your address'">
                     </div>
                     <div class="col-md-12 form-group">
-                        <button type="submit" value="submit" class="button button-tracking">Track Order</button>
+                        <button type="submit" id="creatt" value="submit" class="button button-tracking">Creat</button>
                     </div>
                 </form>
             </div>
@@ -183,7 +184,7 @@
                         /////////////////////////////////////////////////////////////////////
                         const commentlist = document.getElementById('comment-list');
                         data.orders.forEach(order => {
-                            console.log(order)
+
                             const iner_div = document.createElement('div');
                             iner_div.className += "desc";
                             const outer_div=document.createElement('div');
@@ -213,8 +214,10 @@
                         const input1 = document.createElement('input');
 
                         input1.setAttribute("value", `${data.user[0].first_name}`);
+                        input1.setAttribute('id', 'input1')
                         const lable1 = document.createElement('label');
-                         lable1.textContent = `first name`;
+                        lable1.className += "m-3"
+                         lable1.textContent = `first name :`;
                         const div1 = document.createElement('div');
                         div1.className += 'form-group';
                         div1.appendChild(lable1);
@@ -226,7 +229,9 @@
                         const input2 = document.createElement('input');
 
                         input2.setAttribute("value", `${data.user[0].last_name}`);
+                        input2.setAttribute('id', 'input2')
                         const lable2 = document.createElement('label');
+                        lable2.className += "m-3"
                          lable2.textContent = `last name`;
                         const div2 = document.createElement('div');
                         div2.className += 'form-group';
@@ -238,7 +243,9 @@
 
                         const input3 = document.createElement('input');
                         input3.setAttribute("value", `${data.user[0].username}`);
+                        input3.setAttribute('id', 'input3')
                         const lable3 = document.createElement('label');
+                        lable3.className += "m-3"
                          lable3.textContent = `username`;
                         const div3 = document.createElement('div');
                         div3.className += 'form-group';
@@ -249,7 +256,9 @@
 
                         const input4 = document.createElement('input');
                         input4.setAttribute("value", `${data.user[0].phonenumber}`);
+                        input4.setAttribute('id', 'input4')
                         const lable4 = document.createElement('label');
+                        lable4.className += "m-3"
                          lable4.textContent = `phonenumber `;
                         const div4 = document.createElement('div');
                         div4.className += 'form-group';
@@ -261,8 +270,10 @@
 
                         const input5 = document.createElement('input');
                         input5.setAttribute("value", `${data.user[0].email}`);
+                        input5.setAttribute('id', 'input5')
                         const lable5= document.createElement('label');
-                         lable5.textContent = `email`;
+                         lable5.textContent = `email  `;
+                         lable5.className += "m-3"
                         const div5 = document.createElement('div');
                         div5.className += 'form-group';
                         div5.appendChild(lable5);
@@ -273,8 +284,10 @@
 
                         const input6 = document.createElement('input');
                         input6.setAttribute("value", `${data.user[0].created_at}`);
+                        input6.setAttribute('id', 'input6')
                         const lable6 = document.createElement('label');
                          lable6.textContent = `join us in `;
+                         lable6.className += "m-3"
                         const div6 = document.createElement('div');
                         div6.className += 'form-group';
                         div6.appendChild(lable6);
@@ -283,16 +296,18 @@
 
 
                         const input7 = document.createElement('input');
-                        input7.value=`${data.user.first_name}`
+
                         input7.setAttribute("value", `${data.user[0].is_active}`);
                         const lable7 = document.createElement('label');
+                        input7.setAttribute('id', 'input7')
                          lable7.textContent = `is active ?  `;
+                         lable7.className += "m-3"
                         const div7 = document.createElement('div');
                         div7.className += 'form-group';
                         div7.appendChild(lable7);
                         div7.appendChild(input7)
                         info.appendChild(div7)
-
+                        console.log(`${data.user[0].is_active}`)
 
 
                          //////////////////////////////////////////////////////////////////start address
@@ -310,6 +325,7 @@
                             const td1 = document.createElement('td')
                             td1.textContent = "Province"
                             const td2 = document.createElement('td')
+                            td2.textContent = `${adr.city.province_id.name}`
 
                             tr1.appendChild(td1)
                             tr1.appendChild(td2)
@@ -340,23 +356,120 @@
 
                         });//enf for each address
                         /////////////////////////////////////////////////////////start address
-                        const prvnc = document.getElementById('prvnd');
+                        const prvnc = document.getElementById('prvnc');
+                        prvnc.removeAttribute('style');
                         data.provinces.forEach(pro => {
                         if (pro){
                             const np=document.createElement("option")
-                            np.textContent= `${pro.name}`
-                            console.log("ll")
+                            np.innerHTML= `${pro.name}`
+
                             prvnc.appendChild(np)
+
                         }
 
 
                         });//end for each province
+                        const city = document.getElementById('city');
+                         city.removeAttribute('style');
+                        prvnc.addEventListener('change', function (event) {
+                            while (city.options.length > 0) {
+                                city.remove(0);
+                            }
+
+                        data.city.forEach(pro => {
+                            if (pro && pro.province_id.name == document.getElementById('prvnc').value) {
+                                const np = document.createElement("option")
+                                np.innerHTML = `${pro.name}`
+
+                                city.appendChild(np)
+
+                            }
+                        })//end function
+
+
+                        });//end for each city
 
                     })//end then
                     .catch(error => console.log(error));
             //}//end add lessener
            // )
+
             }//end load
+    </script>
+
+    <script>
+    let cookie = document.cookie
+    let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+
+    event.preventDefault();
+    const provincee=document.getElementById('prvnc').value
+        const cityy=document.getElementById('city').value
+        const description=document.getElementById('description').value
+
+
+
+
+
+
+
+    fetch('http://localhost:8000/order/create_address/', {
+        method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({"city":cityy,"province":provincee,"description":description}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response data
+        if(data.status=="success"){
+            document.getElementById("message").innerHTML=data.message
+        }
+
+    })
+    .catch(error => {
+        // Handle errors
+        console.log(error)
+    });
+});
+
+    </script>
+    <script>//update information
+
+document.getElementById("infoo").addEventListener("click",function (){
+   {#debugger#}
+    fetch('http://localhost:8000/order/update_user/', {
+        method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({"first_name":document.getElementById("input1").value,"last_name":document.getElementById("input2").value,"username":document.getElementById("input3").value,"phonenumber":document.getElementById("input4").value,"email":document.getElementById("input5").value,"is_active":document.getElementById("input7").value,"created_at":document.getElementById("input6").value}),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response data
+        if(data.status=="success"){
+            document.getElementById("message1").innerHTML=data.message
+            console.log((data.message))
+        }
+        else{
+            document.getElementById("message1").innerHTML=data.message
+
+        }
+
+    })
+    .catch(error => {
+        // Handle errors
+        console.log(error)
+    });
+
+
+})
+
     </script>
 
 {% endblock extra_js %}

@@ -301,10 +301,11 @@ if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').ad
 
                 // Retrieve existing data or create a new dictionary
                 const existingData = mySessionStorage.getItem('order');
+
                 let userPreferences = existingData ? JSON.parse(existingData) : {};
 
 // Update preferences
-                userPreferences[{{ product.id }}] = document.getElementById("sst").value;
+                userPreferences[{{ product.id }}] =document.getElementById("sst").value;
                 console.log(document.getElementById("sst").value)
 
 

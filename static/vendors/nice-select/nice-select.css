@@ -1,4 +1,5 @@
 .nice-select {
+  display: none !important;
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
   border-radius: 5px;

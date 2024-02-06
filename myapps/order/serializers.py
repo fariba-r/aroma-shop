@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import Order
 from ..product.models import  Product
 from ..core.models import  Image
+from ..member.models import  CustomUser
 class DiscountCodeSerializer(serializers.Serializer):
     value = serializers.FloatField()
 
@@ -47,14 +48,20 @@ class CitySerializer(serializers.Serializer):
     province_id = ProvinceSerializer(read_only=True)
     name = serializers.CharField()
 
-class CustomerUserSerializer(serializers.Serializer):
-    first_name=serializers.CharField(allow_null=True)
-    last_name=serializers.CharField(allow_null=True)
-    created_at=serializers.DateTimeField(allow_null=True)
-    is_active=serializers.BooleanField()
-    email=serializers.EmailField(allow_null=True)
-    phonenumber=serializers.CharField(max_length=11)
-    username=serializers.CharField()
+class CustomerUserSerializer(serializers.ModelSerializer):
+    # first_name=serializers.CharField(allow_null=True)
+    # last_name=serializers.CharField(allow_null=True)
+    # created_at=serializers.DateTimeField(allow_null=True)
+    # is_active=serializers.BooleanField()
+    # email=serializers.EmailField(allow_null=True)
+    # phonenumber=serializers.CharField(max_length=11)
+    # username=serializers.CharField()
+    class Meta:
+        model = CustomUser
+        fields = ('first_name','last_name','created_at','email','phonenumber','username','is_active')
+        read_only_fields = ['is_active']
+
+
 
 
 class AddressSerializer(serializers.Serializer):
