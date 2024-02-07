@@ -89,12 +89,37 @@
                                                       </div>
                                                   </td>
                                               </tr>
+
+
+                                          <tr class="shipping_area">
+                                              <td class="d-none d-md-block">
+
+                                              </td>
+                                              <td>
+
+                                              </td>
+                                              <td>
+                                                  <div class="col-md-12 form-group">
+            <p>Enter your province:</p>
+            <select name="province" id="prvnc" class="form-control form-control-sm">
+            <option>wefc</option>
+            </select>
+        </div>
+                                              </td>
+
+                                          </tr>
                                           </tbody>
                                       </table>
+
+
+
                 </div>
             </div>
         </div>
+
+
     </section>
+
     <!--================End Cart Area =================-->
 {% endblock content %}
 {% block extra_js %}
@@ -126,6 +151,7 @@
     {#    </script>#}
 
     <script>
+
         var cart = sessionStorage.getItem("order")
         //console.log(cart)
         var sum= 0
@@ -201,7 +227,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify(document.getElementById("codee").value)
+                body:JSON.stringify(document.getElementById("codee").value),
                 })
                 .then(response => response.json())
                 .then(data =>{
@@ -223,25 +249,46 @@
     <script>
     document.getElementById("proceed").addEventListener("click",function (event){
             event.preventDefault()
-            {#debugger#}
-            fetch('http://localhost:8000/order/create_cart/',{
+
+            {#fetch('http://localhost:8000/order/create_cart/',{#}
+            {#    method:'POST',#}
+            {#    headers:{#}
+            {#        'Content-Type': 'application/json',#}
+            {#        'X-CSRFToken': csrfToken#}
+            {#    },#}
+            {#    body:JSON.stringify({"cart":cart,"code":document.getElementById("codee").value,'status':"c"})#}
+            {#    })#}
+            {#    .then(response => response.json())#}
+            {#    .then(data =>{#}
+            {##}
+            {#        if(data.status == "success"){#}
+            {#           console.log("yyyyyyyyyyyyyyyyyyyyyy")#}
+            {##}
+            {#        }#}
+            {##}
+            {#    })#}
+            {#    .catch((error) => {#}
+            {#        console.log(error)#}
+            {#    })#}
+
+
+        fetch('http://localhost:8000/order/check_store/',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({
-                    "cart":cart,
-                    'code':document.getElementById("codee").value,
-
-                })
+                body:JSON.stringify({"cart":cart})
                 })
                 .then(response => response.json())
                 .then(data =>{
 
                     if(data.status == "success"){
-                       console.log("yyyyyyyyyyyyyyyyyyyyyy")
+                       event.preventDefault=false
 
+                    }
+                    else{
+                        alert(data.message)
                     }
 
                 })
@@ -251,6 +298,28 @@
         })
 
 
+
+    </script>
+
+    <script>//show address
+
+    const prvnc = document.getElementById('prvnc')
+    //prvnc.removeAttribute('style');
+    //const ul=document.createElement("ul")
+    //ul.className += "list"
+    fetch('http://localhost:8000/order/show_address/')
+                .then(response => response.json())
+                .then(data => {
+                    data.addresses.forEach(address => {
+                       const np=document.createElement("option")
+                            np.innerHTML= `${address.city.province_id.name} ${address.city.name} ${address.description}`
+
+                            prvnc.appendChild(np)
+                    })
+
+
+
+                })//end then
 
     </script>
 

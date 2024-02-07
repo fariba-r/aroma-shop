@@ -113,15 +113,87 @@ class CheckCodeView(APIView):
         return Response({"status":"success","message":"your code save successfully","value":200,"id_code":1})
 
         return Response({"status": "fail", "message": "code not found"})
-class CreateCartView(View):
+class CreateCartView(APIView):
     def post(self,request):
-        cart=request.data.get("cart")
+
         code=request.data.get("code")
+        try:
+            if code:
+                # get code from redis and save it in postgres get it self
+                code=2
+                cart=json.loads(request.data.get("cart"))
 
-        code_value=55#get from redis and save in postgresql
-        id_code=2#get from postgresql
+                Order.objects.create(discount_code_id=code,pyment_status=cart["status"],final_payment=0,creator=request.user).save()
+                id_order= Order.objects.filter(creator=request.user).order_by("-asc").first()
+                payment=0
+                for k ,v in cart.items():
+                    product=Product.objects.get(id=int(k))
+                    count=v["count"]
+                    cost=Detail.objects.get(product=product,name="cost").value
+                    payment+=int(count)*float(cost)
+                    ProductOrder(count=count,order_id=id_order,product_id=product).save()
+                payment=payment-float(code.value)
+                id_order.final_payment=payment
+                id_order.save()
+            else:
+                cart = json.loads(request.data.get("cart"))
+
+                Order.objects.create(discount_code_id=code, pyment_status=cart["status"], final_payment=0,
+                                     creator=request.user).save()
+                id_order = Order.objects.filter(creator=request.user).order_by("-asc").first()
+                payment = 0
+                for k, v in cart.items():
+                    product = Product.objects.get(id=int(k))
+                    count = v["count"]
+                    cost = Detail.objects.get(product=product, name="cost").value
+                    payment += int(count) * float(cost)
+                    ProductOrder(count=count, order_id=id_order, product_id=product).save()
+
+                id_order.final_payment = payment
+                id_order.save()
+            if cart["status"]=="P":
+                for k, v in cart.items():
+                    product = Product.objects.get(id=int(k))
+                    count = v["count"]
+                    old_count=Detail.objects.get(product=product, name="count").value
+                    new_count=old_count+int(count)
+                    Detail.objects.get(product=product, name="count").value=int(new_count)
+                    Detail.objects.get(product=product, name="count").save()
 
 
 
+            return Response({"status": "success"})
+        except:
+            return Response({"status": "fail"})
 
-        # Order(discount_code_id=id_code,creator=request.user,final_payment=float(payment)-float(code_value)).save()
+class CheckStoreView(APIView):
+    def post(self, request):
+        cart = json.loads(request.data.get("cart"))
+        try:
+            for k, v in cart.items():
+                product = Product.objects.get(id=int(k))
+                count = v["count"]
+                old_count = Detail.objects.get(detaill=product, name="count").value
+                new_count = int(old_count) - int(count)
+                if new_count>0:
+                    obj=Detail.objects.get(detaill=product, name="count")
+                    obj.value = int(new_count)
+                    obj.save()
+
+
+                else:
+                    raise ValueError(f"the count of {product.title} is {old_count}")
+            return Response({"status": "success"})
+        except Exception as e:
+            return Response({"status": "fail","message": str(e)})
+
+
+class ShowAddressView(APIView):
+    def get(self, request):
+        address = UserAddress.objects.filter(user_id=request.user)
+        address_serializer = AddressSerializer(address, many=True)
+        response={'addresses':address_serializer.data}
+        return Response(response)
+
+
+
