@@ -99,8 +99,29 @@ class CartView(APIView):
     def post(self,request):
         # info=request.data
         # print(type(info))
-        for id,count in request.data.items():
-            product=Product.objects.get(id=id)
+        if request.data:
+            for id,count in request.data.items():
+                product=Product.objects.get(id=id)
 
 
         return Response({"status":"success","message":"your addres save successfully"})
+
+
+class CheckCodeView(APIView):
+    def post(self,request):
+        # check code and save to postgresqll
+        return Response({"status":"success","message":"your code save successfully","value":200,"id_code":1})
+
+        return Response({"status": "fail", "message": "code not found"})
+class CreateCartView(View):
+    def post(self,request):
+        cart=request.data.get("cart")
+        code=request.data.get("code")
+
+        code_value=55#get from redis and save in postgresql
+        id_code=2#get from postgresql
+
+
+
+
+        # Order(discount_code_id=id_code,creator=request.user,final_payment=float(payment)-float(code_value)).save()

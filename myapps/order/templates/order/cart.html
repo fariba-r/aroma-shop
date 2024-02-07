@@ -1,152 +1,256 @@
 {% extends "base.html" %}
 {% block content %}
     <!-- ================ start banner area ================= -->
-	<section class="blog-banner-area" id="category">
-		<div class="container h-100">
-			<div class="blog-banner">
-				<div class="text-center">
-					<h1>Shopping Cart</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
-            </ol>
-          </nav>
-				</div>
-			</div>
-    </div>
-	</section>
-	<!-- ================ end banner area ================= -->
+    <section class="blog-banner-area" id="category">
+        <div class="container h-100">
+            <div class="blog-banner">
+                <div class="text-center">
+                    <h1>Shopping Cart</h1>
+                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ end banner area ================= -->
 
 
 
-  <!--================Cart Area =================-->
-  <section class="cart_area">
-      <div class="container">
-          <div class="cart_inner">
-              <div class="table-responsive">
-                  <table class="table">
-                      <thead>
-                          <tr>
-                              <th scope="col">Product</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Quantity</th>
-                              <th scope="col">Total</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart1.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
 
-                          <tr class="bottom_button">
-                              <td>
-                                  <a class="button" href="#">Update Cart</a>
-                              </td>
-                              <td>
+                    </table>
+                                      <table class="table">
+                                          <tbody>
+                                          <tr class="bottom_button">
+                                              <td>
 
-                              </td>
-                              <td>
+                                                  </td>
+                                                  <td>
 
-                              </td>
-                              <td>
-                                  <div class="cupon_text d-flex align-items-center">
-                                      <input type="text" placeholder="Coupon Code">
-                                      <a class="primary-btn" href="#">Apply</a>
-                                      <a class="button" href="#">Have a Coupon?</a>
-                                  </div>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
+                                                  </td>
+                                                  <td>
+                                                        <p id="message"></p>
+                                                  </td>
+                                                  <td>
+                                                      <div class="cupon_text d-flex align-items-center">
+                                                          <input id="codee" type="text" placeholder="Coupon Code">
+                                                          <a  id="apply" class="primary-btn" href="#">Apply</a>
+                                                          <a class="button" href="#">Have a Coupon?</a>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>
 
-                              </td>
-                              <td>
+                                                  </td>
+                                                  <td>
 
-                              </td>
-                              <td>
-                                  <h5>Subtotal</h5>
-                              </td>
-                              <td>
-                                  <h5>$2160.00</h5>
-                              </td>
-                          </tr>
+                                                  </td>
+                                                  <td>
+                                                      <h5>Subtotal</h5>
+                                                  </td>
+                                                  <td>
+                                                      <h5 id="sum">$2160.00</h5>
+                                                  </td>
+                                              </tr>
 
-                          <tr class="out_button_area">
-                              <td class="d-none-l">
+                                              <tr class="out_button_area">
+                                                  <td class="d-none-l">
 
-                              </td>
-                              <td class="">
+                                                  </td>
+                                                  <td class="">
 
-                              </td>
-                              <td>
+                                                  </td>
+                                                  <td>
 
-                              </td>
-                              <td>
-                                  <div class="checkout_btn_inner d-flex align-items-center">
-                                      <a class="gray_btn" href="#">Continue Shopping</a>
-                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
-                                  </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </section>
-  <!--================End Cart Area =================-->
+                                                  </td>
+                                                  <td>
+                                                      <div class="checkout_btn_inner d-flex align-items-center">
+                                                          <a class="gray_btn" href="#">Continue Shopping</a>
+                                                          <a id="proceed" class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                          </tbody>
+                                      </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
 {% endblock content %}
 {% block extra_js %}
-    <script>
-    var cart=sessionStorage.getItem("order")
-    const jsonObject = JSON.parse(cart);
-    window.onload = function() {
-        let cookie = document.cookie
-        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
-        debugger
-       fetch('http://localhost:8000/order/cart/', {
-        method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
-        },
-        body:JSON.stringify(jsonObject) ,
-    }).then(response => response.json())
-            .then(data => {
-                console.log(data)
-            })
-        .catch((error) => {
-        console.error('Error fetching data:', error);
-    });
-        debugger
+    {#    <script>#}
+    {#    var cart=sessionStorage.getItem("order")#}
+    {#    const jsonObject = JSON.parse(cart);#}
+    {#    window.onload = function() {#}
+    {#        let cookie = document.cookie#}
+    {#        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)#}
+    {#        debugger#}
+    {#       fetch('http://localhost:8000/order/cart/', {#}
+    {#        method: 'POST',#}
+    {#         headers: {#}
+    {#            'Content-Type': 'application/json',#}
+    {#            'X-CSRFToken': csrfToken#}
+    {#        },#}
+    {#        body:JSON.stringify(jsonObject) ,#}
+    {#    }).then(response => response.json())#}
+    {#            .then(data => {#}
+    {#                console.log(data)#}
+    {#            })#}
+    {#        .catch((error) => {#}
+    {#        console.error('Error fetching data:', error);#}
+    {#    });#}
+    {#        debugger#}
+    {##}
+    {#    }#}
+    {##}
+    {#    </script>#}
 
-    }
+    <script>
+        var cart = sessionStorage.getItem("order")
+        //console.log(cart)
+        var sum= 0
+        for (const [key, value] of Object.entries(JSON.parse(cart))) {
+
+
+
+
+                const tbody1 = document.getElementById("tbody")
+                const tr1 = document.createElement("tr")
+                const td1 = document.createElement("td")
+                const div1 = document.createElement("div")
+                div1.className += "media"
+                const div2 = document.createElement("div")
+                div2.className += "d-flex"
+                const img1 = document.createElement("img")
+                img1.setAttribute("src", value.image)
+                div2.appendChild(img1)
+                div1.appendChild(div2)
+
+                const div3 = document.createElement("div")
+                div3.className += "media-body"
+                const p1 = document.createElement("p")
+                p1.innerHTML = value.title
+                div3.appendChild(p1)
+                div1.appendChild(div3)
+                td1.appendChild(div1)
+                tr1.appendChild(td1)
+
+
+                const td2 = document.createElement("td")
+                const h5 = document.createElement("h5")
+                h5.innerHTML = `$ ${value.cost}`
+                td2.appendChild(h5)
+                tr1.appendChild(td2)
+
+                td3 = document.createElement("td")
+                const div4 = document.createElement("div")
+                div4.className += "product_count"
+                const p2 = document.createElement("p")
+                p2.innerHTML = value.count
+                div4.appendChild(p2)
+                td3.appendChild(div4)
+                tr1.appendChild(td3)
+
+                const td4 = document.createElement("td")
+                const h6 = document.createElement("h5")
+                h6.innerHTML = value.count * value.cost
+                td4.appendChild(h6)
+                tr1.appendChild(td4)
+
+
+                tbody1.appendChild(tr1)
+
+                sum= parseInt(sum) +parseInt(value.count * value.cost)
+
+
+        }//end outer for
+        document.getElementById("sum").innerHTML=sum
+
+    </script>
+
+    <script>
+    let cookie = document.cookie
+    let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+        document.getElementById("apply").addEventListener("click",function (event){
+            event.preventDefault()
+            {#debugger#}
+            fetch('http://localhost:8000/order/check_code/',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body:JSON.stringify(document.getElementById("codee").value)
+                })
+                .then(response => response.json())
+                .then(data =>{
+
+                    if(data.status == "success"){
+                        document.getElementById("sum").innerHTML=sum - parseInt(data.value)
+                        document.getElementById("message").innerHTML =data.message
+
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        })//ens listener
+
+
+    </script>
+    <script>
+    document.getElementById("proceed").addEventListener("click",function (event){
+            event.preventDefault()
+            {#debugger#}
+            fetch('http://localhost:8000/order/create_cart/',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body:JSON.stringify({
+                    "cart":cart,
+                    'code':document.getElementById("codee").value,
+
+                })
+                })
+                .then(response => response.json())
+                .then(data =>{
+
+                    if(data.status == "success"){
+                       console.log("yyyyyyyyyyyyyyyyyyyyyy")
+
+                    }
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        })
+
+
 
     </script>
 

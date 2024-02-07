@@ -34,7 +34,7 @@
 {#                                <h1>{{ image.object_id }} {{ example.id }}</h1>#}
                                 {% if image.object_id == example.id %}
 
-							<img class="img-fluid" src={{ image.image.url }} alt="" style="height: 400px">
+							<img id="imagee" class="img-fluid" src={{ image.image.url }} alt="" style="height: 400px">
                                 {% endif %}
                             {% endfor %}
 						</div>
@@ -62,7 +62,7 @@
 							<input  type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
 							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
                class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-							<a id="addcart" class="button primary-btn" href="#">Add to Cart</a>
+							<p id="addcart" class="button primary-btn">Add to Cart</p>
 						</div>
 						<div class="card_area d-flex align-items-center">
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
@@ -103,13 +103,27 @@
                              <tr>
                                   {% for d in product.base_group %}
 {#                                            {% if d.id == example.detail_line.first.dependency.id  %}#}
+                                      {% if d.name == "cost" %}
 									            <td>
-                                                    <h5>{{ d.name }}</h5>
+
+                                                    <h5 >{{ d.name }}</h5>
+
 									            </td>
 									            <td>
-										            <h5>{{ d.value }}</h5>
+										            <h5 id="costt">{{ d.value }}</h5>
 									            </td>
-{#                                  {% endif %}#}
+                                          {% else %}
+                                          <td>
+
+                                                    <h5 >{{ d.name }}</h5>
+
+									            </td>
+									            <td>
+										            <h5 >{{ d.value }}</h5>
+									            </td>
+
+                                      {% endif %}
+
                                         {% endfor %}
 								</tr>
 
@@ -117,7 +131,9 @@
                                 <tr>
 									<td>
 
-										<h5>{{ detail.name }}</h5>
+                                             <h5 >{{ detail.name }}</h5>
+
+
 									</td>
 									<td>
 										<h5>{{ detail.value }}</h5>
@@ -305,7 +321,10 @@ if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').ad
                 let userPreferences = existingData ? JSON.parse(existingData) : {};
 
 // Update preferences
-                userPreferences[{{ product.id }}] =document.getElementById("sst").value;
+                //userPreferences[{{ product.id }}] =document.getElementById("sst").value;
+
+                debugger
+                userPreferences[{{ product.id }}] ={"title":`{{ product.title }}`,"cost":document.getElementById("costt").innerHTML,"image":document.getElementById("imagee").src,"count":document.getElementById("sst").value}
                 console.log(document.getElementById("sst").value)
 
 
