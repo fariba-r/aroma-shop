@@ -84,9 +84,14 @@
                                                   </td>
                                                   <td>
                                                       <div class="checkout_btn_inner d-flex align-items-center">
-                                                          <a class="gray_btn" href="#">Continue Shopping</a>
-                                                          <a id="proceed" class="primary-btn ml-2" href="#">Proceed to checkout</a>
+
+                                                              <a class="primary-btn ml-2" href="http://localhost:8000/product/category/">Countinue..Shopping</a>
+                                                          <a id="proceed" class="primary-btn ml-2" href="#">Pay..online</a>
+
+
+
                                                       </div>
+
                                                   </td>
                                               </tr>
 
@@ -100,16 +105,20 @@
                                               </td>
                                               <td>
                                                   <div class="col-md-12 form-group">
-            <p>Enter your province:</p>
-            <select name="province" id="prvnc" class="form-control form-control-sm">
-            <option>wefc</option>
-            </select>
-        </div>
+                                                      <p>Enter your province:</p>
+                                                      <select name="province" id="prvnc"
+                                                              class="form-control form-control-sm">
+                                                          <option>wefc</option>
+                                                      </select>
+                                                  </div>
                                               </td>
 
+
                                           </tr>
+
                                           </tbody>
                                       </table>
+
 
 
 
@@ -233,8 +242,19 @@
                 .then(data =>{
 
                     if(data.status == "success"){
-                        document.getElementById("sum").innerHTML=sum - parseInt(data.value)
-                        document.getElementById("message").innerHTML =data.message
+
+                        document.getElementById("sum").innerHTML = sum - parseInt(data.value)
+                        document.getElementById("message").innerHTML = data.message
+                        const mySessionStorage = window.sessionStorage;
+                        const existingData = mySessionStorage.getItem('code');
+
+                        let userPreferences = existingData ? JSON.parse(existingData) : {};
+
+// Update preferences
+                        userPreferences["code"] =document.getElementById("codee").value;
+
+
+                        mySessionStorage.setItem('code', JSON.stringify(userPreferences));
 
                     }
 
@@ -250,27 +270,6 @@
     document.getElementById("proceed").addEventListener("click",function (event){
             event.preventDefault()
 
-            {#fetch('http://localhost:8000/order/create_cart/',{#}
-            {#    method:'POST',#}
-            {#    headers:{#}
-            {#        'Content-Type': 'application/json',#}
-            {#        'X-CSRFToken': csrfToken#}
-            {#    },#}
-            {#    body:JSON.stringify({"cart":cart,"code":document.getElementById("codee").value,'status':"c"})#}
-            {#    })#}
-            {#    .then(response => response.json())#}
-            {#    .then(data =>{#}
-            {##}
-            {#        if(data.status == "success"){#}
-            {#           console.log("yyyyyyyyyyyyyyyyyyyyyy")#}
-            {##}
-            {#        }#}
-            {##}
-            {#    })#}
-            {#    .catch((error) => {#}
-            {#        console.log(error)#}
-            {#    })#}
-
 
         fetch('http://localhost:8000/order/check_store/',{
                 method:'POST',
@@ -284,7 +283,9 @@
                 .then(data =>{
 
                     if(data.status == "success"){
-                       event.preventDefault=false
+
+                        {#console.log(window.location.href)#}
+                      window.location.href = 'http://localhost:8000/order/payment/';
 
                     }
                     else{

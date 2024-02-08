@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.generic import TemplateView
+
 from . import views
 
 app_name = 'order'
@@ -12,4 +14,6 @@ urlpatterns = [
      path('create_cart/', views.CreateCartView.as_view(), name='create_cart'),
      path('check_store/', views.CheckStoreView.as_view(), name='check_store'),
      path('show_address/', views.ShowAddressView.as_view(), name='show_address'),
+     path('payment/',  TemplateView.as_view(template_name='order/payment.html')),
+     path('back_store/',  views.BackStoreView.as_view(), name='back_store'),
 ]

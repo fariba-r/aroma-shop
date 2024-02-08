@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Center Example</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+        }
+        .button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <a id="not_ok" href="" class="button">Pending</a>
+        <a id="ok" href="" class="button">Confirm</a>
+    </div>
+
+<script>
+    var cart = sessionStorage.getItem("order")
+    let cookie = document.cookie
+    let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+    document.getElementById("not_ok").addEventListener("click",function (event){
+        event.preventDefault()
+
+         fetch('http://localhost:8000/order/back_store/',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body:JSON.stringify({"cart":cart})
+                })
+             .then(response => response.json())
+                .then(data =>{
+                    if(data.status == "success"){
+                        alert("it is not succes")
+                        sessionStorage.removeItem('code');
+                        window.location.href = 'http://localhost:8000/home/';
+
+
+                    }
+                })
+
+    })//end listener
+
+     document.getElementById("ok").addEventListener("click",function (event){
+         event.preventDefault()
+         var str_code = sessionStorage.getItem("code")
+         var json_code=JSON.parse(str_code);
+
+
+        fetch('http://localhost:8000/order/create_cart/',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body:JSON.stringify({"cart":cart,"code":json_code.code,"status":"c"})
+                })
+                .then(response => response.json())
+                .then(data =>{
+
+                    if(data.status == "success"){
+                       console.log("yyyyyyyyyyyyyyyyyyyyyy")
+                        sessionStorage.removeItem('cart');
+
+
+                    }
+                    else{
+                        alert("sorry there is an problem! write correct code or take it null")
+
+
+                    }
+                    sessionStorage.removeItem('code');
+
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+
+
+
+    })//end listener
+
+</script>
+</body>
+</html>

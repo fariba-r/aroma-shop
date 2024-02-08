@@ -17,6 +17,7 @@ class DiscountCodeUsed(models.Model,DeleteMixin,ValidationMixin):
     date_used = models.DateTimeField(auto_now=True)
     value=models.FloatField(validators=[ValidationMixin.validate_payment])
     is_deleted = models.BooleanField(default=False)
+
     objects=CustomBaseManager()
 
     

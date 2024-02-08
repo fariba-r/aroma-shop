@@ -119,7 +119,7 @@ class CreateCartView(APIView):
         code=request.data.get("code")
         try:
             if code:
-                # get code from redis and save it in postgres get it self
+                # get code from redis and save it in postgres get it self and check
                 code=2
                 cart=json.loads(request.data.get("cart"))
 
@@ -151,14 +151,7 @@ class CreateCartView(APIView):
 
                 id_order.final_payment = payment
                 id_order.save()
-            if cart["status"]=="P":
-                for k, v in cart.items():
-                    product = Product.objects.get(id=int(k))
-                    count = v["count"]
-                    old_count=Detail.objects.get(product=product, name="count").value
-                    new_count=old_count+int(count)
-                    Detail.objects.get(product=product, name="count").value=int(new_count)
-                    Detail.objects.get(product=product, name="count").save()
+
 
 
 
@@ -166,27 +159,42 @@ class CreateCartView(APIView):
         except:
             return Response({"status": "fail"})
 
-class CheckStoreView(APIView):
+
+class ChangeStoreMixin:
+    def change(self, operator, cart):
+        for k, v in cart.items():
+            product = Product.objects.get(id=int(k))
+            count = v["count"]
+            old_count = Detail.objects.get(detaill=product, name="count").value
+            if operator == "-":
+                new_count = int(old_count) - int(count)
+            elif operator == "+":
+                new_count = int(old_count) + int(count)
+            if new_count > 0:
+                obj = Detail.objects.get(detaill=product, name="count")
+                obj.value = int(new_count)
+                obj.save()
+            else:
+                raise ValueError(f"the count of {product.title} is {old_count}")
+
+
+class CheckStoreView(APIView,ChangeStoreMixin):
     def post(self, request):
         cart = json.loads(request.data.get("cart"))
         try:
-            for k, v in cart.items():
-                product = Product.objects.get(id=int(k))
-                count = v["count"]
-                old_count = Detail.objects.get(detaill=product, name="count").value
-                new_count = int(old_count) - int(count)
-                if new_count>0:
-                    obj=Detail.objects.get(detaill=product, name="count")
-                    obj.value = int(new_count)
-                    obj.save()
+            ChangeStoreMixin.change(self,"-" ,cart)
 
 
-                else:
-                    raise ValueError(f"the count of {product.title} is {old_count}")
+
             return Response({"status": "success"})
         except Exception as e:
             return Response({"status": "fail","message": str(e)})
 
+class BackStoreView(APIView,ChangeStoreMixin):
+    def post(self, request):
+        cart = json.loads(request.data.get("cart"))
+        ChangeStoreMixin.change(self, "+", cart)
+        return Response({"status": "success"})
 
 class ShowAddressView(APIView):
     def get(self, request):

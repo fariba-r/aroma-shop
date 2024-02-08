@@ -26,7 +26,7 @@
   <!--================Single Product Area =================-->
 	<div class="product_image_area">
 		<div class="container">
-			<div class="row s_product_inner">
+			<div  class="row s_product_inner">
 				<div class="col-lg-6">
 					<div class="owl-carousel owl-theme s_Product_carousel">
 						<div class="single-prd-item">
@@ -50,26 +50,29 @@
 					<div class="s_product_text">
 
 
-						<ul class="list">
-							<li><a class="active" href="#"><span>Category</span> : {% for cat in categories %} {{ cat.title }} {% endfor %}</a></li>
-                            <li>{% for d in product.base_group %} {% if forloop.counter0 == 0 %}<span>{{ d.name}}:</span>{% endif %}<a>{{ d.value}} ,</a> {% endfor %}</li>
+                        <ul class="list">
+                            <li><a class="active" href="#"><span>Category</span> : {% for cat in categories %}
+                                {{ cat.title }} {% endfor %}</a></li>
+                            <li>{% for d in product.base_group %} {% if forloop.counter0 == 0 %}
+                                <span>{{ d.name }}:</span>{% endif %}<a>{{ d.value }} ,</a> {% endfor %}</li>
                         </ul>
 
-						<div class="product_count">
-              <label for="qty">Quantity:</label>
-              <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
-							<input  type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-               class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
-							<p id="addcart" class="button primary-btn">Add to Cart</p>
-						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-						</div>
-					</div>
-				</div>
+                        <div class="product_count">
+                            <label for="qty">Quantity:</label>
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                    class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
+                            <input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:"
+                                   class="input-text qty">
+                            <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                    class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
+                            <p id="addcart" class="button primary-btn">Add to Cart</p>
+                        </div>
+                        <div id ="place_del" class="card_area d-flex align-items-center">
+
+                            <a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -312,24 +315,43 @@ if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').ad
 
         window.onload = function () {
             const mySessionStorage = window.sessionStorage;
+            const existingData = mySessionStorage.getItem('order');
+            const userPreferences = existingData ? JSON.parse(existingData) : {};
+
+             function del_cart(){
+                 if({{ product.id }} in userPreferences){
+                const del_key=document.createElement("button")
+                del_key.className += "button primary-btn"
+                     del_key.setAttribute ('style', 'background-color:#3b82f680');
+                del_key.innerHTML= "Delete From Cart"
+                const parentt=document.getElementById("place_del")
+                parentt.appendChild(del_key)
+                del_key.addEventListener("click",function (){
+                    const key=`${ {{ product.id }} }`
+                    delete userPreferences[key]
+                    mySessionStorage.setItem('order', JSON.stringify(userPreferences));
+                    alert("this item delete successfully ")
+                    parentt.removeChild(del_key)
+
+                })//end listner
+
+                 }//enf if
+             }//end function
+
+            del_cart()
+
 
             document.getElementById("addcart").addEventListener("click", function () {
 
+            if(document.getElementById("sst").value >0){
                 // Retrieve existing data or create a new dictionary
-                const existingData = mySessionStorage.getItem('order');
-
-                let userPreferences = existingData ? JSON.parse(existingData) : {};
-
-// Update preferences
-                //userPreferences[{{ product.id }}] =document.getElementById("sst").value;
-
-                debugger
                 userPreferences[{{ product.id }}] ={"title":`{{ product.title }}`,"cost":document.getElementById("costt").innerHTML,"image":document.getElementById("imagee").src,"count":document.getElementById("sst").value}
-                console.log(document.getElementById("sst").value)
-
-
-// Store the updated dictionary
+            }
+            else{
+                alert("the count filed should be positive ")
+            }
                 mySessionStorage.setItem('order', JSON.stringify(userPreferences));
+                 del_cart()
             });//end click
 
 
