@@ -442,7 +442,7 @@
 document.getElementById("infoo").addEventListener("click",function (){
    {#debugger#}
     fetch('http://localhost:8000/order/update_user/', {
-        method: 'POST',
+        method: 'PUT',
          headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken

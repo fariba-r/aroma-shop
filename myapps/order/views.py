@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -78,8 +79,11 @@ class CreateAddressView(APIView):
         return Response({"status":"success","message":"your addres save successfully"})
 
 class UpdateUserView(APIView):
-    def post(self, request):
+    serializer_class=CustomerUserSerializer
+    permission_classes = [IsAuthenticated]
+    def put(self, request):
         user_obj=request.user
+        print(user_obj)
 
         serializer = CustomerUserSerializer(user_obj, data=request.data,partial=True)
         if serializer.is_valid():
@@ -191,7 +195,28 @@ class CheckStoreView(APIView,ChangeStoreMixin):
             return Response({"status": "fail","message": str(e)})
 
 class BackStoreView(APIView,ChangeStoreMixin):
+    """
+    .description:
+
+        wrbfuhwuerr
+
+    .input:
+
+        salam
+
+    .output:
+
+        goodbuy
+
+
+
+    """
+    # permission_classes = []
+    serializer_class = OrderSerializer
+
     def post(self, request):
+        # todo:  serializerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+
         cart = json.loads(request.data.get("cart"))
         ChangeStoreMixin.change(self, "+", cart)
         return Response({"status": "success"})

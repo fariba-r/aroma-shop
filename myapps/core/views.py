@@ -16,7 +16,7 @@ class Index(View):
             five_days_ago = timezone.now() - timedelta(days=5)
             context['new_products'] =Product.objects.filter(created_at__gte=five_days_ago)
             context['cheapest']=Detail.objects.filter(name='cost').order_by('value')[:30]
-            
+
 
             # print("c"*50,cache._cache.keys())
             return render(request,"core/index.html",context)

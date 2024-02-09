@@ -32,10 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS =[f'{os.environ["ALLOWED_HOSTS"]}']
 
-
-
-
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,12 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-'rest_framework',
+    'rest_framework',
     'corsheaders',
     "myapps.member",
     "myapps.core",
     "myapps.order",
     "myapps.product",
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +60,10 @@ MIDDLEWARE = [
 
 
 ]
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 ROOT_URLCONF = 'config.urls'
 
@@ -98,7 +99,11 @@ DATABASES = {
 
     }
 }
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
 
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [

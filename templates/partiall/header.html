@@ -17,17 +17,35 @@
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
               <li class="nav-item active"><a class="nav-link" href={% url 'core:index'%}>Home</a></li>
 
-{#                <li class="nav-item active">{% include "partiall/category.html" %}</li>#}
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">category</a>
-                <ul class="dropdown-menu">
 
-                  <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+                  <ul class="dropdown-menu">
+                      <li class="nav-item"><a class="nav-link" href="checkout.html">cat</a></li>
+                      {% for i in "asd" %}
+
+                          <li style="float: right;" class="nav-item"><a class="nav-link"
+                                                                        href="category.html">aaaaaaa</a></li>
+                          {% for j in "ad" %}
+                              <li style="float: right;" class="nav-item"><a class="nav-link" href="category.html">aaaaaaa</a>
+                              </li>
+                          {% endfor %}
+
+                          {% for j in "ad" %}
+                              <li style="float: right;" class="nav-item"><a class="nav-link" href="category.html">--></a>
+                              </li>
+                          {% endfor %}
+                      {% endfor %}
+                      {% for i in "asd" %}
+
+                          <li class="nav-item"><a class="nav-link" href="category.html">
+                              --></a></li>
+                      {% endfor %}
+                      <li class="nav-item"><a class="nav-link" href="single-product.html">aa</a></li>
+                      <li class="nav-item"><a class="nav-link" href="checkout.html">ba</a></li>
+                  <li class="nav-item"><a class="nav-link" href="confirmation.html">ca</a></li>
+                  <li class="nav-item"><a class="nav-link" href="cart.html">da</a></li>
                 </ul>
 							</li>
               <li class="nav-item submenu dropdown">

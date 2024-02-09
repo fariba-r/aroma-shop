@@ -168,10 +168,10 @@
 
                                                     {% for group in  user.groups.all %}
 
-                                                        {% if group.name == "master_product" %}
-                                                        <p id="reply" class="reply_btn">Reply {{ p }}</p>
+                                                        {% if group.name == "master_product" and comment.find_replied == None %}
+                                                        <p id="reply__{{ forloop.counter0 }}" class="reply_btn  replyyy">Reply {{ p }}</p>
 
-                                                        <form id="replyy" class="row contact_form"
+                                                        <form id="replyy__{{ forloop.counter0 }}" class="row contact_form"
                                                               action={% url "product:reply_comment" id_p=product.id id_c=comment.id %} method="post"
                                                               id="contactForm" novalidate="novalidate">
                                                             {% csrf_token %}
@@ -183,7 +183,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-12 text-right">
-                                                                <button id ="ssubmit" type="submit" value="submit"
+                                                                <button id ="ssubmit--{{ forloop.counter0 }}" type="submit" value="submit"
                                                                         class="btn primary-btn">Submit Now
                                                                 </button>
                                                             </div>
@@ -291,12 +291,13 @@
                 item.querySelector('[id*="show_answer"]').style.display = "none";
                 item.querySelector('[id*="close"]').style.display = "none";
 });
-if(item.querySelector('[id="reply"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
-                item.querySelector('[id*="replyy"]').style.display = "block"
+if(item.querySelector('[id*="reply__"]')){  item.querySelector('[id*="reply__"]').addEventListener("click", function () {
+                item.querySelector('[id*="replyy__"]').style.display = "block"
 });};
 
-if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').addEventListener("click", function () {
-               item.querySelector('[id*="replyy"]').style.display = "none"
+
+if(item.querySelector('[id*="reply--"]')){  item.querySelector('[id*="reply--"]').addEventListener("click", function () {
+               item.querySelector('[id*="replyy__"]').style.display = "none"
 });};
 
 
@@ -307,6 +308,19 @@ if(item.querySelector('[id="ssubmit"]')){  item.querySelector('[id="reply"]').ad
 
     })//end fore each
 
+         {#const r=document.querySelectorAll(".replyyy");#}
+         {#       console.log(r)#}
+         {#       r.forEach(r=> {#}
+         {#           r.addEventListener("click",event=>{#}
+         {##}
+         {#               return show_rep()#}
+         {##}
+         {#           })#}
+         {##}
+         {#       })#}
+         {#       function show_rep(){#}
+         {#           console.log("button click")#}
+         {#       }#}
 
     </script>
 
