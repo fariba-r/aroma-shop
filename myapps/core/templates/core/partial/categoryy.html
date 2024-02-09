@@ -1,22 +1,22 @@
-{% load static %}
-
-
-<!-- Split dropright button -->
-<div class="btn-group dropright">
-    <button type="button" class="btn btn-secondary">
-        {{ category.title }}
-
-    </button>
-    {% if category.childrn %}
-
-    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-        <span class="sr-only">Toggle Dropright</span>
-    </button>
-    {% endif %}
-    <div class="dropdown-menu">
+{#{% load static %}#}
+{##}
+{##}
+{#<!-- Split dropright button -->#}
+{#<div class="btn-group dropright">#}
+{#    <button type="button" class="btn btn-secondary">#}
+{#        {{ category.title }}#}
+{##}
+{#    </button>#}
+{#    {% if category.childrn %}#}
+{##}
+{#    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"#}
+{#            aria-haspopup="true" aria-expanded="false">#}
+{#        <span class="sr-only">Toggle Dropright</span>#}
+{#    </button>#}
+{#    {% endif %}#}
+{#    <div class="dropdown-menu">#}
 {#        {% if category.childrn  %}#}
-
+{##}
 {#            {% for car in category.childrn %}#}
 {#                {{ category.childrn }}#}
 {#                //.........................................#}
@@ -41,16 +41,22 @@
 {#                {% empty %}#}
 {#                <h1>empty</h1>#}
 {#            {% endfor %}#}
-        {% for car in category.childrn %}
+{#        {% for car in category.childrn %}#}
 {#            <div class="btn-group dropright">#}
 {#                    <button type="button" class="btn btn-secondary">#}
 {#                        {{car.title }}#}
 {#                    </button>#}
 {##}
 {#            </div>#}
-            {% include "partiall/categoryy.html" with category=car %}
-            {% empty %}
-        {% endfor %}
-
-    </div>
-</div>
+{#            {% include "partiall/categoryy.html" with category=car %}#}
+{#            {% empty %}#}
+{#        {% endfor %}#}
+{##}
+{#    </div>#}
+{#</div>#}
+{% for subsub in sub %}
+ <li class="nav-item"><a class="nav-link " href="checkout.html">     {{ subsub.title }}</a></li>
+    {% if subsub.childrn %}
+        {% include "core/partial/categoryy.html" with sub=subsub.childrn %}
+    {% endif %}
+{% endfor %}

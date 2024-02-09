@@ -22,27 +22,13 @@
                   aria-expanded="false">category</a>
 
                   <ul class="dropdown-menu">
-                      <li class="nav-item"><a class="nav-link" href="checkout.html">cat</a></li>
-                      {% for i in "asd" %}
+                      {% for cat in categories %}
 
-                          <li style="float: right;" class="nav-item"><a class="nav-link"
-                                                                        href="category.html">aaaaaaa</a></li>
-                          {% for j in "ad" %}
-                              <li style="float: right;" class="nav-item"><a class="nav-link" href="category.html">aaaaaaa</a>
-                              </li>
-                          {% endfor %}
-
-                          {% for j in "ad" %}
-                              <li style="float: right;" class="nav-item"><a class="nav-link" href="category.html">--></a>
-                              </li>
-                          {% endfor %}
-                      {% endfor %}
-                      {% for i in "asd" %}
-
-                          <li class="nav-item"><a class="nav-link" href="category.html">
-                              --></a></li>
-                      {% endfor %}
                       <li class="nav-item"><a class="nav-link" href="single-product.html">aa</a></li>
+                          {% if cat.children %}
+                              {% include "./partiall/categoryy.html" with sub=cat.children %}
+                          {% endif %}
+                     {% endfor %}
                       <li class="nav-item"><a class="nav-link" href="checkout.html">ba</a></li>
                   <li class="nav-item"><a class="nav-link" href="confirmation.html">ca</a></li>
                   <li class="nav-item"><a class="nav-link" href="cart.html">da</a></li>
