@@ -47,6 +47,7 @@ document.getElementById("check_email").addEventListener("click", function(e) {
             document.getElementById("hided_section").style.display = "block";
             document.getElementById("check_email").style.display = "none";
             console.log(response.status);
+
         } else {
             document.getElementById("error-email").style.display = "block";
         }

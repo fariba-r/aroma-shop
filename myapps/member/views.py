@@ -78,8 +78,9 @@ class ValidateEmailView(APIView):
 
         if len(valid) == 0:
              return Response({'error':'Email does not exist'}, status=400)
-
-        return  Response({'succes':'Email  exist'}, status=200)
+        else:
+            # send code
+            return  Response({'succes':'Email  exist'}, status=200)
 
 
 

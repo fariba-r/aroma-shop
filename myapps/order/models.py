@@ -1,6 +1,6 @@
 from django.db import models
 from ..product.models import Product
-from ..member.models import Staff,CustomUser,Status
+from ..member.models import Staff,CustomUser,Status,UserAddress
 from django.core.exceptions import ValidationError
 from ..core.manager import CustomBaseManager,DeleteMixin
 
@@ -20,6 +20,9 @@ class DiscountCodeUsed(models.Model,DeleteMixin,ValidationMixin):
 
     objects=CustomBaseManager()
 
+    def __str__(self):
+        return f"{self.value}"
+
     
 
 
@@ -31,15 +34,22 @@ class Order(Status):
     
     # Use the choices argument to specify the possible values for the status column
     STATUS_CHOICES = [
-        ('P', 'Pending'),
-        ('D', 'Delivered'),
-        ('C', 'Confirmed'),
+        ('Pending', 'Pending'),
+        ('InHome', 'InHome'),
+        ('Delivered', 'Delivered'),
+        ('Confirmed', 'Confirmed'),
     ]
-    pyment_status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    pyment_status = models.CharField(max_length=9, choices=STATUS_CHOICES)
+    address_id = models.OneToOneField(UserAddress, related_name='address',on_delete=models.PROTECT)
     objects=CustomBaseManager()
+
+    def __str__(self):
+        return f" order {self.creator}"
    
 class ProductOrder(models.Model,DeleteMixin):
     product_id=models.ForeignKey(Product,on_delete=models.CASCADE)
     order_id=models.ForeignKey(Order,on_delete=models.CASCADE)
     count=models.PositiveIntegerField()
+    def __str__(self):
+        return f" {self.product_id} {self.order_id}"
     # objects=CustomBaseManager()

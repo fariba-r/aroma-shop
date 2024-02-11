@@ -22,7 +22,8 @@ class CustomUser(AbstractUser):
     
     REQUIRED_FIELDS = ["email","first_name","last_name","phonenumber" ]
     
-    
+    def __str__(self):
+        return f"{self.first_name}  {self.last_name}"
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -44,7 +45,10 @@ class Status(models.Model,DeleteMixin):
 class Province(Status,DeleteMixin):
     name=models.CharField(max_length=100,unique=True)
     objects=CustomBaseManager()
-   
+
+
+def __str__(self):
+    return f"{self.name}"
 
 
     
@@ -53,6 +57,9 @@ class City(Status,DeleteMixin):
     province_id=models.ForeignKey(Province,on_delete=models.SET("deleted"),related_name='province')
     name=models.CharField(max_length=100,unique=True)
     objects=CustomBaseManager()
+
+    def __str__(self):
+        return f"{self.name} {self.province_id}"
 
 
 
@@ -66,6 +73,9 @@ class UserAddress(models.Model,DeleteMixin):
     city=models.ForeignKey(City,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)
     is_deleted=models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user_id} {self.city}"
 
 class Staff(Status):
     POSITOINS=[
@@ -89,3 +99,4 @@ class Admin(CustomUser):
         group = Group.objects.get(name='"Administrators"')
         self.groups.add(group)
         super().save(*args, **kwargs)
+

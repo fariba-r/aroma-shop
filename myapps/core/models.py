@@ -14,6 +14,8 @@ class Like(Status):
     content_object = GenericForeignKey('content_type', 'object_id')
     objects=CustomBaseManager()
 
+    def __str__(self):
+        return f"{self.object_id}"
 def get_image_path(instance, filename):
     if instance.content_type_id==7:
         return os.path.join('images','profile', filename)
@@ -32,6 +34,9 @@ class Image(Status):
     image = models.ImageField(upload_to=get_image_path)
     objects=CustomBaseManager()
 
+    def __str__(self):
+        return f"{self.object_id} {self.content_type}"
+
 class Edites(Status):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -39,3 +44,6 @@ class Edites(Status):
     field_changed=models.CharField(max_length=100)
     old_value=models.CharField(max_length=100)
     objects=CustomBaseManager()
+
+    def __str__(self):
+        return f"{self.object_id}"

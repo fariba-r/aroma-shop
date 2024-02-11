@@ -19,6 +19,9 @@ class Detail(Status):
     product=models.ForeignKey('Product',on_delete=models.CASCADE,related_name="detaill",name="detaill",null=True,blank=True)
     dependency=models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True,related_name="dependencyy")
     objects=CustomBaseManager()
+
+    def __str__(self):
+        return f" {self.name}:{self.value}_{self.detaill}"
     @property
     def detail_line(self):
         return Detail.objects.prefetch_related("dependencyy").filter(dependency=self)
@@ -36,6 +39,8 @@ class Category(Status):
     title = models.CharField(max_length=50, unique=True)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='detail')
     objects = CustomBaseManager()
+    def __str__(self):
+        return f" {self.title} {self.parent}"
 
     def get_products_recursively(self):
         products = []
@@ -79,7 +84,8 @@ class Product(Status):
 
     category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product",related_name="product")
     comments=GenericRelation('Comment')
-
+    def __str__(self):
+        return f" {self.title} "
 
     objects=CustomBaseManager()
     @property
@@ -119,6 +125,8 @@ class Comment(Status):
     parent=models.ForeignKey("self",on_delete=models.SET("replyed to a deleted comment"),null=True,blank=True)
     item_id=models.ForeignKey(Product,on_delete=models.CASCADE,related_name="comment")
     objects=CustomBaseManager()
+    def __str__(self):
+        return f" {self.creator} {self.item_id}"
     @property
     def find_replied(self):
         # replied=[]
@@ -132,8 +140,10 @@ class Comment(Status):
 class DicountPercent(Status):
     expiration=models.DateTimeField()
     percent=models.FloatField(default=0.0)
-    product_id=models.ManyToManyField(Product)
+    detail_id=models.ManyToManyField(Detail)
     objects=CustomBaseManager()
+    def __str__(self):
+        return f" {self.detail_id} "
     
     class Meta:
         constraints = [
