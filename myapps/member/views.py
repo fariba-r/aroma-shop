@@ -19,7 +19,7 @@ class LoginPassView(LoginView):
     template_name="member/loginpass.html"
     
     def get_success_url(self):
-        return reverse_lazy('core:home') 
+        return reverse_lazy('core:index')
     
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
@@ -32,7 +32,7 @@ class LoginEmailView(View):
         email = request.POST['email']
         try:
                 # check
-                return redirect(reverse_lazy('core:home'))
+                return redirect(reverse_lazy('core:index'))
         except CustomUser.DoesNotExist:
                 messages.error(self.request, 'this email does not exist')
                 return render(request, 'member/emaillogin.html')

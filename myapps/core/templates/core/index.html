@@ -3,70 +3,178 @@
   
  {% load static %}
 <!--================ Start Header Menu Area =================-->
-{# <h1> cache.keys('*') </h1>#}
-	<header class="header_area">
-    <div class="main_menu">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
 
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href={% url 'core:index'%}>Home</a></li>
 
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">category</a>
-
-                  <ul class="dropdown-menu">
-                      {% for cat in categories %}
-
-                      <li class="nav-item"><a class="nav-link" href="single-product.html">{{ cat.title }}</a></li>
-                          {% if cat.childrn.exists %}
-                              {% include "./partial/categoryy.html" with sub=cat.childrn %}
-                          {% endif %}
-                     {% endfor %}
-                      
-                </ul>
-							</li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                </ul>
-							</li>
-							<li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
-                </ul>
-              </li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-            </ul>
-
-            <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
-            </ul>
+{#	<header class="header_area">#}
+{#    <div class="main_menu">#}
+{#      <nav class="navbar navbar-expand-lg navbar-light">#}
+{#        <div class="container">#}
+{#          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>#}
+{#          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
+{#            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class="icon-bar"></span>#}
+{#            <span class="icon-bar"></span>#}
+{#            <span class="icon-bar"></span>#}
+{#          </button>#}
+{##}
+{#          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">#}
+{#            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">#}
+{#              <li class="nav-item active"><a class="nav-link" href={% url 'core:index'%}>Home</a></li>#}
+{##}
+{#              <li class="nav-item submenu dropdown">#}
+{#                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+{#                  aria-expanded="false">category</a>#}
+{##}
+{#                  <ul class="dropdown-menu">#}
+{#                      {% for cat in categories %}#}
+{##}
+{#                      <li class="nav-item"><a class="nav-link" href="{% url 'product:products' cat.id %}">{{ cat.title }}</a></li>#}
+{#                          {% if cat.childrn.exists %}#}
+{#                              {% include "./partial/categoryy.html" with sub=cat.childrn %}#}
+{#                          {% endif %}#}
+{#                     {% endfor %}#}
+{#                      #}
+{#                </ul>#}
+{#							</li>#}
+{#            {% if user.is_authenticated %}#}
+{#              <li class="nav-item submenu dropdown">#}
+{#                <a href="{% url 'order:profile' %}" class="nav-link dropdown-toggle" #}
+{#                  >My Panel</a>#}
+{#               #}
+{#							</li>#}
+{#            {% endif %}#}
+{#							<li class="nav-item submenu dropdown">#}
+{#                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+{#                  aria-expanded="false">Pages</a>#}
+{#                <ul class="dropdown-menu">#}
+{#                    {% if not user.is_authenticated %}#}
+{#                  <li class="nav-item"><a class="nav-link" href="{% url "member:loginpass" %}">Login with password</a></li>#}
+{#                        <li class="nav-item"><a class="nav-link" href="{% url "member:loginemail" %}">Login with email</a></li>#}
+{#                        {% else %}#}
+{#                        <li class="nav-item"><a class="nav-link" href="{% url "member:logout" %}">Logout</a></li>#}
+{#                    {% endif %}#}
+{#                  <li class="nav-item"><a class="nav-link" href="{% url "member:signup" %}">Register New person</a></li>#}
+{#                 \#}
+{#                </ul>#}
+{#              </li>#}
+{#              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>#}
+{#            </ul>#}
+{##}
+{#            <ul class="nav-shop">#}
+{#              <li class="nav-item"><button><i class="ti-search"></i></button></li>#}
+{#              <li class="nav-item"><a href="{% url "order:cart" %}"><button><i class="ti-shopping-cart"></i></button> </a>+</li>#}
+{#              <li class="nav-item"><a class="button button-header" href="{% url 'product:category' %}">Buy Now</a></li>#}
+{#            </ul>#}
+{#          </div>#}
+{#        </div>#}
+{#      </nav>#}
+{#    </div>#}
+{#  </header>#}
+ <!--================ Hero banner start =================-->
+    <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static "img/home/hero-banner.png" %}" alt="">
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h4>Shop is fun</h4>
+              <h1>Browse Our Premium Product</h1>
+              <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
+              <a class="button button-hero" href="{% url 'product:category' %}"
+              
+              >Browse Now</a>
+            </div>
           </div>
         </div>
-      </nav>
+      </div>
+    </section>
+    <!--================ Hero banner end =================-->
+    
+     <section class="section-margin mt-0">
+      <div class="owl-carousel owl-theme hero-carousel">
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+          
+      </div>
+    </section>
+
+     <!--================ pagination start =================-->
+     <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+                {% for product in newest  %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="card text-center card-product">
+                          <div class="card-product__img">
+                               {% for image in images %}
+                                        {% if image.object_id == product.base_group.first.id %}
+                                            <img class="card-img" src="{{image.image.url}}" alt="" >
+                                        {% endif %}
+                                    {% endfor %}
+
+                            <ul class="card-product__imgOverlay">
+                              <li><button><i class="ti-search"></i></button></li>
+                              <li><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><button><i class="ti-heart"></i></button></li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <p>{{ product.title }}</p>
+                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
+                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id  %}{{price.value}}{% endif %}{% endfor %}</p>
+                          </div>
+                        </div>
+                      </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
     </div>
-  </header>
-
-
-{#     {% include './category.html' %}#}
-
+  </section>
+	<!-- ================ category section end ================= -->
+</div>
+    </div>
+    
+    <div class="pagination justify-content-center ">
+    <span class="step-links">
+        {% if newest.has_previous %}
+            <a class="button button-subscribe mr-auto mb-1" href="?page=1">« first</a>
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">Page {{ newest.number }} of {{ newest.paginator.num_pages }}.</span>
+        {% if newest.has_next %}
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.next_page_number }}">next</a>
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.paginator.num_pages }}">last »</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock content %}

@@ -7,3 +7,8 @@ admin.site.register(Like)
 admin.site.register(Edites)
 
 # Register your models here.
+class LikeAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Like, LikeAdmin)

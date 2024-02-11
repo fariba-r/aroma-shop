@@ -80,6 +80,7 @@ class Product(Status):
     category=models.ForeignKey(Category, on_delete=models.CASCADE,name="product",related_name="product")
     comments=GenericRelation('Comment')
 
+
     objects=CustomBaseManager()
     @property
     def base_group(self):
