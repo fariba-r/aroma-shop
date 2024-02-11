@@ -22,7 +22,7 @@ class ProfileApiView(APIView):
         address=UserAddress.objects.filter(user_id=user_obj.first())
         cities=City.objects.all()
         provinces=Province.objects.all()
-        sessin=request.session.get('order')
+
         orders = Order.objects.filter(creator=user)
         list_order=[]
         for order in orders:

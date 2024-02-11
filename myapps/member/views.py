@@ -10,7 +10,12 @@ from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import CustomUser
 from rest_framework.views import APIView
-from .serializers import GetEmail
+from .serializers import GetEmail,Code
+from django.core.cache import cache
+import pyotp
+from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login
+
 from django.http import JsonResponse
 # Create your views here.
 
@@ -68,6 +73,12 @@ class SignUpView(SuccessMessageMixin,CreateView):
 #             return  JsonResponse({'valid': 'false'})
 
 class ValidateEmailView(APIView):
+    @staticmethod
+    def create_code():
+        secret_key = 'sseeccrreett'
+        totp = pyotp.TOTP(secret_key)
+        return totp.now()
+
     def post(self,request,*args,**kwargs):
         serializer=GetEmail(data=request.data)
         if not serializer.is_valid():
@@ -80,7 +91,41 @@ class ValidateEmailView(APIView):
              return Response({'error':'Email does not exist'}, status=400)
         else:
             # send code
+            code=self.__class__.create_code()
+            cache.set(email, code, timeout=600)
+            print("a"*50,code)
+            send_mail(
+                "Aroma Shop code",
+                f" this is your login code:{code}",
+                None,  # use default from_email
+                [email],  # recipient list
+                fail_silently=False,
+            )
+            # cached_value = cache.get(email)
             return  Response({'succes':'Email  exist'}, status=200)
+
+
+class ValidateCodeView(APIView):
+
+
+    def post(self,request,*args,**kwargs):
+        serializer=Code(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors,status=400)
+        recieved_code=serializer.validated_data['code']
+        email = serializer.validated_data['email']
+
+        cashed_code=cache.get(email)
+
+        if recieved_code != cashed_code:
+             return Response( status=400)
+        else:
+            user_obj=CustomUser.objects.get(email=email)
+            username = user_obj.username
+            password = user_obj.password
+            user = authenticate(request, username=username, password=password)
+            print("loginnnnnnnnnnnnnnnnnnnnnnnnnnnn",request.user)
+            return  Response(status=200)
 
 
 

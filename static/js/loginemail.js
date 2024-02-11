@@ -9,32 +9,6 @@ window.onload = function() {
 
 document.getElementById("check_email").addEventListener("click", function(e) {
 
-
-
-//     $.ajax({
-//     type: "POST",
-//
-//
-//     url: `/member/check_email/`,
-//          headers: {
-//            'X-CSRFToken': csrfToken
-//          },
-//     data: { "email": $("#emaill").val() },
-//     success: function(data) {
-//         if (data === "true") {
-//             document.getElementById("hided_section").style.display = "block";
-//     document.getElementById("check_email").style.display = "none";
-//         }
-//     }//end success post
-// });//end ajax
-//     console.log("hereeee")
-//
-
-
-
-
-
-
     fetch("http://127.0.0.1:8000/member/check_email/", {
         method: 'POST',
         headers: {
@@ -52,7 +26,32 @@ document.getElementById("check_email").addEventListener("click", function(e) {
             document.getElementById("error-email").style.display = "block";
         }
     });
-}
+});
+
+document.getElementById("check_code").addEventListener("click", function(event) {
+        event.preventDefault()
+    fetch("http://127.0.0.1:8000/member/check_code/", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ "code": document.getElementById("code").value ,"email": document.getElementById("emaill").value })
+    }).then(response => {
+        if (response.status == 200) {
+            console.log(response.status);
+            window.location.href ="http://127.0.0.1:8000/home/"
+
+
+        } else {
+            alert("your code is not correct\n wait 2 minute for refresh page and try again")
+            document.getElementById("check_code").display=none;
+            setTimeout(function () {
+                location.reload();
+            }, 120000);
+        }
+    });
+    }
 
 
 );//end lessener
