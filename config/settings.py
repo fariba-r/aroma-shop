@@ -157,6 +157,7 @@ AUTH_USER_MODEL = "member.CustomUser"
 LOGIN_URL = reverse_lazy('core:login')
 
 
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

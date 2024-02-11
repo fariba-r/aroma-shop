@@ -16,6 +16,8 @@ from .serializers import *
 import json
 class ProfileApiView(APIView):
    serializer_class = OrderSerializer
+   permission_classes = [IsAuthenticated]
+
    def get(self, request):
         user = self.request.user.id
         user_obj=CustomUser.objects.filter(id=user)
