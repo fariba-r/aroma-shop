@@ -13,6 +13,8 @@ urlpatterns = [
     path('singup/', views.SignUpView.as_view(), name='signup'),
     path('check_email/', views.ValidateEmailView.as_view(), name='check_email'),
     path('check_code/', views.ValidateCodeView.as_view(), name='check_code'),
+    path('activate_acount/',views.ActivateAPIView.as_view(),name='activate')
+
 #     reset password-------
 
 ]

@@ -1,0 +1,81 @@
+
+{%extends 'base.html'%}
+
+{%block content%}
+  <!--================Login Box Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3></h3>
+                        <form method="post" class="row login_form" action="#/" id="contactForm" >
+
+
+							<div class="col-md-12 form-group">
+
+								<div type="text" class="form-control" id="name" name="name" placeholder=".." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Code '">
+
+                                    <input type="text" id="f-option2" name="selector">
+
+                                </div>
+
+                            </div>
+
+
+							{% comment %} <div class="col-md-12 form-group">
+								<div class="creat_account">
+									<input type="checkbox" id="f-option2" name="selector">
+									<label for="f-option2">Keep me logged in</label>
+								</div>
+							</div> {% endcomment %}
+							<div class="col-md-12 form-group">
+
+								<button id="send"type="submit" value="submit" class="button button-login w-100">Send Code</button>
+
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+
+{%endblock content%}
+
+
+{% block extra_js %}
+    <script>
+
+        let cookie = document.cookie
+        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+        document.getElementById("send").addEventListener("click", function (event) {
+            event.preventDefault()
+
+         fetch('http://localhost:8000/order/activate_acount/',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body:JSON.stringify({"code":document.getElementById("f-option2").value})
+                })
+             .then(response => response.json())
+                .then(data =>{
+                    if(data.status == "success"){
+                        alert("your account is active know")
+                        window.location.href = 'http://localhost:8000/home/';
+
+
+                    }
+                })
+
+    })
+
+    </script>
+{% endblock extra_js %}

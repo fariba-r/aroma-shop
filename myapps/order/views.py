@@ -14,12 +14,15 @@ from .models import Order,ProductOrder
 from ..core.models import Image
 from .serializers import *
 import json
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
 class ProfileApiView(APIView):
+   # authentication_classes = [SessionAuthentication, BasicAuthentication]
    serializer_class = OrderSerializer
-   permission_classes = [IsAuthenticated]
+   # permission_classes = [IsAuthenticated]
 
    def get(self, request):
-        user = self.request.user.id
+        user = request.user.id
         user_obj=CustomUser.objects.filter(id=user)
         address=UserAddress.objects.filter(user_id=user_obj.first())
         cities=City.objects.all()

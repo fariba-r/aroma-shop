@@ -33,19 +33,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ALLOWED_HOSTS =[f'{os.environ["ALLOWED_HOSTS"]}']
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'corsheaders',
     "myapps.member",
     "myapps.core",
-    "myapps.order",
     "myapps.product",
+    "myapps.order",
     'drf_spectacular',
+    'celery',
+
 ]
 
 MIDDLEWARE = [
@@ -63,7 +67,18 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
 
 ROOT_URLCONF = 'config.urls'
 
@@ -167,3 +182,12 @@ EMAIL_HOST_USER = 'faribarezaee321@gmail.com'
 EMAIL_HOST_PASSWORD = 'aoop ifvp bylo sllb'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# set the celery broker url
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+
+# set the celery result backend
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+
+# set the celery timezone
+CELERY_TIMEZONE = 'UTC'

@@ -7,3 +7,6 @@ class Code(serializers.Serializer):
     code = serializers.CharField()
     email = serializers.EmailField()
 
+class Active(serializers.Serializer):
+    code:serializers.CharField()
+
