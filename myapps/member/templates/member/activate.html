@@ -1,27 +1,25 @@
-
-{%extends 'base.html'%}
-
-{%block content%}
-  <!--================Login Box Area =================-->
+{% extends "base.html" %}
+{% block content %}
+<!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
 		<div class="container">
-			<div class="row">
+			<div class="row d-flex justify-content-center align-items-center">
 
 				<div class="col-lg-6">
 					<div class="login_form_inner">
-						<h3></h3>
+						<h3>enter  the code</h3>
                         <form method="post" class="row login_form" action="#/" id="contactForm" >
 
 
-							<div class="col-md-12 form-group">
 
-								<div type="text" class="form-control" id="name" name="name" placeholder=".." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Code '">
 
-                                    <input type="text" id="f-option2" name="selector">
+                                    <div class="col-md-12 form-group">
 
-                                </div>
+                                    <input type="text" id="f-option2" name="code">
 
-                            </div>
+                                    </div>
+
+
 
 
 							{% comment %} <div class="col-md-12 form-group">
@@ -45,10 +43,12 @@
 	<!--================End Login Box Area =================-->
 
 
-{%endblock content%}
 
+
+{% endblock content %}
 
 {% block extra_js %}
+
     <script>
 
         let cookie = document.cookie
@@ -57,13 +57,13 @@
         document.getElementById("send").addEventListener("click", function (event) {
             event.preventDefault()
 
-         fetch('http://localhost:8000/order/activate_acount/',{
+         fetch('http://localhost:8000/member/activate_acount/',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({"code":document.getElementById("f-option2").value})
+                body:JSON.stringify({'code':document.getElementById("f-option2").value})
                 })
              .then(response => response.json())
                 .then(data =>{
@@ -74,8 +74,13 @@
 
                     }
                 })
+             .catch(error =>{
+                console.log(error);
+            })
 
     })
 
     </script>
+
+
 {% endblock extra_js %}

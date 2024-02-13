@@ -1,3 +1,4 @@
+{% load cache %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -22,9 +23,124 @@
 
 </head>
 <body>
- {% include 'partiall/header.html' %}
 
-{% block content %}{% endblock %}
+ {% cache 500000 sidebar %}
+
+ {% include 'partiall/header.html' with categories=categories %}
+
+
+    {% endcache sidebar %}
+
+{% block content %}
+
+     <section class="hero-banner">
+      <div class="container">
+        <div class="row no-gutters align-items-center pt-60px">
+          <div class="col-5 d-none d-sm-block">
+            <div class="hero-banner__img">
+              <img class="img-fluid" src="{% static "img/home/hero-banner.png" %}" alt="">
+            </div>
+          </div>
+          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+            <div class="hero-banner__content">
+              <h4>Shop is fun</h4>
+              <h1>Browse Our Premium Product</h1>
+              <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
+              <a class="button button-hero" href="{% url 'product:category' %}"
+
+              >Browse Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--================ Hero banner end =================-->
+
+     <section class="section-margin mt-0">
+      <div class="owl-carousel owl-theme hero-carousel">
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+        <div class="hero-carousel__slide">
+          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
+          <a href="#" class="hero-carousel__slideOverlay">
+            <h3>Wireless Headphone</h3>
+            <p>Accessories Item</p>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+     <!--================ pagination start =================-->
+     <div class="col-xl-9 col-lg-8 col-md-7">
+          <!-- Start Filter Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+
+          <!-- Start Best Seller -->
+          <section class="lattest-product-area pb-40 category-list">
+            <div class="row">
+                {% for product in newest  %}
+                      <div class="col-md-6 col-lg-4">
+                        <div class="card text-center card-product">
+                          <div class="card-product__img">
+                               {% for image in images %}
+                                        {% if image.object_id == product.base_group.first.id %}
+                                            <img class="card-img" src="{{image.image.url}}" alt="" >
+                                        {% endif %}
+                                    {% endfor %}
+
+                            <ul class="card-product__imgOverlay">
+                              <li><button><i class="ti-search"></i></button></li>
+                              <li><button><i class="ti-shopping-cart"></i></button></li>
+                              <li><button><i class="ti-heart"></i></button></li>
+                            </ul>
+                          </div>
+                          <div class="card-body">
+                            <p>{{ product.title }}</p>
+                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
+                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id  %}{{price.value}}{% endif %}{% endfor %}</p>
+                          </div>
+                        </div>
+                      </div>
+            {% endfor %}
+            </div>
+          </section>
+          <!-- End Best Seller -->
+        </div>
+      </div>
+    </div>
+  </section>
+	<!-- ================ category section end ================= -->
+</div>
+    </div>
+
+    <div class="pagination justify-content-center ">
+    <span class="step-links">
+        {% if newest.has_previous %}
+            <a class="button button-subscribe mr-auto mb-1" href="?page=1">« first</a>
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">Page {{ newest.number }} of {{ newest.paginator.num_pages }}.</span>
+        {% if newest.has_next %}
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.next_page_number }}">next</a>
+            <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.paginator.num_pages }}">last »</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}
 
 {%block extra_js %}
   {% endblock extra_js %}

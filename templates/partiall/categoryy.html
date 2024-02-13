@@ -1,0 +1,7 @@
+
+{% for subsub in sub %}
+ <li class="nav-item"><a class="nav-link " href="{% url 'product:products' subsub.id %}">    {{ subsub.title }}</a></li>
+    {% if subsub.childrn %}
+        {% include "core/partial/categoryy.html" with sub=subsub.childrn %}
+    {% endif %}
+{% endfor %}

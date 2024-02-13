@@ -130,7 +130,7 @@ class ValidateCodeView(APIView):
 
 
 class ActivateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self,request):
         code = ValidateEmailView.create_code()
 
@@ -149,7 +149,7 @@ class ActivateAPIView(APIView):
         serializer = Active(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=400)
-        recieved_code = serializer.validated_data['code']
+        recieved_code = serializer.initial_data['code']
         email = request.user.email
 
         cashed_code = cache.get(email)

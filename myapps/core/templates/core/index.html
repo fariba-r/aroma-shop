@@ -1,75 +1,9 @@
 {% extends "base.html" %}
+{% load cache %}
 {% block content %}
   
  {% load static %}
 <!--================ Start Header Menu Area =================-->
-
-
-{#	<header class="header_area">#}
-{#    <div class="main_menu">#}
-{#      <nav class="navbar navbar-expand-lg navbar-light">#}
-{#        <div class="container">#}
-{#          <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>#}
-{#          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
-{#            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            <span class="icon-bar"></span>#}
-{#            <span class="icon-bar"></span>#}
-{#            <span class="icon-bar"></span>#}
-{#          </button>#}
-{##}
-{#          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">#}
-{#            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">#}
-{#              <li class="nav-item active"><a class="nav-link" href={% url 'core:index'%}>Home</a></li>#}
-{##}
-{#              <li class="nav-item submenu dropdown">#}
-{#                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-{#                  aria-expanded="false">category</a>#}
-{##}
-{#                  <ul class="dropdown-menu">#}
-{#                      {% for cat in categories %}#}
-{##}
-{#                      <li class="nav-item"><a class="nav-link" href="{% url 'product:products' cat.id %}">{{ cat.title }}</a></li>#}
-{#                          {% if cat.childrn.exists %}#}
-{#                              {% include "./partial/categoryy.html" with sub=cat.childrn %}#}
-{#                          {% endif %}#}
-{#                     {% endfor %}#}
-{#                      #}
-{#                </ul>#}
-{#							</li>#}
-{#            {% if user.is_authenticated %}#}
-{#              <li class="nav-item submenu dropdown">#}
-{#                <a href="{% url 'order:profile' %}" class="nav-link dropdown-toggle" #}
-{#                  >My Panel</a>#}
-{#               #}
-{#							</li>#}
-{#            {% endif %}#}
-{#							<li class="nav-item submenu dropdown">#}
-{#                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
-{#                  aria-expanded="false">Pages</a>#}
-{#                <ul class="dropdown-menu">#}
-{#                    {% if not user.is_authenticated %}#}
-{#                  <li class="nav-item"><a class="nav-link" href="{% url "member:loginpass" %}">Login with password</a></li>#}
-{#                        <li class="nav-item"><a class="nav-link" href="{% url "member:loginemail" %}">Login with email</a></li>#}
-{#                        {% else %}#}
-{#                        <li class="nav-item"><a class="nav-link" href="{% url "member:logout" %}">Logout</a></li>#}
-{#                    {% endif %}#}
-{#                  <li class="nav-item"><a class="nav-link" href="{% url "member:signup" %}">Register New person</a></li>#}
-{#                 \#}
-{#                </ul>#}
-{#              </li>#}
-{#              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>#}
-{#            </ul>#}
-{##}
-{#            <ul class="nav-shop">#}
-{#              <li class="nav-item"><button><i class="ti-search"></i></button></li>#}
-{#              <li class="nav-item"><a href="{% url "order:cart" %}"><button><i class="ti-shopping-cart"></i></button> </a>+</li>#}
-{#              <li class="nav-item"><a class="button button-header" href="{% url 'product:category' %}">Buy Now</a></li>#}
-{#            </ul>#}
-{#          </div>#}
-{#        </div>#}
-{#      </nav>#}
-{#    </div>#}
-{#  </header>#}
  <!--================ Hero banner start =================-->
     <section class="hero-banner">
       <div class="container">
@@ -177,4 +111,17 @@
         {% endif %}
     </span>
 </div>
+
+
+
+
+    <!-- Content you want to cache (e.g., sidebar) -->
+    <div>Recent Posts</div>
+    <ul>
+        <li>Post 11</li>
+        <li>Post 2</li>
+        <!-- ... -->
+    </ul>
+
+
 {% endblock content %}

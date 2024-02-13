@@ -74,6 +74,7 @@ class ProfileView(TemplateView):
 class CreateAddressView(APIView):
     # serializer_class = OrderSerializer
 
+
     def post(self, request):
         city_name=request.data.get('city')
         province_name=request.data.get('province')

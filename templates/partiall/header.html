@@ -1,6 +1,6 @@
  {% load static %}
 <!--================ Start Header Menu Area =================-->
-{# <h1> cache.keys('*') </h1>#}
+
 	<header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -24,31 +24,33 @@
                   <ul class="dropdown-menu">
                       {% for cat in categories %}
 
-                      <li class="nav-item"><a class="nav-link" href="single-product.html">aa</a></li>
-                          {% if cat.children %}
-                              {% include "./partiall/categoryy.html" with sub=cat.children %}
+                      <li class="nav-item"><a class="nav-link" href="{% url 'product:products' cat.id %}">{{ cat.title }}</a></li>
+                          {% if cat.childrn.exists %}
+                              {% include "./categoryy.html" with sub=cat.childrn %}
                           {% endif %}
                      {% endfor %}
-                      <li class="nav-item"><a class="nav-link" href="checkout.html">ba</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">ca</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">da</a></li>
+
                 </ul>
 							</li>
+            {% if user.is_authenticated %}
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                </ul>
+                <a href="{% url 'order:profile' %}" class="nav-link dropdown-toggle"
+                  >My Panel</a>
+
 							</li>
+            {% endif %}
 							<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
+                    {% if not user.is_authenticated %}
+                  <li class="nav-item"><a class="nav-link" href="{% url "member:loginpass" %}">Login with password</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url "member:loginemail" %}">Login with email</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url "member:logout" %}">Logout</a></li>
+                    {% endif %}
+                  <li class="nav-item"><a class="nav-link" href="{% url "member:signup" %}">Register New person</a></li>
+                 \
                 </ul>
               </li>
               <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
@@ -56,8 +58,8 @@
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+              <li class="nav-item"><a href="{% url "order:cart" %}"><button><i class="ti-shopping-cart"></i></button> </a>+</li>
+              <li class="nav-item"><a class="button button-header" href="{% url 'product:category' %}">Buy Now</a></li>
             </ul>
           </div>
         </div>

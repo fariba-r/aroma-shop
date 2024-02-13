@@ -8,9 +8,11 @@ from django.views.generic import ListView, View, CreateView, TemplateView, FormV
 from ..product.models import *
 from ..core.models import *
 from django.core.paginator import Paginator
+from django.core.cache import cache
 class Index(View):
     paginate_by = 2
     def get(self, request):
+        cache.clear()
         five_days_ago = timezone.now() - timedelta(days=5)
         newest = Product.objects.filter(created_at__gte=five_days_ago) # Replace with your actual queryset
         items_per_page = 2
@@ -35,8 +37,8 @@ class Index(View):
         context['cheapest']=Detail.objects.filter(name='cost').order_by('value')[:30]
         context["categories"]=Category.objects.filter(parent=None)
 
-        cache.set('my_query_key', Category.objects.filter(parent=None))
+        cache.set('categories', Category.objects.filter(parent=None))
             # print("c"*50,cache._cache.keys())
-        return render(request,"core/index.html",context)
+        return render(request,"base.html",context)
 
 
