@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.contrib.auth import views as auth_views
+from rest_framework_simplejwt import views as jwt_views
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('myapps.core.urls', namespace='core')),
@@ -36,9 +37,12 @@ urlpatterns = [
                        name='password_reset_confirm'),
                   path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(),
                        name='password_reset_complete'),
+                  path('api-auth/', include('rest_framework.urls')),
 
-    
+ #    jwt
 
+                  path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+                  path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh')
 
- ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

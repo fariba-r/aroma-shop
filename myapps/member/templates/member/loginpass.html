@@ -36,22 +36,25 @@
 					</div>
 				</div>
 				<div class="col-lg-6">
-					<div class="login_form_inner">
+					<div class="login_form_inner ">
 						<h3>Log in to enter</h3>
-                        <form method="post" class="row login_form" action="#/" id="contactForm" >
+                        <form method="post" class="row login_form justify-content-center" action="#/" id="contactForm" >
                         {% csrf_token %}
-                        {% for field in form %}
-							<div class="col-md-12 form-group">
-                            
-								{% comment %} <div type="text" class="form-control" id="name" name="name" placeholder=".." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'"> {% endcomment %}
-                                {{ field }}
-                                {% comment %} </div> {% endcomment %}
-                                {% if field.errors %}
-	        		                <small>{{ field.errors|striptags }}</small> 
-	        	                {% endif %}
-		
-							</div>
-                            {% endfor %}
+{#                        {% for field in form %}#}
+{#							<div class="col-md-12 form-group">#}
+{#                            #}
+{#								{% comment %} <div type="text" class="form-control" id="name" name="name" placeholder=".." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'"> {% endcomment %}#}
+{#                                {{ field }}#}
+{#                                {% comment %} </div> {% endcomment %}#}
+{#                                {% if field.errors %}#}
+{#	        		                <small>{{ field.errors|striptags }}</small> #}
+{#	        	                {% endif %}#}
+{#		#}
+{#							</div>#}
+{#                            {% endfor %}#}
+                            <h3 id="message"></h3>
+                            <input id="username" name="username" placeholder="username" class="mb-4">
+                            <input id="password" name="password" placeholder="password" type="password" class="mb-4">
 							
 							{% comment %} <div class="col-md-12 form-group">
 								<div class="creat_account">
@@ -60,7 +63,7 @@
 								</div>
 							</div> {% endcomment %}
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-login w-100">Log In</button>
+								<button type="submit" value="submit"  id="submit" class="button button-login w-100">Log In</button>
 								<a href="#">Forgot Password?</a>
 								<a href={%  url 'member:loginemail' %}>Enter with email code?</a>
 							</div>
@@ -77,3 +80,90 @@
 {%endblock content%}
 
 
+{% block extra_js %}
+
+    <script>
+        let cookie = document.cookie
+        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+        function setCookie(name, value, days) {
+            var expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000); // 2 days in milliseconds
+            document.cookie = name + "=" + value
+                //+ "; expires=" + expires.toUTCString() + "; path=/";
+        }
+
+        // Usage:
+
+        document.getElementById("submit").addEventListener("click", function (event) {
+            event.preventDefault()
+
+            var username = document.getElementById("username")
+            var password = document.getElementById("password")
+            {#fetch('http://127.0.0.1:8000/api/token/',{#}
+            fetch('http://127.0.0.1:8000/member/loginpassapi/', {
+                method: "POST",
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+
+                },
+
+                body: JSON.stringify({
+                    'username': document.getElementById("username").value,
+                    'password': document.getElementById("password").value
+                })
+            }).then(response => response.json())
+
+                .then(data => {
+                    if (data.status == 200) {
+
+
+                        fetch('http://127.0.0.1:8000/api/token/', {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+
+                            },
+
+                            body: JSON.stringify({
+                                'username': document.getElementById("username").value,
+                                'password': document.getElementById("password").value
+                            })
+
+
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data.access);
+                                debugger
+                                setCookie("jwt", data.access, 2);
+
+
+                                window.location.href = 'http://localhost:8000/order/profile';
+
+                            })
+
+                    }//end if
+                    if (data.status == 404) {
+                        document.getElementById("message").innerHTML = data.message
+
+
+                    } else {
+                        document.getElementById("message").innerHTML = data.message
+                    }
+
+                })//end then
+                .catch(error => {
+                    console.log(error)
+                })
+        })//end addeven lessener
+        {#setCookie("jwt", "vvv", 2);#}
+
+
+
+
+    </script>
+{% endblock extra_js %}

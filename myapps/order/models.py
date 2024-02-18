@@ -4,6 +4,8 @@ from ..member.models import Staff,CustomUser,Status,UserAddress
 from django.core.exceptions import ValidationError
 from ..core.manager import CustomBaseManager,DeleteMixin
 
+
+
 # Create your models here.
 class ValidationMixin():
     @staticmethod
@@ -11,12 +13,13 @@ class ValidationMixin():
         if value<0:
             raise ValidationError('the value should be positive')
 
-class DiscountCodeUsed(models.Model,DeleteMixin,ValidationMixin):
-    creator = models.ForeignKey(Staff,on_delete=models.PROTECT)
-    created_at = models.DateTimeField()
-    date_used = models.DateTimeField(auto_now=True)
+class DiscountCode(Status,DeleteMixin,ValidationMixin):
+    date_expiered=models.DateTimeField()
+    date_used = models.DateTimeField(default=None)
     value=models.FloatField(validators=[ValidationMixin.validate_payment])
-    is_deleted = models.BooleanField(default=False)
+    owner=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="owner")
+    condition=models.FloatField(validators=[ValidationMixin.validate_payment],default=0)
+    code=models.CharField(max_length=8)
 
     objects=CustomBaseManager()
 
@@ -29,7 +32,7 @@ class DiscountCodeUsed(models.Model,DeleteMixin,ValidationMixin):
     
 class Order(Status):
     product_id= models.ManyToManyField(Product, through='ProductOrder', related_name='order')
-    discount_code_id = models.OneToOneField(DiscountCodeUsed,null=True,blank=True, related_name='orderr',on_delete=models.PROTECT)
+    discount_code_id = models.OneToOneField(DiscountCode,null=True,blank=True, related_name='orderr',on_delete=models.PROTECT)
     final_payment = models.FloatField(validators=[ValidationMixin.validate_payment])
     
     # Use the choices argument to specify the possible values for the status column

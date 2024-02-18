@@ -3,7 +3,7 @@ from .models import *
 
 admin.site.register(Order)
 
-admin.site.register(DiscountCodeUsed)
+admin.site.register(DiscountCode)
 admin.site.register(ProductOrder)
 
 # Register your models here.

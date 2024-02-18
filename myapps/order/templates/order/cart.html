@@ -236,7 +236,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify(document.getElementById("codee").value),
+                body:JSON.stringify({'code':document.getElementById("codee").value,"cost":document.getElementById("sum").innerHTML}),
                 })
                 .then(response => response.json())
                 .then(data =>{

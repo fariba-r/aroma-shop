@@ -1,3 +1,6 @@
+import datetime
+from linecache import cache
+
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -10,7 +13,7 @@ from ..member.models import *
 # Create your views he
 # cart/views.py
 from rest_framework.generics import ListAPIView, CreateAPIView
-from .models import Order,ProductOrder
+from .models import Order, ProductOrder, DiscountCode
 from ..core.models import Image
 from .serializers import *
 import json
@@ -120,17 +123,31 @@ class CartView(APIView):
 class CheckCodeView(APIView):
     def post(self,request):
         # check code and save to postgresqll
-        return Response({"status":"success","message":"your code save successfully","value":200,"id_code":1})
+        code_front=request.data["code"]
+        condition = request.data["cost"]
+        code_db=DiscountCode.objects.filter(code=code_front,owner=request.user.id,date_used=None)
+        if code_db and code_db.date_expiered>= datetime.datetime.now:
+            if code_db.condition<=condition:
+                return Response({"status": "success", "message": "your code save successfully", "value": code_db.value, "id_code":code_db.code})
 
-        return Response({"status": "fail", "message": "code not found"})
+            else:
+                return Response({"status": "fail", "message": f"you should buy {code_db.value } till code active."})
+        else:
+            return Response({"status": "fail", "message": "code not found"})
+
 class CreateCartView(APIView):
     def post(self,request):
 
         code=request.data.get("code")
         try:
             if code:
-                # get code from redis and save it in postgres get it self and check
-                code=2
+
+                code_db=DiscountCode.objects.get(code=code)
+                if not (code_db.date_expiered >= datetime.datetime.now() ):
+                    raise ValueError
+
+                code_db.date_used=datetime.datetime.now()
+                code_db.save()
                 cart=json.loads(request.data.get("cart"))
 
                 Order.objects.create(discount_code_id=code,pyment_status=cart["status"],final_payment=0,creator=request.user).save()

@@ -10,3 +10,6 @@ class Code(serializers.Serializer):
 class Active(serializers.Serializer):
     code:serializers.CharField()
 
+class LoginSerializer(serializers.Serializer):
+    username=serializers.CharField()
+    password=serializers.CharField()

@@ -57,30 +57,25 @@
     <!--================ Hero banner end =================-->
 
      <section class="section-margin mt-0">
+
       <div class="owl-carousel owl-theme hero-carousel">
+          {% for product in best_product %}
         <div class="hero-carousel__slide">
-          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
+        {% for image in images %}
+                                        {% if image.object_id == product.base_group.first.id %}
+          <img src="{{image.image.url}}" alt="" class="img-fluid">
+            {% endif %}
+            {% endfor %}
+          <a href="{% url 'product:single_product' product.id %}" class="hero-carousel__slideOverlay">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.description |truncatechars:50 }}</p>
           </a>
         </div>
-        <div class="hero-carousel__slide">
-          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-        <div class="hero-carousel__slide">
-          <img src="{% static "img/home/hero-banner.png" %}" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
+         {% endfor %}
+
 
       </div>
+
     </section>
 
      <!--================ pagination start =================-->

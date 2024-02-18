@@ -4,6 +4,8 @@ from .models import CustomUser,Staff
   # Assuming you're using the built-in User model
 from django.core.mail import send_mail
 from django.contrib.auth.models import Group, Permission
+from rest_framework.authtoken.models import Token
+
 
 
 @receiver(post_save, sender=Staff)
@@ -23,6 +25,16 @@ def handel_groups(sender, instance, created, **kwargs):
                 instance.user_id.groups.add(group)
 
         # instance.save()
+
+
+
+
+
+
+@receiver(post_save, sender=CustomUser)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 @receiver(post_save, sender=CustomUser)
 def welcome_email(sender, instance, created, **kwargs):

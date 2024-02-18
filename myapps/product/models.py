@@ -49,10 +49,12 @@ class Category(Status):
             old_cat=category
             while (category  is not None):
 
+
                 if category == self:
                     logical_queryset=Product.objects.filter(product=old_cat)
                     if logical_queryset.exists():
                         for pr in logical_queryset:
+
                             products.append(pr.id)
                 category = category.parent
 

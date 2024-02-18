@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    # 'rest_framework_swagger',
     'rest_framework',
     'corsheaders',
     "myapps.member",
@@ -49,28 +50,42 @@ INSTALLED_APPS = [
     "myapps.order",
     'drf_spectacular',
     'celery',
+    'rest_framework.authtoken'
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'myapps.member.midelware.Jwtmidelware.JWTAuthenticateMiddleware'
+
 
 
 ]
 REST_FRAMEWORK = {
     # YOUR SETTINGS
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ]
+'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+          'rest_framework.authentication.TokenAuthentication',
+'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -184,10 +199,16 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 # set the celery broker url
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 
 # set the celery result backend
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
 
 # set the celery timezone
 CELERY_TIMEZONE = 'UTC'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+]
+# CORS_ALLOW_CREDENTIALS = True
