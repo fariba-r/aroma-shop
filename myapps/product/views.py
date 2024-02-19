@@ -67,6 +67,7 @@ class SingleProduct(DetailView):
         context["categories"]=object.all_categoryes()
         context["example"]=base_g.first()
         context["comments"]=Comment.objects.filter(item_id=self.kwargs['pk'],is_ok=True)
+        context["discount"]=DicountPercent.objects.filter(detail_id=base_g.first())
 
 
         # sesion

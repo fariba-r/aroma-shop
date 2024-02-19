@@ -11,12 +11,17 @@ from ..product.models import  Detail
 from django.contrib.contenttypes.models import ContentType
 from ..member.models import *
 # Create your views he
-# cart/views.py
+
 from rest_framework.generics import ListAPIView, CreateAPIView
 from .models import Order, ProductOrder, DiscountCode
 from ..core.models import Image
 from .serializers import *
 import json
+import jwt
+from jwt import exceptions
+
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 class ProfileApiView(APIView):
@@ -25,8 +30,17 @@ class ProfileApiView(APIView):
    # permission_classes = [IsAuthenticated]
 
    def get(self, request):
-        user = request.user.id
-        user_obj=CustomUser.objects.filter(id=user)
+        if token := request.COOKIES.get('jwt'):
+            print(token)
+            try:
+                # payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
+                user = get_user_model().objects.filter(id=payload.get('id')).first() or \
+                       get_user_model().objects.filter(id=payload.get('user_id')).first()
+            except Exception as e:
+                print('error: ', e)
+
+        user_obj=CustomUser.objects.filter(id=user.id)
         address=UserAddress.objects.filter(user_id=user_obj.first())
         cities=City.objects.all()
         provinces=Province.objects.all()

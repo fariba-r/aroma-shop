@@ -155,6 +155,7 @@ class ValidateCodeView(APIView):
             username = user_obj.username
             password = user_obj.password
             user = authenticate(request, username=username, password=password)
+            login(request,user)
             print("loginnnnnnnnnnnnnnnnnnnnnnnnnnnn",request.user)
             return  Response(status=200)
 

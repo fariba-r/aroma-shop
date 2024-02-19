@@ -142,7 +142,7 @@ class Comment(Status):
 class DicountPercent(Status):
     expiration=models.DateTimeField()
     percent=models.FloatField(default=0.0)
-    detail_id=models.ManyToManyField(Detail)
+    detail_id=models.ForeignKey(Detail,on_delete=models.SET("the product delete"))
     objects=CustomBaseManager()
     def __str__(self):
         return f" {self.detail_id} "

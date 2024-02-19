@@ -1,9 +1,9 @@
 import os
 from celery.app.base import Celery
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault ('DJANGO_SETTINGS_MODULE', 'aroma-shop.config.settings')
+os.environ.setdefault ('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-app = Celery('member')
+app = Celery('config')
 
 # Using a string here means the worker doesn't
 # child processes. - namespace='CELERY' means all

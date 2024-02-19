@@ -14,6 +14,8 @@ from pathlib import Path
 
 
 import os
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 from django.urls import reverse_lazy
 
@@ -202,8 +204,14 @@ EMAIL_USE_TLS = True
 # CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 
 # set the celery result backend
-# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
-
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BEAT_SCHEDULE = {
+    'delete_inactive_users': {
+        'task': 'myapps.member.tasks.send_nightly_email',
+        'schedule': crontab(minute=0, hour=0),  # Run at midnight
+    },
+}
 # set the celery timezone
 CELERY_TIMEZONE = 'UTC'
 

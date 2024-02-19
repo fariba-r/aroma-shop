@@ -14,6 +14,7 @@ class JWTAuthenticateMiddleware:
     def __call__(self, request):
 
         if token := request.COOKIES.get('jwt'):
+            # print(token)
             try:
                 # payload = jwt.decode(token, 'secret', algorithms=['HS256'])
                 payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
@@ -21,8 +22,9 @@ class JWTAuthenticateMiddleware:
                        get_user_model().objects.filter(id=payload.get('user_id')).first()
                 if user and user.is_active:
                     request.user = user
+                    print(request.user)
             except Exception as e:
-                print('error: ', e)
+                # print('error: ', e)
                 pass
 
         response = self.get_response(request)

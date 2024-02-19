@@ -24,6 +24,7 @@
 
 
   <!--================Single Product Area =================-->
+
 	<div class="product_image_area">
 		<div class="container">
 			<div  class="row s_product_inner">
@@ -54,10 +55,19 @@
                             <li><a class="active" href="#"><span>Category</span> : {% for cat in categories %}
                                 {{ cat.title }} {% endfor %}</a></li>
                             <li>{% for d in product.base_group %} {% if forloop.counter0 == 0 %}
-                                <span>{{ d.name }}:</span>{% endif %}<a>{{ d.value }} ,</a> {% endfor %}</li>
+                                <span>{{ d.name }}:</span>{% endif %}<a><del>{{ d.value }} ,</del></a> {% endfor %}</li>
                         </ul>
 
+                        <ul class="list">
+                            <li><a class="active" href="#"><span>Discount</span> : {% for dis in discount %}
+                                {{ dis.percent }} percent{% empty %} no discount! {% endfor %}</a></li>
+
+                        </ul>
+
+
                         <div class="product_count">
+                            <p>Sum: {{ 2|add:-4 }}</p>
+                            
                             <label for="qty">Quantity:</label>
                             <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
                                     class="increase items-count" type="button"><i class="ti-angle-left"></i></button>
@@ -66,6 +76,7 @@
                             <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
                                     class="reduced items-count" type="button"><i class="ti-angle-right"></i></button>
                             <p id="addcart" class="button primary-btn">Add to Cart</p>
+                            <h3 id="novalid"></h3>
                         </div>
                         <div id ="place_del" class="card_area d-flex align-items-center">
 
@@ -244,26 +255,18 @@
 {%block extra_js %}
 
     <script>
-{#    window.onload = function() {#}
-{#          document.getElementById("show_answer").style.display = "none";#}
-{#          document.getElementById("close").style.display = "none";#}
-{##}
-{##}
-{#    document.getElementById("see").addEventListener("click", function() {#}
-{#        document.getElementById("see").style.display = "none";#}
-{#  document.getElementById("show_answer").style.display = "block";#}
-{#  document.getElementById("close").style.display = "block";#}
-//});
-{#    document.getElementById("close").addEventListener("click", function() {#}
-{#        document.getElementById("see").style.display = "block";#}
-{#  document.getElementById("show_answer").style.display = "none";#}
-{#  document.getElementById("close").style.display = "none";#}
-//});
-{#    }#}
-{##}
-{##}
-{##}
-{##}
+ {#   debugger#}
+ {#{% for detail in example.detail_line %}#}
+ {##}
+ {#    {% if detail.name == "count" and detail.value == 0 %}#}
+ {#        document.getElementById(addcart).style.display = "none" ;#}
+ {#        document.getElementById("novalid").innerHTML = "not exist "#}
+ {#        document.getElementById("novalid").style = "color : red"#}
+ {##}
+ {##}
+ {#    {% endif %}#}
+ {##}
+ {#                           {% endfor %}#}
     </script>
 
     <script>
@@ -332,25 +335,41 @@ if(item.querySelector('[id*="reply--"]')){  item.querySelector('[id*="reply--"]'
             const existingData = mySessionStorage.getItem('order');
             const userPreferences = existingData ? JSON.parse(existingData) : {};
 
-             function del_cart(){
-                 if({{ product.id }} in userPreferences){
-                const del_key=document.createElement("button")
-                del_key.className += "button primary-btn"
-                     del_key.setAttribute ('style', 'background-color:#3b82f680');
-                del_key.innerHTML= "Delete From Cart"
-                const parentt=document.getElementById("place_del")
-                parentt.appendChild(del_key)
-                del_key.addEventListener("click",function (){
-                    const key=`${ {{ product.id }} }`
-                    delete userPreferences[key]
-                    mySessionStorage.setItem('order', JSON.stringify(userPreferences));
-                    alert("this item delete successfully ")
-                    parentt.removeChild(del_key)
+            function del_cart() {
 
-                })//end listner
 
-                 }//enf if
-             }//end function
+                if ({{ product.id }} in userPreferences ){
+                    {#if (userPreferences.includes({{ product.id }})) {#}
+
+
+                    const del_key = document.createElement("button")
+
+
+                    del_key.className += "button primary-btn"
+
+
+                    del_key.setAttribute('style', 'background-color:#3b82f680');
+
+
+                    del_key.innerHTML = "Delete From Cart";
+
+
+                    const parentt = document.getElementById("place_del");
+
+
+                    parentt.appendChild(del_key);
+
+                    del_key.addEventListener("click", function () {
+                        const key = `${ {{ product.id }} }`
+                        delete userPreferences[key]
+                        mySessionStorage.setItem('order', JSON.stringify(userPreferences));
+                        alert("this item delete successfully ")
+                        parentt.removeChild(del_key)
+
+                    })//end listner
+
+                }//enf if
+            }//end function
 
             del_cart()
 
