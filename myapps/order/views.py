@@ -30,25 +30,18 @@ class ProfileApiView(APIView):
    # permission_classes = [IsAuthenticated]
 
    def get(self, request):
-        if token := request.COOKIES.get('jwt'):
-            print(token)
-            try:
-                # payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-                payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-                user = get_user_model().objects.filter(id=payload.get('id')).first() or \
-                       get_user_model().objects.filter(id=payload.get('user_id')).first()
-            except Exception as e:
-                print('error: ', e)
 
-        user_obj=CustomUser.objects.filter(id=user.id)
-        address=UserAddress.objects.filter(user_id=user_obj.first())
+
+        user_obj=CustomUser.objects.get(id=1)
+        address=UserAddress.objects.filter(user_id=user_obj)
         cities=City.objects.all()
         provinces=Province.objects.all()
 
-        orders = Order.objects.filter(creator=user)
+        orders = Order.objects.filter(creator=user_obj)
         list_order=[]
         for order in orders:
             list_order.append(order.id)
+
 
         order_product=ProductOrder.objects.filter(order_id__in=list_order)
         list_product = [op.product_id for op in order_product]
@@ -64,7 +57,7 @@ class ProfileApiView(APIView):
         product_serializer =ProductOrderSerializer(order_product, many=True)
         images=Image.objects.filter(object_id__in=list_bg,content_type=ContentType.objects.get_for_model(Detail))
         image_serializer=ImageSerializer(images,many=True)
-        user_serializer=CustomerUserSerializer(user_obj,many=True)
+        user_serializer=CustomerUserSerializer(user_obj)
         address_serializer=AddressSerializer(address,many=True)
         city_serializer=CitySerializer(cities,many=True)
         province_serializer=ProvinceSerializer(provinces,many=True)
@@ -135,11 +128,12 @@ class CartView(APIView):
 
 
 class CheckCodeView(APIView):
+    # todo:nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
     def post(self,request):
         # check code and save to postgresqll
         code_front=request.data["code"]
         condition = request.data["cost"]
-        code_db=DiscountCode.objects.filter(code=code_front,owner=request.user.id,date_used=None)
+        code_db=DiscountCode.objects.filter(code=code_front,owner=CustomUser.objects.get(id=1),date_used=None)
         if code_db and code_db.date_expiered>= datetime.datetime.now:
             if code_db.condition<=condition:
                 return Response({"status": "success", "message": "your code save successfully", "value": code_db.value, "id_code":code_db.code})
@@ -260,7 +254,7 @@ class BackStoreView(APIView,ChangeStoreMixin):
 
 class ShowAddressView(APIView):
     def get(self, request):
-        address = UserAddress.objects.filter(user_id=request.user)
+        address = UserAddress.objects.filter(user_id=CustomUser.objects.get(id=1))
         address_serializer = AddressSerializer(address, many=True)
         response={'addresses':address_serializer.data}
         return Response(response)

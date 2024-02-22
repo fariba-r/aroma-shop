@@ -229,7 +229,7 @@
 
         document.getElementById("apply").addEventListener("click",function (event){
             event.preventDefault()
-            {#debugger#}
+            debugger
             fetch('http://localhost:8000/order/check_code/',{
                 method:'POST',
                 headers:{
@@ -256,6 +256,9 @@
 
                         mySessionStorage.setItem('code', JSON.stringify(userPreferences));
 
+                    }
+                    else{
+                        document.getElementById("message").innerHTML = data.message
                     }
 
                 })

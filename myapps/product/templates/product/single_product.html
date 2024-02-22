@@ -55,18 +55,18 @@
                             <li><a class="active" href="#"><span>Category</span> : {% for cat in categories %}
                                 {{ cat.title }} {% endfor %}</a></li>
                             <li>{% for d in product.base_group %} {% if forloop.counter0 == 0 %}
-                                <span>{{ d.name }}:</span>{% endif %}<a><del>{{ d.value }} ,</del></a> {% endfor %}</li>
+                                <span>{{ d.name }}:</span>{% endif %}<a><del>{{ d.value }} </del> {{ cost_dis }}</a> {% endfor %}</li>
                         </ul>
 
                         <ul class="list">
                             <li><a class="active" href="#"><span>Discount</span> : {% for dis in discount %}
-                                {{ dis.percent }} percent{% empty %} no discount! {% endfor %}</a></li>
+                                {{ dis.percent }} percent{% empty %} no discount! {% endfor %} </a></li>
 
                         </ul>
 
 
                         <div class="product_count">
-                            <p>Sum: {{ 2|add:-4 }}</p>
+
                             
                             <label for="qty">Quantity:</label>
                             <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
@@ -378,7 +378,7 @@ if(item.querySelector('[id*="reply--"]')){  item.querySelector('[id*="reply--"]'
 
             if(document.getElementById("sst").value >0){
                 // Retrieve existing data or create a new dictionary
-                userPreferences[{{ product.id }}] ={"title":`{{ product.title }}`,"cost":document.getElementById("costt").innerHTML,"image":document.getElementById("imagee").src,"count":document.getElementById("sst").value}
+                userPreferences[{{ product.id }}] ={"title":`{{ product.title }}`,"cost": {{ cost_dis }} ,"image":document.getElementById("imagee").src,"count":document.getElementById("sst").value}
             }
             else{
                 alert("the count filed should be positive ")

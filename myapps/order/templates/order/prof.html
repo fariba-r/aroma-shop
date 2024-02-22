@@ -222,7 +222,7 @@
                          //data.user.forEach(user => {
                         const input1 = document.createElement('input');
 
-                        input1.setAttribute("value", `${data.user[0].first_name}`);
+                        input1.setAttribute("value", `${data.user.first_name}`);
                         input1.setAttribute('id', 'input1')
                         const lable1 = document.createElement('label');
                         lable1.className += "m-3"
@@ -237,7 +237,7 @@
 
                         const input2 = document.createElement('input');
 
-                        input2.setAttribute("value", `${data.user[0].last_name}`);
+                        input2.setAttribute("value", `${data.user.last_name}`);
                         input2.setAttribute('id', 'input2')
                         const lable2 = document.createElement('label');
                         lable2.className += "m-3"
@@ -251,7 +251,7 @@
 
 
                         const input3 = document.createElement('input');
-                        input3.setAttribute("value", `${data.user[0].username}`);
+                        input3.setAttribute("value", `${data.user.username}`);
                         input3.setAttribute('id', 'input3')
                         const lable3 = document.createElement('label');
                         lable3.className += "m-3"
@@ -264,7 +264,7 @@
 
 
                         const input4 = document.createElement('input');
-                        input4.setAttribute("value", `${data.user[0].phonenumber}`);
+                        input4.setAttribute("value", `${data.user.phonenumber}`);
                         input4.setAttribute('id', 'input4')
                         const lable4 = document.createElement('label');
                         lable4.className += "m-3"
@@ -278,7 +278,7 @@
 
 
                         const input5 = document.createElement('input');
-                        input5.setAttribute("value", `${data.user[0].email}`);
+                        input5.setAttribute("value", `${data.user.email}`);
                         input5.setAttribute('id', 'input5')
                         const lable5= document.createElement('label');
                          lable5.textContent = `email  `;
@@ -292,7 +292,7 @@
 
 
                         const input6 = document.createElement('input');
-                        input6.setAttribute("value", `${data.user[0].created_at}`);
+                        input6.setAttribute("value", `${data.user.created_at}`);
                         input6.setAttribute('id', 'input6')
                         const lable6 = document.createElement('label');
                          lable6.textContent = `join us in `;
@@ -306,7 +306,7 @@
 
                         const input7 = document.createElement('input');
 
-                        input7.setAttribute("value", `${data.user[0].is_active}`);
+                        input7.setAttribute("value", `${data.user.is_active}`);
                         const lable7 = document.createElement('label');
                         input7.setAttribute('id', 'input7')
                          lable7.textContent = `is active ?  `;
@@ -316,7 +316,7 @@
                         div7.appendChild(lable7);
                         div7.appendChild(input7)
                         info.appendChild(div7)
-                        console.log(`${data.user[0].is_active}`)
+                        console.log(`${data.user.is_active}`)
 
 
                          //////////////////////////////////////////////////////////////////start address

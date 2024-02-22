@@ -12,27 +12,20 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-
 import os
 
 from celery.schedules import crontab
 from dotenv import load_dotenv
 from django.urls import reverse_lazy
 
-
 load_dotenv()
-
-
 
 DEBUG = os.environ['DEBUG']
 SECRET_KEY = os.environ['SECRET_KEY']
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-
-
-ALLOWED_HOSTS =[f'{os.environ["ALLOWED_HOSTS"]}']
+ALLOWED_HOSTS = [f'{os.environ["ALLOWED_HOSTS"]}']
 
 INSTALLED_APPS = [
 
@@ -57,16 +50,22 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
+    'django.middleware.csrf.CsrfViewMiddleware',
+
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'django.contrib.messages.middleware.MessageMiddleware',
+
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'myapps.member.midelware.Jwtmidelware.JWTAuthenticateMiddleware'
+    # 'corsheaders.middleware.CorsMiddleware',
 
 
 
@@ -77,12 +76,12 @@ REST_FRAMEWORK = {
     # 'DEFAULT_AUTHENTICATION_CLASSES': [
     #     'rest_framework.authentication.TokenAuthentication',
     # ]
-'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
-          'rest_framework.authentication.TokenAuthentication',
-'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
@@ -117,7 +116,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -133,10 +131,9 @@ DATABASES = {
         'ENGINE': os.environ['ENGINE'],
         'NAME': os.environ['NAME'],
         'USER': os.environ['PG_USER'],
-        'PASSWORD':os.environ['PASSWORD'],
-        'HOST':os.environ['HOST'],
-        'PORT':os.environ['PORT'],
-        
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST': os.environ['HOST'],
+        'PORT': os.environ['PORT'],
 
     }
 }
@@ -162,8 +159,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 CORS_ORIGIN_ALLOW_ALL = True
 LANGUAGE_CODE = 'en-us'
 
@@ -173,21 +168,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-
-
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "member.CustomUser"
 LOGIN_URL = reverse_lazy('core:login')
-
 
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
@@ -214,7 +203,6 @@ CELERY_BEAT_SCHEDULE = {
 }
 # set the celery timezone
 CELERY_TIMEZONE = 'UTC'
-
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",

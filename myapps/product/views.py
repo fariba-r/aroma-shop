@@ -62,12 +62,14 @@ class SingleProduct(DetailView):
         detail=Detail.objects.filter(detaill=self.kwargs["pk"])
         base_g=object.base_group
         images=Image.objects.filter(content_type=ContentType.objects.get_for_model(Detail),object_id=base_g.first().id )
+        detail_cost=Detail.objects.get(detaill=self.kwargs["pk"],name="cost")
         context['images'] = images
         context["details"]=detail
         context["categories"]=object.all_categoryes()
         context["example"]=base_g.first()
         context["comments"]=Comment.objects.filter(item_id=self.kwargs['pk'],is_ok=True)
         context["discount"]=DicountPercent.objects.filter(detail_id=base_g.first())
+        context["cost_dis"]=int(detail_cost.value)*(100-DicountPercent.objects.filter(detail_id=base_g.first()).first().percent)/100
 
 
         # sesion
