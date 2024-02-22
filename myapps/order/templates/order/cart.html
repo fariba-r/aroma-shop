@@ -37,89 +37,89 @@
                         <tbody id="tbody">
 
                     </table>
-                                      <table class="table">
-                                          <tbody>
-                                          <tr class="bottom_button">
-                                              <td>
+                    <table class="table">
+                        <tbody>
+                        <tr class="bottom_button">
+                            <td>
 
-                                                  </td>
-                                                  <td>
+                            </td>
+                            <td>
 
-                                                  </td>
-                                                  <td>
-                                                        <p id="message"></p>
-                                                  </td>
-                                                  <td>
-                                                      <div class="cupon_text d-flex align-items-center">
-                                                          <input id="codee" type="text" placeholder="Coupon Code">
-                                                          <a  id="apply" class="primary-btn" href="#">Apply</a>
-                                                          <a class="button" href="#">Have a Coupon?</a>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-                                              <tr>
-                                                  <td>
+                            </td>
+                            <td>
+                                <p id="message"></p>
+                            </td>
+                            <td>
+                                <div class="cupon_text d-flex align-items-center">
+                                    <input id="codee" type="text" placeholder="Coupon Code">
+                                    <a id="apply" class="primary-btn" href="#">Apply</a>
+                                    <a class="button" href="#">Have a Coupon?</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
 
-                                                  </td>
-                                                  <td>
+                            </td>
+                            <td>
 
-                                                  </td>
-                                                  <td>
-                                                      <h5>Subtotal</h5>
-                                                  </td>
-                                                  <td>
-                                                      <h5 id="sum">$2160.00</h5>
-                                                  </td>
-                                              </tr>
+                            </td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5 id="sum">$</h5>
+                            </td>
+                        </tr>
 
-                                              <tr class="out_button_area">
-                                                  <td class="d-none-l">
+                        <tr class="out_button_area">
+                            <td class="d-none-l">
 
-                                                  </td>
-                                                  <td class="">
+                            </td>
+                            <td class="">
 
-                                                  </td>
-                                                  <td>
+                            </td>
+                            <td>
 
-                                                  </td>
-                                                  <td>
-                                                      <div class="checkout_btn_inner d-flex align-items-center">
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
 
-                                                              <a class="primary-btn ml-2" href="http://localhost:8000/product/category/">Countinue..Shopping</a>
-                                                          <a id="proceed" class="primary-btn ml-2" href="#">Pay..online</a>
-
-
-
-                                                      </div>
-
-                                                  </td>
-                                              </tr>
+                                    <a class="primary-btn ml-2" href="http://localhost:8000/product/category/">Countinue..Shopping</a>
+                                    <a id="proceed" class="primary-btn ml-2" href="#">Pay..online</a>
 
 
-                                          <tr class="shipping_area">
-                                              <td class="d-none d-md-block">
+                                </div>
 
-                                              </td>
-                                              <td>
-
-                                              </td>
-                                              <td>
-                                                  <div class="col-md-12 form-group">
-                                                      <p>Enter your province:</p>
-                                                      <select name="province" id="prvnc"
-                                                              class="form-control form-control-sm">
-                                                          <option>wefc</option>
-                                                      </select>
-                                                  </div>
-                                              </td>
+                            </td>
+                        </tr>
 
 
-                                          </tr>
+                        <tr class="shipping_area">
+                            <td class="d-none d-md-block">
 
-                                          </tbody>
-                                      </table>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="col-md-12 form-group">
+                                    <p>Enter your province:</p>
+                                    <form id="prvnc">
+                                        <dive id ="prvnc1">
+
+                                        </dive>
+                                        <a class="primary-btn ml-2"><input type="submit" value="Submit" class="primary-btn ml-2"></a>
+                                        <br>
+                                    </form>
+                                </div>
+                            </td>
 
 
+                        </tr>
+
+                        </tbody>
+                    </table>
 
 
                 </div>
@@ -163,85 +163,86 @@
 
         var cart = sessionStorage.getItem("order")
         //console.log(cart)
-        var sum= 0
+        var sum = 0
         for (const [key, value] of Object.entries(JSON.parse(cart))) {
 
 
+            const tbody1 = document.getElementById("tbody")
+            const tr1 = document.createElement("tr")
+            const td1 = document.createElement("td")
+            const div1 = document.createElement("div")
+            div1.className += "media"
+            const div2 = document.createElement("div")
+            div2.className += "d-flex"
+            const img1 = document.createElement("img")
+            img1.setAttribute("src", value.image)
+            div2.appendChild(img1)
+            div1.appendChild(div2)
+
+            const div3 = document.createElement("div")
+            div3.className += "media-body"
+            const p1 = document.createElement("p")
+            p1.innerHTML = value.title
+            div3.appendChild(p1)
+            div1.appendChild(div3)
+            td1.appendChild(div1)
+            tr1.appendChild(td1)
 
 
-                const tbody1 = document.getElementById("tbody")
-                const tr1 = document.createElement("tr")
-                const td1 = document.createElement("td")
-                const div1 = document.createElement("div")
-                div1.className += "media"
-                const div2 = document.createElement("div")
-                div2.className += "d-flex"
-                const img1 = document.createElement("img")
-                img1.setAttribute("src", value.image)
-                div2.appendChild(img1)
-                div1.appendChild(div2)
+            const td2 = document.createElement("td")
+            const h5 = document.createElement("h5")
+            h5.innerHTML = `$ ${value.cost}`
+            td2.appendChild(h5)
+            tr1.appendChild(td2)
 
-                const div3 = document.createElement("div")
-                div3.className += "media-body"
-                const p1 = document.createElement("p")
-                p1.innerHTML = value.title
-                div3.appendChild(p1)
-                div1.appendChild(div3)
-                td1.appendChild(div1)
-                tr1.appendChild(td1)
+            td3 = document.createElement("td")
+            const div4 = document.createElement("div")
+            div4.className += "product_count"
+            const p2 = document.createElement("p")
+            p2.innerHTML = value.count
+            div4.appendChild(p2)
+            td3.appendChild(div4)
+            tr1.appendChild(td3)
 
-
-                const td2 = document.createElement("td")
-                const h5 = document.createElement("h5")
-                h5.innerHTML = `$ ${value.cost}`
-                td2.appendChild(h5)
-                tr1.appendChild(td2)
-
-                td3 = document.createElement("td")
-                const div4 = document.createElement("div")
-                div4.className += "product_count"
-                const p2 = document.createElement("p")
-                p2.innerHTML = value.count
-                div4.appendChild(p2)
-                td3.appendChild(div4)
-                tr1.appendChild(td3)
-
-                const td4 = document.createElement("td")
-                const h6 = document.createElement("h5")
-                h6.innerHTML = value.count * value.cost
-                td4.appendChild(h6)
-                tr1.appendChild(td4)
+            const td4 = document.createElement("td")
+            const h6 = document.createElement("h5")
+            h6.innerHTML = value.count * value.cost
+            td4.appendChild(h6)
+            tr1.appendChild(td4)
 
 
-                tbody1.appendChild(tr1)
+            tbody1.appendChild(tr1)
 
-                sum= parseInt(sum) +parseInt(value.count * value.cost)
+            sum = parseFloat(sum) + parseFloat(value.count * value.cost)
 
 
         }//end outer for
-        document.getElementById("sum").innerHTML=sum
+        document.getElementById("sum").innerHTML = sum
 
     </script>
 
     <script>
-    let cookie = document.cookie
-    let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+        let cookie = document.cookie
+        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
 
-        document.getElementById("apply").addEventListener("click",function (event){
+        document.getElementById("apply").addEventListener("click", function (event) {
             event.preventDefault()
-            debugger
-            fetch('http://localhost:8000/order/check_code/',{
-                method:'POST',
-                headers:{
+
+            fetch('http://localhost:8000/order/check_code/', {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({'code':document.getElementById("codee").value,"cost":document.getElementById("sum").innerHTML}),
-                })
+                body: JSON.stringify({
+                    'code': document.getElementById("codee").value,
+                    "cost": document.getElementById("sum").innerHTML
+                }),
+            })
                 .then(response => response.json())
-                .then(data =>{
+                .then(data => {
 
-                    if(data.status == "success"){
+                    if (data.status == "success") {
 
                         document.getElementById("sum").innerHTML = sum - parseInt(data.value)
                         document.getElementById("message").innerHTML = data.message
@@ -251,15 +252,14 @@
                         let userPreferences = existingData ? JSON.parse(existingData) : {};
 
 // Update preferences
-                        userPreferences["code"] =document.getElementById("codee").value;
+                        userPreferences["code"] = document.getElementById("codee").value;
 
 
                         mySessionStorage.setItem('code', JSON.stringify(userPreferences));
 
-                    }
-                    else{
+                    } else {
                         document.getElementById("message").innerHTML = data.message
-                        document.getElementById("codee").value=""
+                        document.getElementById("codee").value = ""
                     }
 
                 })
@@ -271,28 +271,33 @@
 
     </script>
     <script>
-    document.getElementById("proceed").addEventListener("click",function (event){
+    const mySessionStorage = window.sessionStorage;
+
+// Update preferences
+
+        const address=mySessionStorage.getItem('address_id');
+
+        document.getElementById("proceed").addEventListener("click", function (event) {
             event.preventDefault()
 
 
-        fetch('http://localhost:8000/order/check_store/',{
-                method:'POST',
-                headers:{
+            fetch('http://localhost:8000/order/check_store/', {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({"cart":cart})
-                })
+                body: JSON.stringify({"cart": cart,"address_id":address})
+            })
                 .then(response => response.json())
-                .then(data =>{
+                .then(data => {
 
-                    if(data.status == "success"){
+                    if (data.status == "success") {
 
                         {#console.log(window.location.href)#}
-                      window.location.href = 'http://localhost:8000/order/payment/';
+                        window.location.href = 'http://localhost:8000/order/payment/';
 
-                    }
-                    else{
+                    } else {
                         alert(data.message)
                     }
 
@@ -303,29 +308,47 @@
         })
 
 
-
     </script>
 
     <script>//show address
 
-    const prvnc = document.getElementById('prvnc')
-    //prvnc.removeAttribute('style');
-    //const ul=document.createElement("ul")
-    //ul.className += "list"
+    const prvnc = document.getElementById('prvnc1')
+
+
     fetch('http://localhost:8000/order/show_address/')
-                .then(response => response.json())
-                .then(data => {
-                    data.addresses.forEach(address => {
-                       const np=document.createElement("option")
-                            np.innerHTML= `${address.city.province_id.name} ${address.city.name} ${address.description}`
+        .then(response => response.json())
+        .then(data => {
+            data.addresses.forEach(address => {
+                const pp = document.createElement("p")
+                const npp = document.createElement("input")
+                npp.setAttribute("name", `choice_${address.id}`)
+                npp.type = 'checkbox'
+                npp.className += 'messageCheckbox'
+                npp.value = `${address.id}`
+                const np = document.createElement("lable")
 
-                            prvnc.appendChild(np)
-                    })
+                np.innerHTML = `${address.city.province_id.name} ${address.city.name} ${address.description}`
+                console.log(address)
+                pp.appendChild(np)
+                pp.appendChild(npp)
+                prvnc.appendChild(pp)
+            })
 
 
+        })//end then
 
-                })//end then
+    document.getElementById('prvnc').addEventListener('submit', function (event) {
 
+        event.preventDefault(); // Prevent the default form submission behavior
+        const selected = document.querySelector('.messageCheckbox:checked').value;
+        const mySessionStorage = window.sessionStorage;
+
+// Update preferences
+
+        mySessionStorage.setItem('address_id', selected);
+
+
+    });
     </script>
 
 {% endblock extra_js %}

@@ -71,7 +71,11 @@
          var str_code = sessionStorage.getItem("code")
          var json_code=""
          if (str_code){json_code=JSON.parse(str_code).code;}
+         const mySessionStorage = window.sessionStorage;
 
+// Update preferences
+
+        const address=mySessionStorage.getItem('address_id')
 
 
 
@@ -81,7 +85,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({"cart":cart,"code":json_code,"status":"c"})
+                body:JSON.stringify({"cart":cart,"code":json_code,"status":"c","address":address})
                 })
                 .then(response => response.json())
                 .then(data =>{
