@@ -15,7 +15,7 @@ class ValidationMixin():
 
 class DiscountCode(Status,DeleteMixin,ValidationMixin):
     date_expiered=models.DateTimeField()
-    date_used = models.DateTimeField(default=None)
+    date_used = models.DateTimeField(default=None,blank=True,null=True)
     value=models.FloatField(validators=[ValidationMixin.validate_payment])
     owner=models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="owner")
     condition=models.FloatField(validators=[ValidationMixin.validate_payment],default=0)
@@ -43,7 +43,7 @@ class Order(Status):
         ('Confirmed', 'Confirmed'),
     ]
     pyment_status = models.CharField(max_length=9, choices=STATUS_CHOICES)
-    address_id = models.OneToOneField(UserAddress, related_name='address',on_delete=models.PROTECT)
+    address_id = models.ForeignKey(UserAddress, related_name='address',on_delete=models.PROTECT)
     objects=CustomBaseManager()
 
     def __str__(self):

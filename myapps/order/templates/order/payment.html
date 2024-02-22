@@ -69,7 +69,10 @@
      document.getElementById("ok").addEventListener("click",function (event){
          event.preventDefault()
          var str_code = sessionStorage.getItem("code")
-         var json_code=JSON.parse(str_code);
+         var json_code=""
+         if (str_code){json_code=JSON.parse(str_code).code;}
+
+
 
 
         fetch('http://localhost:8000/order/create_cart/',{
@@ -78,14 +81,15 @@
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrfToken
                 },
-                body:JSON.stringify({"cart":cart,"code":json_code.code,"status":"c"})
+                body:JSON.stringify({"cart":cart,"code":json_code,"status":"c"})
                 })
                 .then(response => response.json())
                 .then(data =>{
 
                     if(data.status == "success"){
-                       console.log("yyyyyyyyyyyyyyyyyyyyyy")
-                        sessionStorage.removeItem('cart');
+
+                        sessionStorage.removeItem('order');
+
 
 
                     }
@@ -95,6 +99,7 @@
 
                     }
                     sessionStorage.removeItem('code');
+                    window.location.href = 'http://localhost:8000/home'
 
                 })
                 .catch((error) => {

@@ -22,11 +22,12 @@ class JWTAuthenticateMiddleware:
                        get_user_model().objects.filter(id=payload.get('user_id')).first()
                 if user and user.is_active:
                     request.user = user
-                    print(request.user)
+                    # print(request.user)
             except Exception as e:
                 # print('error: ', e)
                 pass
 
         response = self.get_response(request)
-
+        # print(response)
+        # print(dir(response))
         return response

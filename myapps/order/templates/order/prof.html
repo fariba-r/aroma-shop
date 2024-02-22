@@ -309,6 +309,7 @@
                         input7.setAttribute("value", `${data.user.is_active}`);
                         const lable7 = document.createElement('label');
                         input7.setAttribute('id', 'input7')
+                        input7.disabled=true;
                          lable7.textContent = `is active ?  `;
                          lable7.className += "m-3"
                         const div7 = document.createElement('div');
@@ -354,14 +355,24 @@
                             td5.textContent = "Description"
                             const td6 = document.createElement('td')
                             td6.textContent = `${adr.description}`
+                             const td6_5 = document.createElement('td')
+                            const td7 = document.createElement('td')
+                            const delbotton = document.createElement('button')
+                            delbotton.innerHTML='delete'
+                            td7.appendChild(delbotton)
                             tr3.appendChild(td5)
                             tr3.appendChild(td6)
+                            tr3.appendChild(td6_5)
+
+                            tr3.appendChild(td7)
                             table.appendChild(tr3)
 
 
                             div.appendChild(table)
                             div_out.appendChild(div)
                             address.appendChild(div_out)
+                             console.log("lllllllllll")
+                            console.log(adr)
 
                         });//enf for each address
                         /////////////////////////////////////////////////////////start address
@@ -436,6 +447,9 @@
         // Handle the response data
         if(data.status=="success"){
             document.getElementById("message").innerHTML=data.message
+        }
+        else{
+            document.getElementById("message").innerHTML="som thing went wrong please try again! "
         }
 
     })
