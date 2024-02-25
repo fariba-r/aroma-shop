@@ -31,7 +31,7 @@ class CustomUser(AbstractUser):
         super().save(*args, **kwargs)
 
     objects = CustomUserManager()
-class Status(models.Model,DeleteMixin):
+class Status(DeleteMixin,models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='%(class)s')

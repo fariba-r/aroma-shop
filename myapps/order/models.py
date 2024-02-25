@@ -43,7 +43,7 @@ class Order(Status):
         ('Confirmed', 'Confirmed'),
     ]
     pyment_status = models.CharField(max_length=9, choices=STATUS_CHOICES)
-    address_id = models.ForeignKey(UserAddress, related_name='address',on_delete=models.PROTECT)
+    address_id = models.ForeignKey(UserAddress, related_name='address',on_delete=models.SET(0))
     objects=CustomBaseManager()
 
     def __str__(self):

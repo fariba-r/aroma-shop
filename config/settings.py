@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'rest_framework_swagger',
     'rest_framework',
-    'corsheaders',
+     'corsheaders',
     "myapps.member",
     "myapps.core",
     "myapps.product",
@@ -64,10 +64,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'myapps.member.midelware.Jwtmidelware.JWTAuthenticateMiddleware'
-    # 'corsheaders.middleware.CorsMiddleware',
-
-
 
 ]
 REST_FRAMEWORK = {
@@ -78,17 +76,22 @@ REST_FRAMEWORK = {
     # ]
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # with session
+        #     'rest_framework.authentication.BasicAuthentication',
+        #     'rest_framework.authentication.SessionAuthentication',
+        # with jwt token
+        #     'rest_framework.authentication.TokenAuthentication',
+        #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # overwrite autenticatin jwt
+        'myapps.member.authentication.JWTAuthentication',
+
     ]
 }
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
-'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60)
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1)
 }
 # REST_FRAMEWORK = {
 #     # Use Django's standard `django.contrib.auth` permissions,
@@ -210,3 +213,21 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
 ]
 # CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)

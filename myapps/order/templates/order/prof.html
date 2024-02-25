@@ -181,12 +181,14 @@
             //console.log(lastname)
 
             fetch('http://localhost:8000/order/profile_drf/#', {
-
+                credentials: "same-origin",
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken
+                    'X-CSRFToken': csrfToken,
 
-                }
+
+                },
+
             })
 
                 .then(response => response.json())
@@ -368,12 +370,36 @@
                         tr3.appendChild(td7)
                         table.appendChild(tr3)
 
+                        //debugger
+                        delbotton.addEventListener("click", function (element) {
+                            fetch(`http://localhost:8000/order/delete_address/${adr.id}/`, {
+                                method: 'DELETE'
+                            }).then((data) => {
+                                console.log(data.status);
+                                    if (data.status == 500) {
+                                    fetch('http://localhost:8000/order/profile_drf/#', {
+                                        credentials: "same-origin",
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'X-CSRFToken': csrfToken,
 
+
+                                        },
+
+                                    })
+
+                                }
+
+                            })
+
+                            div.appendChild(table)
+                            div_out.appendChild(div)
+                            address.appendChild(div_out)
+
+                        })//end add lesstener click
                         div.appendChild(table)
                         div_out.appendChild(div)
                         address.appendChild(div_out)
-
-
                     });//enf for each address
                     /////////////////////////////////////////////////////////start address
                     const prvnc = document.getElementById('prvnc');
@@ -498,24 +524,28 @@
     })
 
     </script>
-    <script>
-
-        debugger
-        document.querySelectorAll('.deleteadr').forEach(function (element) {
-            console.log(element)
-            if (element) {
-                element.addEventListener("click", function (element) {
-                    fetch('https://reqres.in/api/posts/1', {
-                        method: 'DELETE'
-                    }).then(() => {
-                        console.log("lll")
-                    });
-                })
-                console.log("ggg")
-            }
-        })
-
-
-    </script>
+    {#    <script>#}
+    {#window.onload = function () {#}
+    {#            debugger#}
+    {##}
+    {#            document.querySelectorAll('.deleteadr').forEach(function (element) {#}
+    {#                console.log(element)#}
+    {#                if (element) {#}
+    {#                    element.addEventListener("click", function (element) {#}
+    {#                        fetch('https://reqres.in/api/posts/1', {#}
+    {#                            method: 'DELETE'#}
+    {#                        }).then(() => {#}
+    {#                            console.log("lll")#}
+    {#                        });#}
+    {#                    })#}
+    {#                    console.log("ggg")#}
+    {#                }#}
+    {#            })#}
+    {##}
+    {##}
+    {#        //};#}
+    {##}
+    {##}
+    {#    </script>#}
 
 {% endblock extra_js %}

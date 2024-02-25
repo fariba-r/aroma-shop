@@ -100,6 +100,7 @@
             var username = document.getElementById("username")
             var password = document.getElementById("password")
             {#fetch('http://127.0.0.1:8000/api/token/',{#}
+            debugger
             fetch('http://127.0.0.1:8000/member/loginpassapi/', {
                 method: "POST",
 
@@ -141,8 +142,7 @@
                                 setCookie("jwt", data.access, 2);
 
 
-                                window.location.href = 'http://localhost:8000/home' +
-                                    '';
+                                {#window.location.href = 'http://localhost:8000/home'#}
 
                             })
 

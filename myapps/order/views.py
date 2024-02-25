@@ -27,6 +27,8 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 
 class ProfileApiView(APIView):
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
     def get(self, request):
         user_obj = CustomUser.objects.get(id=1)
@@ -269,7 +271,7 @@ class ShowAddressView(APIView):
         response = {'addresses': address_serializer.data}
         return Response(response)
 
-# class DeleteAddresseView(APIView):
+class DeleteAddresseView(APIView):
     def delete(self, request, pk):
         try:
             obj = UserAddress.objects.get(id=pk,user_id=CustomUser.objects.get(id=1))
