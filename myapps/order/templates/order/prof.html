@@ -179,269 +179,265 @@
             // document.getElementById("123").addEventListener("click", function(e) {
             //let lastname = sessionStorage.getItem("order");
             //console.log(lastname)
-
-            fetch('http://localhost:8000/order/profile_drf/#', {
-                credentials: "same-origin",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-
-
-                },
-
-            })
-
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-
-                    /////////////////////////////////////////////////////////////////////
-                    const commentlist = document.getElementById('comment-list');
-                    data.orders.forEach(order => {
-
-                        const iner_div = document.createElement('div');
-                        iner_div.className += "desc";
-                        const outer_div = document.createElement('div');
-                        outer_div.className += "single-comment justify-content-center d-flex  border mt-3"
-                        const ptag1 = document.createElement('p');
-
-                        ptag1.textContent = `  status:  ${order.pyment_status}`;
-                        iner_div.appendChild(ptag1);
-
-                        const ptag2 = document.createElement('p');
-                        ptag2.textContent = `  created at:  ${order.created_at}`;
-                        iner_div.appendChild(ptag2);
-
-                        const ptag3 = document.createElement('p');
-                        ptag3.textContent = `final payment :  ${order.final_payment}`;
-                        iner_div.appendChild(ptag3);
-
-                        outer_div.appendChild(iner_div);
-
-                        commentlist.appendChild(outer_div)
+            function loadd() {
+                fetch('http://localhost:8000/order/profile_drf/#', {
+                    credentials: "same-origin",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
 
 
-                    });//end for each orders
-                    ///////////////////////////////////////////////////////////////////////start info
-                    const info = document.getElementById('Info');
-                    //data.user.forEach(user => {
-                    const input1 = document.createElement('input');
+                    },
 
-                    input1.setAttribute("value", `${data.user.first_name}`);
-                    input1.setAttribute('id', 'input1')
-                    const lable1 = document.createElement('label');
-                    lable1.className += "m-3"
-                    lable1.textContent = `first name :`;
-                    const div1 = document.createElement('div');
-                    div1.className += 'form-group';
-                    div1.appendChild(lable1);
-                    div1.appendChild(input1)
-                    info.appendChild(div1)
+                })
 
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
 
-                    const input2 = document.createElement('input');
+                        /////////////////////////////////////////////////////////////////////
+                        const commentlist = document.getElementById('comment-list');
+                        data.orders.forEach(order => {
 
-                    input2.setAttribute("value", `${data.user.last_name}`);
-                    input2.setAttribute('id', 'input2')
-                    const lable2 = document.createElement('label');
-                    lable2.className += "m-3"
-                    lable2.textContent = `last name`;
-                    const div2 = document.createElement('div');
-                    div2.className += 'form-group';
-                    div2.appendChild(lable2);
-                    div2.appendChild(input2)
-                    info.appendChild(div2)
+                            const iner_div = document.createElement('div');
+                            iner_div.className += "desc";
+                            const outer_div = document.createElement('div');
+                            outer_div.className += "single-comment justify-content-center d-flex  border mt-3"
+                            const ptag1 = document.createElement('p');
 
+                            ptag1.textContent = `  status:  ${order.pyment_status}`;
+                            iner_div.appendChild(ptag1);
 
-                    const input3 = document.createElement('input');
-                    input3.setAttribute("value", `${data.user.username}`);
-                    input3.setAttribute('id', 'input3')
-                    const lable3 = document.createElement('label');
-                    lable3.className += "m-3"
-                    lable3.textContent = `username`;
-                    const div3 = document.createElement('div');
-                    div3.className += 'form-group';
-                    div3.appendChild(lable3);
-                    div3.appendChild(input3)
-                    info.appendChild(div3)
+                            const ptag2 = document.createElement('p');
+                            ptag2.textContent = `  created at:  ${order.created_at}`;
+                            iner_div.appendChild(ptag2);
+
+                            const ptag3 = document.createElement('p');
+                            ptag3.textContent = `final payment :  ${order.final_payment}`;
+                            iner_div.appendChild(ptag3);
+
+                            outer_div.appendChild(iner_div);
+
+                            commentlist.appendChild(outer_div)
 
 
-                    const input4 = document.createElement('input');
-                    input4.setAttribute("value", `${data.user.phonenumber}`);
-                    input4.setAttribute('id', 'input4')
-                    const lable4 = document.createElement('label');
-                    lable4.className += "m-3"
-                    lable4.textContent = `phonenumber `;
-                    const div4 = document.createElement('div');
-                    div4.className += 'form-group';
-                    div4.appendChild(lable4);
-                    div4.appendChild(input4)
-                    info.appendChild(div4)
+                        });//end for each orders
+                        ///////////////////////////////////////////////////////////////////////start info
+                        const info = document.getElementById('Info');
+                        //data.user.forEach(user => {
+                        const input1 = document.createElement('input');
+
+                        input1.setAttribute("value", `${data.user.first_name}`);
+                        input1.setAttribute('id', 'input1')
+                        const lable1 = document.createElement('label');
+                        lable1.className += "m-3"
+                        lable1.textContent = `first name :`;
+                        const div1 = document.createElement('div');
+                        div1.className += 'form-group';
+                        div1.appendChild(lable1);
+                        div1.appendChild(input1)
+                        info.appendChild(div1)
 
 
-                    const input5 = document.createElement('input');
-                    input5.setAttribute("value", `${data.user.email}`);
-                    input5.setAttribute('id', 'input5')
-                    const lable5 = document.createElement('label');
-                    lable5.textContent = `email  `;
-                    lable5.className += "m-3"
-                    const div5 = document.createElement('div');
-                    div5.className += 'form-group';
-                    div5.appendChild(lable5);
-                    div5.appendChild(input5)
-                    info.appendChild(div5)
+                        const input2 = document.createElement('input');
+
+                        input2.setAttribute("value", `${data.user.last_name}`);
+                        input2.setAttribute('id', 'input2')
+                        const lable2 = document.createElement('label');
+                        lable2.className += "m-3"
+                        lable2.textContent = `last name`;
+                        const div2 = document.createElement('div');
+                        div2.className += 'form-group';
+                        div2.appendChild(lable2);
+                        div2.appendChild(input2)
+                        info.appendChild(div2)
 
 
-                    const input6 = document.createElement('input');
-                    input6.setAttribute("value", `${data.user.created_at}`);
-                    input6.setAttribute('id', 'input6')
-                    const lable6 = document.createElement('label');
-                    lable6.textContent = `join us in `;
-                    lable6.className += "m-3"
-                    const div6 = document.createElement('div');
-                    div6.className += 'form-group';
-                    div6.appendChild(lable6);
-                    div6.appendChild(input6)
-                    info.appendChild(div6)
+                        const input3 = document.createElement('input');
+                        input3.setAttribute("value", `${data.user.username}`);
+                        input3.setAttribute('id', 'input3')
+                        const lable3 = document.createElement('label');
+                        lable3.className += "m-3"
+                        lable3.textContent = `username`;
+                        const div3 = document.createElement('div');
+                        div3.className += 'form-group';
+                        div3.appendChild(lable3);
+                        div3.appendChild(input3)
+                        info.appendChild(div3)
 
 
-                    const input7 = document.createElement('input');
-
-                    input7.setAttribute("value", `${data.user.is_active}`);
-                    const lable7 = document.createElement('label');
-                    input7.setAttribute('id', 'input7')
-                    input7.disabled = true;
-                    lable7.textContent = `is active ?  `;
-                    lable7.className += "m-3"
-                    const div7 = document.createElement('div');
-                    div7.className += 'form-group';
-                    div7.appendChild(lable7);
-                    div7.appendChild(input7)
-                    info.appendChild(div7)
-                    console.log(`${data.user.is_active}`)
+                        const input4 = document.createElement('input');
+                        input4.setAttribute("value", `${data.user.phonenumber}`);
+                        input4.setAttribute('id', 'input4')
+                        const lable4 = document.createElement('label');
+                        lable4.className += "m-3"
+                        lable4.textContent = `phonenumber `;
+                        const div4 = document.createElement('div');
+                        div4.className += 'form-group';
+                        div4.appendChild(lable4);
+                        div4.appendChild(input4)
+                        info.appendChild(div4)
 
 
-                    //////////////////////////////////////////////////////////////////start address
-
-                    const address = document.getElementById('oorder');
-                    data.addresses.forEach(adr => {
-                        const div = document.createElement('div');
-                        div.className += 'confirmation-card'
-                        const div_out = document.createElement('div')
-                        div_out.className += "col-md-6 col-xl-4 mb-4 mb-xl-0"
-                        const table = document.createElement('table')
-                        table.className += 'order-rable'
-
-                        const tr1 = document.createElement('tr')
-                        const td1 = document.createElement('td')
-                        td1.textContent = "Province"
-                        const td2 = document.createElement('td')
-                        td2.textContent = `${adr.city.province_id.name}`
-
-                        tr1.appendChild(td1)
-                        tr1.appendChild(td2)
-                        table.appendChild(tr1)
-
-                        const tr2 = document.createElement('tr')
-                        const td3 = document.createElement('td')
-                        td3.textContent = "City"
-                        const td4 = document.createElement('td')
-                        td4.textContent = `${adr.city.name}`
-                        tr2.appendChild(td3)
-                        tr2.appendChild(td4)
-                        table.appendChild(tr2)
-
-                        const tr3 = document.createElement('tr')
-                        const td5 = document.createElement('td')
-                        td5.textContent = "Description"
-                        const td6 = document.createElement('td')
-                        td6.textContent = `${adr.description}`
-                        const td6_5 = document.createElement('td')
-                        const td7 = document.createElement('td')
-                        const delbotton = document.createElement('button')
-                        delbotton.id = `${adr.id}`
-                        delbotton.className += "deleteadr"
-                        delbotton.innerHTML = 'delete'
-                        td7.appendChild(delbotton)
-                        tr3.appendChild(td5)
-                        tr3.appendChild(td6)
-                        tr3.appendChild(td6_5)
-
-                        tr3.appendChild(td7)
-                        table.appendChild(tr3)
-
-                        //debugger
-                        delbotton.addEventListener("click", function (element) {
-                            fetch(`http://localhost:8000/order/delete_address/${adr.id}/`, {
-                                method: 'DELETE'
-                            }).then((data) => {
-                                console.log(data.status);
-                                    if (data.status == 500) {
-                                    fetch('http://localhost:8000/order/profile_drf/#', {
-                                        credentials: "same-origin",
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRFToken': csrfToken,
+                        const input5 = document.createElement('input');
+                        input5.setAttribute("value", `${data.user.email}`);
+                        input5.setAttribute('id', 'input5')
+                        const lable5 = document.createElement('label');
+                        lable5.textContent = `email  `;
+                        lable5.className += "m-3"
+                        const div5 = document.createElement('div');
+                        div5.className += 'form-group';
+                        div5.appendChild(lable5);
+                        div5.appendChild(input5)
+                        info.appendChild(div5)
 
 
-                                        },
+                        const input6 = document.createElement('input');
+                        input6.setAttribute("value", `${data.user.created_at}`);
+                        input6.setAttribute('id', 'input6')
+                        const lable6 = document.createElement('label');
+                        lable6.textContent = `join us in `;
+                        lable6.className += "m-3"
+                        const div6 = document.createElement('div');
+                        div6.className += 'form-group';
+                        div6.appendChild(lable6);
+                        div6.appendChild(input6)
+                        info.appendChild(div6)
 
-                                    })
 
-                                }
+                        const input7 = document.createElement('input');
 
-                            })
+                        input7.setAttribute("value", `${data.user.is_active}`);
+                        const lable7 = document.createElement('label');
+                        input7.setAttribute('id', 'input7')
+                        input7.disabled = true;
+                        lable7.textContent = `is active ?  `;
+                        lable7.className += "m-3"
+                        const div7 = document.createElement('div');
+                        div7.className += 'form-group';
+                        div7.appendChild(lable7);
+                        div7.appendChild(input7)
+                        info.appendChild(div7)
+                        console.log(`${data.user.is_active}`)
 
+
+                        //////////////////////////////////////////////////////////////////start address
+
+                        const address = document.getElementById('oorder');
+                        data.addresses.forEach(adr => {
+                            const div = document.createElement('div');
+                            div.className += 'confirmation-card'
+                            const div_out = document.createElement('div')
+                            div_out.className += "col-md-6 col-xl-4 mb-4 mb-xl-0"
+                            const table = document.createElement('table')
+                            table.className += 'order-rable'
+
+                            const tr1 = document.createElement('tr')
+                            const td1 = document.createElement('td')
+                            td1.textContent = "Province"
+                            const td2 = document.createElement('td')
+                            td2.textContent = `${adr.city.province_id.name}`
+
+                            tr1.appendChild(td1)
+                            tr1.appendChild(td2)
+                            table.appendChild(tr1)
+
+                            const tr2 = document.createElement('tr')
+                            const td3 = document.createElement('td')
+                            td3.textContent = "City"
+                            const td4 = document.createElement('td')
+                            td4.textContent = `${adr.city.name}`
+                            tr2.appendChild(td3)
+                            tr2.appendChild(td4)
+                            table.appendChild(tr2)
+
+                            const tr3 = document.createElement('tr')
+                            const td5 = document.createElement('td')
+                            td5.textContent = "Description"
+                            const td6 = document.createElement('td')
+                            td6.textContent = `${adr.description}`
+                            const td6_5 = document.createElement('td')
+                            const td7 = document.createElement('td')
+                            const delbotton = document.createElement('button')
+                            delbotton.id = `${adr.id}`
+                            delbotton.className += "deleteadr"
+                            delbotton.innerHTML = 'delete'
+                            td7.appendChild(delbotton)
+                            tr3.appendChild(td5)
+                            tr3.appendChild(td6)
+                            tr3.appendChild(td6_5)
+
+                            tr3.appendChild(td7)
+                            table.appendChild(tr3)
+
+                            //debugger
+                            delbotton.addEventListener("click", function (element) {
+                                fetch(`http://localhost:8000/order/delete_address/${adr.id}/`, {
+                                    method: 'DELETE'
+                                }).then((data) => {
+                                    console.log(data.status);
+                                    if (data.status == 200) {
+                                        alert("deleted succesfully ")
+                                        
+
+                                    }//end if
+
+                                })//end then lessener
+
+                                div.appendChild(table)
+                                div_out.appendChild(div)
+                                address.appendChild(div_out)
+
+                            })//end add lesstener click
                             div.appendChild(table)
                             div_out.appendChild(div)
                             address.appendChild(div_out)
-
-                        })//end add lesstener click
-                        div.appendChild(table)
-                        div_out.appendChild(div)
-                        address.appendChild(div_out)
-                    });//enf for each address
-                    /////////////////////////////////////////////////////////start address
-                    const prvnc = document.getElementById('prvnc');
-                    prvnc.removeAttribute('style');
-                    data.provinces.forEach(pro => {
-                        if (pro) {
-                            const np = document.createElement("option")
-                            np.innerHTML = `${pro.name}`
-
-                            prvnc.appendChild(np)
-
-                        }
-
-
-                    });//end for each province
-                    const city = document.getElementById('city');
-                    city.removeAttribute('style');
-                    prvnc.addEventListener('change', function (event) {
-                        while (city.options.length > 0) {
-                            city.remove(0);
-                        }
-
-                        data.city.forEach(pro => {
-                            if (pro && pro.province_id.name == document.getElementById('prvnc').value) {
+                        });//enf for each address
+                        /////////////////////////////////////////////////////////start address
+                        const prvnc = document.getElementById('prvnc');
+                        prvnc.removeAttribute('style');
+                        data.provinces.forEach(pro => {
+                            if (pro) {
                                 const np = document.createElement("option")
                                 np.innerHTML = `${pro.name}`
 
-                                city.appendChild(np)
+                                prvnc.appendChild(np)
 
                             }
-                        })//end function
 
 
-                    });//end for each city
+                        });//end for each province
+                        const city = document.getElementById('city');
+                        city.removeAttribute('style');
+                        prvnc.addEventListener('change', function (event) {
+                            while (city.options.length > 0) {
+                                city.remove(0);
+                            }
 
-                })//end then
-                .catch(error => console.log(error));
-            //}//end add lessener
-            // )
+                            data.city.forEach(pro => {
+                                if (pro && pro.province_id.name == document.getElementById('prvnc').value) {
+                                    const np = document.createElement("option")
+                                    np.innerHTML = `${pro.name}`
+
+                                    city.appendChild(np)
+
+                                }
+                            })//end function
 
 
-        }//end load
+                        });//end for each city
+
+                    })//end then
+                    .catch(error => console.log(error));
+                //}//end add lessener
+                // )
+
+
+            }//end load function
+             loadd();
+
+        };//end load
+
 
 
     </script>

@@ -32,7 +32,7 @@ class DiscountCode(Status,DeleteMixin,ValidationMixin):
     
 class Order(Status):
     product_id= models.ManyToManyField(Product, through='ProductOrder', related_name='order')
-    discount_code_id = models.OneToOneField(DiscountCode,null=True,blank=True, related_name='orderr',on_delete=models.PROTECT)
+    discount_code_id = models.OneToOneField(DiscountCode,null=True,blank=True, related_name='orderr',on_delete=models.SET(1))
     final_payment = models.FloatField(validators=[ValidationMixin.validate_payment])
     
     # Use the choices argument to specify the possible values for the status column
@@ -43,7 +43,7 @@ class Order(Status):
         ('Confirmed', 'Confirmed'),
     ]
     pyment_status = models.CharField(max_length=9, choices=STATUS_CHOICES)
-    address_id = models.ForeignKey(UserAddress, related_name='address',on_delete=models.SET(0))
+    address_id = models.ForeignKey(UserAddress, related_name='address',on_delete=models.SET(1))
     objects=CustomBaseManager()
 
     def __str__(self):

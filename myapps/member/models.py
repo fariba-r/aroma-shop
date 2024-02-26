@@ -31,12 +31,23 @@ class CustomUser(AbstractUser):
         super().save(*args, **kwargs)
 
     objects = CustomUserManager()
-class Status(DeleteMixin,models.Model):
+class Status(models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name='%(class)s')
     class Meta:
         abstract = True
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
+
+    def hard_delete(self):
+        super().delete()
+
+    def undelete(self):
+        self.is_deleted = False
+        self.save()
 
 # Create your models here.
 
@@ -74,9 +85,14 @@ class UserAddress(models.Model,DeleteMixin):
     description=models.TextField(max_length=200)
     is_deleted=models.BooleanField(default=False)
 
+    objects = CustomBaseManager()
+
     def __str__(self):
         return f"{self.user_id} {self.city}"
 
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save()
 class Staff(Status):
     POSITOINS=[
         ("controller","controller"),
@@ -88,6 +104,7 @@ class Staff(Status):
     expiration=models.DateTimeField()
     position=models.CharField(max_length=100,choices=POSITOINS)
     salary=models.PositiveIntegerField()
+    objects = CustomBaseManager()
 
 
 

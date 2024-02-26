@@ -23,6 +23,8 @@ class CustomBaseManager(models.Manager):
 
 
 class DeleteMixin():
+
+
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True
         self.save()
