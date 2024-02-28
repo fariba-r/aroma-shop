@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+
+{% block title %}aroma shop{% endblock %}
+
+{% block branding %}
+    {% for group in  user.groups.all %}
+        {% if group.name == "master_product" %}<h1 id="site-name" style="font-family: cursive;" >master of product panel</h1>{% endif %}
+         {% if group.name == "Administrators" %}<h1 id="site-name" style="font-family: cursive;" >Administrators panel</h1>{% endif %}
+         {% if group.name == "controller" %}<h1 id="site-name" style="font-family: cursive;" >controller panel</h1>{% endif %}
+         {% if group.name == "operator" %}<h1 id="site-name" style="font-family: cursive;" >operator panel</h1>{% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+{% block nav-global %} --> AROMA SHOP <--  {% endblock %}
+

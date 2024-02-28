@@ -1,0 +1,116 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content %}
+    <div id="content-main">
+        {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    <div id="content-related">
+        <div class="module" id="recent-actions-module">
+            {% if app_list %}
+                {% for app in app_list %}
+
+                    {% if app.name == "Core" %}
+                    <div class="app-{{ app.app_label }} module{% if app.app_url in request.path|urlencode %} current-app{% endif %}">
+                        <table>
+                            <caption>
+                                <a href="{{ app.app_url }}" class="section"
+                                   title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">{{ app.name }}</a>
+                            </caption>
+                            {% for model in app.models %}
+                                {% if model.name == "Editess" %}
+                                <tr class="model-
+
+
+                                        {{ model.object_name|lower }}{% if model.admin_url in request.path|urlencode %} current-model{% endif %}">
+                                    {% if model.admin_url %}
+                                        <th scope="row"><a href="{{ model.admin_url }}"
+                                                {% if model.admin_url in request.path|urlencode %}
+                                                           aria-current="page"{% endif %}>{{ model.name }}</a></th>
+                                    {% else %}
+                                        <th scope="row">{{ model.name }}</th>
+                                    {% endif %}
+
+                                    {#                        {% if model.add_url %}#}
+                                    {% for group in  user.groups.all %}
+                                        {% if group.name == "master_product" or group.name == "Administrators" %}
+                                            <td><a href="{{ model.add_url }}" class="addlink">{{ model.name }}</a>
+                                            </td>
+                                        {% else %}
+                                            <td></td>
+
+                                        {% endif %}
+                                        {% if group.name == "operator" %}
+                                            {% if app.name == "Order" or  app.name == "Member" %}
+                                                <td><a href="{{ model.add_url }}"
+                                                       class="addlink">{{ app.name }}</a></td>
+                                            {% else %}
+                                                <td></td>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+
+                                    {% endfor %}
+
+
+
+                                    {#                        {% else %}#}
+                                    {#                            <td></td>#}
+                                    {#                        {% endif %}#}
+
+                                    {% if model.admin_url and show_changelinks %}
+                                        {#                            {% if model.view_only %}#}
+                                        <td><a href="{{ model.admin_url }}" class="viewlink">{% translate 'View' %}</a>
+                                        </td>
+                                        {#                            {% else %}#}
+                                        {% for group in  user.groups.all %}
+                                            {% if group.name == "master_product" or group.name == "Administrators" %}
+                                                <td><a href="{{ model.admin_url }}"
+                                                       class="changelink">{% translate 'Change' %}</a>
+                                                </td>
+
+                                            {% endif %}
+                                            {% if group.name == "operator" %}
+                                                {% if app.name == "Order" or  app.name == "Member" %}
+                                                    <td><a href="{{ model.admin_url }}"
+                                                           class="changelink">{% translate 'Change' %}</a></td>
+                                                    {#                                        {% else %}#}
+                                                    {#                                        <td></td>#}
+                                                {% endif %}
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                        {#                            {% endif %}#}
+                                        {#                        {% elif show_changelinks %}#}
+                                        {#                            <td></td>#}
+                                    {% endif %}
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

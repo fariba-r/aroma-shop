@@ -79,7 +79,7 @@ class City(Status,DeleteMixin):
 
 
 
-class UserAddress(models.Model,DeleteMixin):
+class UserAddress(models.Model):
     user_id=models.ForeignKey(CustomUser, related_name="user",on_delete=models.CASCADE)
     city=models.ForeignKey(City,on_delete=models.PROTECT)
     description=models.TextField(max_length=200)

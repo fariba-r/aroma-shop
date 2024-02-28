@@ -13,8 +13,15 @@ from django.contrib import admin
 
 
 class YourModelAdmin(admin.ModelAdmin):
+    search_fields = ['city', 'user_id', 'is_deleted']
+
+    list_filter = ['user_id']
+    list_display = ['user_id', 'city', 'is_deleted']
+    editable_list = ['is_deleted']
+
     def get_queryset(self, request):
         # Include deleted objects
         return UserAddress.objects.archive()
+
 
 admin.site.register(UserAddress, YourModelAdmin)
