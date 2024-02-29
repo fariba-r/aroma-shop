@@ -171,35 +171,8 @@ class ValidateCodeView(APIView):
             return  Response({'token':token},status=200,)
 
 
-class ActivateAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
-    def get(self,request):
-        code = ValidateEmailView.create_code()
 
-        cache.set(request.user.email, code, timeout=600)
-        print("a" * 50, code)
-        send_mail(
-            "Aroma Shop code",
-            f" this is your activate code:{code}",
-            None,  # use default from_email
-            [request.user.email],  # recipient list
-            fail_silently=False,
-        )
-        return render(request,"member/activate.html")
 
-    def post(self,request):
-        serializer = Active(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=400)
-        recieved_code = serializer.initial_data['code']
-        email = request.user.email
 
-        cashed_code = cache.get(email)
-
-        if recieved_code != cashed_code:
-            return Response(status=400)
-        else:
-            request.user.is_active=True;
-            return Response(status=200)
 
 

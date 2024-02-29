@@ -57,7 +57,7 @@
         document.getElementById("send").addEventListener("click", function (event) {
             event.preventDefault()
 
-         fetch('http://localhost:8000/member/activate_acount/',{
+         fetch('http://localhost:8000/member/activate_acount',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json',

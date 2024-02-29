@@ -97,3 +97,6 @@ class CreateCartSerializer(serializers.Serializer):
     cart = Cartserializer()
     code = serializers.CharField(allow_blank=True,allow_null=True)
     status = serializers.ChoiceField(choices=[("p", "p"), ("c", "c")])
+
+class ActivateCodeSerializer(serializers.Serializer):
+    code = serializers.CharField()

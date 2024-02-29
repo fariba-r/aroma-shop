@@ -1,6 +1,9 @@
 import datetime
 from linecache import cache
-
+from django.core.cache import cache
+import requests
+from django.core.mail import send_mail
+from ..member.views import ValidateEmailView
 import pytz
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
@@ -30,6 +33,7 @@ class ProfileApiView(APIView):
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
     # permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
+
     def get(self, request):
         user_obj = CustomUser.objects.get(id=1)
         address = UserAddress.objects.filter(user_id=user_obj)
@@ -89,6 +93,7 @@ class CreateAddressView(APIView):
 
 class UpdateUserView(APIView):
     serializer_class = CustomerUserSerializer
+
     # permission_classes = [IsAuthenticated]
 
     def put(self, request):
@@ -97,25 +102,13 @@ class UpdateUserView(APIView):
         if serializer.is_valid():
 
             serializer.save()
-            return Response({"status": "success", "message": "update success"},status=200)
+            return Response({"status": "success", "message": "update success"}, status=200)
 
 
         else:
-            return Response({"status": "fail", "message": "fail to update"},status=500)
+            return Response({"status": "fail", "message": "fail to update"}, status=500)
 
 
-# class CartView(APIView):
-#     def get(self, request):
-#         return render(request, 'order/cart.html')
-
-    # def post(self, request):
-    #     # info=request.data
-    #     # print(type(info))
-    #     if request.data:
-    #         for id, count in request.data.items():
-    #             product = Product.objects.get(id=id)
-    #
-    #     return Response({"status": "success", "message": "your addres save successfully"})
 class CartView(TemplateView):
     template_name = 'order/cart.html'
 
@@ -148,22 +141,21 @@ class CreateCartView(APIView):
 
         code = request.data.get("code")
         try:
-            id_address=int(request.data["address"])
-            address=UserAddress.objects.get(id=id_address,user_id=CustomUser.objects.get(id=1))
+            id_address = int(request.data["address"])
+            address = UserAddress.objects.get(id=id_address, user_id=CustomUser.objects.get(id=1))
             if code:
 
-                code_db = DiscountCode.objects.get(code=code,date_used =None)
+                code_db = DiscountCode.objects.get(code=code, date_used=None)
 
                 if not (code_db.date_expiered >= datetime.datetime.now(pytz.UTC)):
-                    return Response({"status": "fail"},status=404)
-
+                    return Response({"status": "fail"}, status=404)
 
                 code_db.date_used = datetime.datetime.now(pytz.UTC)
                 code_db.save()
                 cart = json.loads(request.data.get("cart"))
 
                 Order.objects.create(discount_code_id=code_db, pyment_status="Confirmed", final_payment=0,
-                                     creator=CustomUser.objects.get(id=1),address_id=address).save()
+                                     creator=CustomUser.objects.get(id=1), address_id=address).save()
                 id_order = Order.objects.filter(creator=CustomUser.objects.get(id=1)).order_by("-created_at").first()
                 payment = 0
                 for k, v in cart.items():
@@ -178,9 +170,8 @@ class CreateCartView(APIView):
             else:
                 cart = json.loads(request.data.get("cart"))
 
-
-                Order.objects.create(pyment_status="Confirmed" ,final_payment=0,
-                                     creator=CustomUser.objects.get(id=1),address_id=address).save()
+                Order.objects.create(pyment_status="Confirmed", final_payment=0,
+                                     creator=CustomUser.objects.get(id=1), address_id=address).save()
                 id_order = Order.objects.filter(creator=CustomUser.objects.get(id=1)).order_by("-created_at").first()
                 payment = 0
                 for k, v in cart.items():
@@ -193,10 +184,10 @@ class CreateCartView(APIView):
                 id_order.final_payment = payment
                 id_order.save()
 
-            return Response({"status": "success"},status=200)
+            return Response({"status": "success"}, status=200)
         except Exception as e:
-             print(e)
-             return Response({"status": "fail"},status=500)
+            print(e)
+            return Response({"status": "fail"}, status=500)
 
 
 class ChangeStoreMixin:
@@ -221,19 +212,16 @@ class CheckStoreView(APIView, ChangeStoreMixin):
     def post(self, request):
         cart = json.loads(request.data.get("cart"))
 
-
-
-
         try:
             id_address = int(request.data["address_id"])
             address = UserAddress.objects.get(id=id_address, user_id=CustomUser.objects.get(id=1))
             ChangeStoreMixin.change(self, "-", cart)
 
-            return Response({"status": "success"},status=200)
+            return Response({"status": "success"}, status=200)
         except KeyError:
             return Response({"status": "fail", "message": "you should have an address"}, status=500)
         except Exception as e:
-            return Response({"status": "fail", "message": str(e)},status=404)
+            return Response({"status": "fail", "message": str(e)}, status=404)
 
 
 class BackStoreView(APIView, ChangeStoreMixin):
@@ -253,8 +241,6 @@ class BackStoreView(APIView, ChangeStoreMixin):
 
 
     """
-    # permission_classes = []
-    # serializer_class = OrderSerializer
 
     def post(self, request):
         cart = json.loads(request.data.get("cart"))
@@ -264,23 +250,56 @@ class BackStoreView(APIView, ChangeStoreMixin):
 
 class ShowAddressView(APIView):
     def get(self, request):
-
         address = UserAddress.objects.filter(user_id=CustomUser.objects.get(id=1))
 
         address_serializer = AddressSerializer(address, many=True)
         response = {'addresses': address_serializer.data}
         return Response(response)
 
+
 class DeleteAddresseView(APIView):
     def delete(self, request, pk):
         try:
-            obj = UserAddress.objects.get(id=pk,user_id=CustomUser.objects.get(id=1))
+            obj = UserAddress.objects.get(id=pk, user_id=CustomUser.objects.get(id=1))
             obj.delete()
             return Response(status=200)
         except UserAddress.DoesNotExist:
             return Response(status=404)
-    def put(self,request):
-        serializer=AddressSerializer(data=request.data)
+
+    def put(self, request):
+        serializer = AddressSerializer(data=request.data)
         serializer.update()
         return Response(status=200)
 
+
+class ActivateView(View):
+
+    def get(self,request):
+
+        code = ValidateEmailView.create_code()
+
+        cache.set(request.user.email, code, timeout=600)
+        print("a" * 50, code)
+        send_mail(
+            "Aroma Shop code",
+            f" this is your activate code:{code}",
+            None,  # use default from_email
+            [request.user.email],  # recipient list
+            fail_silently=False,
+        )
+        return render(request,"order/activate.html",)
+
+
+
+class CodeActivateView(APIView):
+    def post(self, request):
+        serializers = ActivateCodeSerializer(request.data)
+
+        # db_code=cache.get(request.user.email)
+        db_code = cache.get(request.user.email)
+
+        if serializers["code"].value == db_code:
+            request.user.active_status=True
+            return Response(status=200)
+        else:
+                return Response(status=404)

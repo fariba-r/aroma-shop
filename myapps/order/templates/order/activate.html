@@ -1,0 +1,75 @@
+
+{%extends 'base.html'%}
+
+{%block content%}
+
+
+
+
+  <!--================Login Box Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container justify-content-center">
+			<div class="row justify-content-center">
+
+				<div class="col-lg-6 justify-content-center">
+					<div class="login_form_inner ">
+						<h3>Enter sended code to regtered email:</h3>
+                        <p>send email to {{ user.email }}</p>
+                        <form method="post" class="row login_form justify-content-center" action="#/" id="contactForm" >
+                        {% csrf_token %}
+
+                            <h3 id="message"></h3>
+
+                            <input id="code" name="code" placeholder="code" type="text" class="mb-4">
+
+
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit"  id="submit" class="button button-login w-100">Activate</button>
+
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+
+{%endblock content%}
+
+{% block extra_js %}
+    <script>
+    let cookie = document.cookie
+let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+
+    document.getElementById("submit").addEventListener("click", function (event) {
+        event.preventDefault()
+        debugger
+
+        fetch('http://127.0.0.1:8000/order/code_activate/',{
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({"code":document.getElementById("code").value}),
+            })
+            .then(response => {
+                debugger
+            if (response.status == 200) {
+
+                console.log("llll");
+                window.location.href='http://127.0.0.1:8000/order/profile'
+
+            } else {
+                alert("somthing went worng please try again!")
+                window.location.href='http://127.0.0.1:8000/order/profile'
+            }
+        });//end then
+
+    })//end lessener
+</script>
+
+{% endblock %}

@@ -17,4 +17,6 @@ urlpatterns = [
     path('delete_address/<int:pk>/', views.DeleteAddresseView.as_view(), name='del_address'),
     path('payment/', TemplateView.as_view(template_name='order/payment.html')),
     path('back_store/', views.BackStoreView.as_view(), name='back_store'),
+    path('activate/', views.ActivateView.as_view(), name='back_store'),
+    path('code_activate/', views.CodeActivateView.as_view(), name='back_store'),
 ]

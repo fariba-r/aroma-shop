@@ -18,8 +18,9 @@ class CustomUser(AbstractUser):
    
     password = models.CharField(max_length=200)
     is_deleted = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now=True)
-    
+    active_status= models.BooleanField(default=False)
     REQUIRED_FIELDS = ["email","first_name","last_name","phonenumber" ]
     
     def __str__(self):
