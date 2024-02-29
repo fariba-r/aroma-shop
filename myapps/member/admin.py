@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import *
 
-admin.site.register(CustomUser)
+
 
 class CustomUserAdmin(admin.ModelAdmin):
     search_fields = ['phonenumber', 'first_name', 'last_name', 'is_deleted',"email"]
@@ -21,7 +21,7 @@ class StaffAdmin(admin.ModelAdmin):
     search_fields = ['position', 'user_id__first_name', 'user_id__last_name', 'is_deleted',"salary"]
 
     list_filter = ['position']
-    list_display = [ 'user_id__first_name', 'user_id__last_name', 'position',"salary", 'is_deleted']
+    list_display = [ 'user_id', 'position',"salary", 'is_deleted']
     editable_list = ['is_deleted']
 
     def get_queryset(self, request):
@@ -51,7 +51,7 @@ class CityAdmin(admin.ModelAdmin):
     search_fields = ['province_id__name', 'name', 'is_deleted']
 
     list_filter = ['province_id__name']
-    list_display = ['name', 'province_id__name', 'is_deleted']
+    list_display = ['name', 'province_id', 'is_deleted']
     editable_list = ['is_deleted']
 
     def get_queryset(self, request):
