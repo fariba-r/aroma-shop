@@ -157,9 +157,18 @@ class ValidateCodeView(APIView):
             password = user_obj.password
 
             user = authenticate(request, username=username, password=password)
+
             login(request,user)
+            url = 'http://127.0.0.1:8000/api/token/'
+            data = {'password': password,"username":username}
+
+
+            response = requests.post(url, json=data)
+
+            # Print the response
+            token=response.json()["access"]
             print("loginnnnnnnnnnnnnnnnnnnnnnnnnnnn",request.user)
-            return  Response({'username':username,'password':password},status=200,)
+            return  Response({'token':token},status=200,)
 
 
 class ActivateAPIView(APIView):

@@ -3,122 +3,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aroma Shop - Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aroma Shop - Home</title>
 
-	<link rel="icon" href="img/Fevicon.png" type="image/png">
-    
-  <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'vendors/fontawesome/css/all.min.css' %}">
+    <link rel="icon" href="img/Fevicon.png" type="image/png">
 
-	<link rel="stylesheet" href="{% static 'vendors/themify-icons/themify-icons.css' %}">
-  <link rel="stylesheet" href="{% static 'vendors/nice-select/nice-select.css' %}">
-  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.theme.default.min.css' %}">
-  <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/fontawesome/css/all.min.css' %}">
 
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/themify-icons/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/category.css' %}">
 
 </head>
 <body>
 
- {% cache 500000 sidebar %}
+{% cache 500000 sidebar %}
 
- {% include 'partiall/header.html' with categories=categories %}
+    {% include 'partiall/header.html' with categories=categories %}
 
 
-    {% endcache sidebar %}
+{% endcache sidebar %}
 
 {% block content %}
 
-     <section class="hero-banner">
-      <div class="container">
-        <div class="row no-gutters align-items-center pt-60px">
-          <div class="col-5 d-none d-sm-block">
-            <div class="hero-banner__img">
-              <img class="img-fluid" src="{% static "img/home/hero-banner.png" %}" alt="">
-            </div>
-          </div>
-          <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
-            <div class="hero-banner__content">
-              <h4>Shop is fun</h4>
-              <h1>Browse Our Premium Product</h1>
-              <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
-              <a class="button button-hero" href="{% url 'product:category' %}"
+    <section class="hero-banner">
+        <div class="container">
+            <div class="row no-gutters align-items-center pt-60px">
+                <div class="col-5 d-none d-sm-block">
+                    <div class="hero-banner__img">
+                        <img class="img-fluid" src="{% static "img/home/hero-banner.png" %}" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
+                    <div class="hero-banner__content">
+                        <h4>Shop is fun</h4>
+                        <h1>Browse Our Premium Product</h1>
+                        <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth
+                            without morning over third. Their male dry. They are great appear whose land fly grass.</p>
+                        <a class="button button-hero" href="{% url 'product:category' %}"
 
-              >Browse Now</a>
+                        >Browse Now</a>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
     <!--================ Hero banner end =================-->
 
-     <section class="section-margin mt-0">
+    <section class="section-margin mt-0">
 
-      <div class="owl-carousel owl-theme hero-carousel">
-          {% for product in best_product %}
-        <div class="hero-carousel__slide">
-        {% for image in images %}
-                                        {% if image.object_id == product.base_group.first.id %}
-          <img src="{{image.image.url}}" alt="" class="img-fluid">
-            {% endif %}
+        <div class="owl-carousel owl-theme hero-carousel">
+            {% for product in best_product %}
+                <div class="hero-carousel__slide">
+                    {% for image in images %}
+                        {% if image.object_id == product.base_group.first.id %}
+                            <img src="{{ image.image.url }}" alt="" class="img-fluid">
+                        {% endif %}
+                    {% endfor %}
+                    <a href="{% url 'product:single_product' product.id %}" class="hero-carousel__slideOverlay">
+                        <h3>{{ product.title }}</h3>
+                        <p>{{ product.description |truncatechars:50 }}</p>
+                    </a>
+                </div>
             {% endfor %}
-          <a href="{% url 'product:single_product' product.id %}" class="hero-carousel__slideOverlay">
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.description |truncatechars:50 }}</p>
-          </a>
+
+
         </div>
-         {% endfor %}
-
-
-      </div>
 
     </section>
 
-     <!--================ pagination start =================-->
-     <div class="col-xl-9 col-lg-8 col-md-7">
-          <!-- Start Filter Bar -->
-          <div class="filter-bar d-flex flex-wrap align-items-center">
+    <!--================ pagination start =================-->
+    <div class="col-xl-9 col-lg-8 col-md-7">
+        <!-- Start Filter Bar -->
+        <div class="filter-bar d-flex flex-wrap align-items-center">
 
-          <!-- Start Best Seller -->
-          <section class="lattest-product-area pb-40 category-list">
-            <div class="row">
-                {% for product in newest  %}
-                      <div class="col-md-6 col-lg-4">
-                        <div class="card text-center card-product">
-                          <div class="card-product__img">
-                               {% for image in images %}
+            <!-- Start Best Seller -->
+            <section class="lattest-product-area pb-40 category-list">
+                <div class="row">
+                    {% for product in newest %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card text-center card-product">
+                                <div class="card-product__img">
+                                    {% for image in images %}
                                         {% if image.object_id == product.base_group.first.id %}
-                                            <img class="card-img" src="{{image.image.url}}" alt="" >
+                                            <img class="card-img" src="{{ image.image.url }}" alt="">
                                         {% endif %}
                                     {% endfor %}
 
-                            <ul class="card-product__imgOverlay">
-                              <li><button><i class="ti-search"></i></button></li>
-                              <li><button><i class="ti-shopping-cart"></i></button></li>
-                              <li><button><i class="ti-heart"></i></button></li>
-                            </ul>
-                          </div>
-                          <div class="card-body">
-                            <p>{{ product.title }}</p>
-                            <h4 class="card-product__title"><a href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a></h4>
-                            <p class="card-product__price">${% for price in cost %}{% if price.detaill.id == product.id  %}{{price.value}}{% endif %}{% endfor %}</p>
-                          </div>
+                                    <ul class="card-product__imgOverlay">
+                                        <li>
+                                            <button><i class="ti-search"></i></button>
+                                        </li>
+                                        <li>
+                                            <button><i class="ti-shopping-cart"></i></button>
+                                        </li>
+                                        <li>
+                                            <button><i class="ti-heart"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ product.title }}</p>
+                                    <h4 class="card-product__title"><a
+                                            href="{% url 'product:single_product' product.id %}">{{ product.description|truncatechars:10 }}...</a>
+                                    </h4>
+                                    <p class="card-product__price">${% for price in cost %}
+                                        {% if price.detaill.id == product.id %}{{ price.value }}
+                                        {% endif %}{% endfor %}</p>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-            {% endfor %}
-            </div>
-          </section>
-          <!-- End Best Seller -->
+                    {% endfor %}
+                </div>
+            </section>
+            <!-- End Best Seller -->
         </div>
-      </div>
     </div>
-  </section>
-	<!-- ================ category section end ================= -->
-</div>
+    </div>
+    </section>
+    <!-- ================ category section end ================= -->
+    </div>
     </div>
 
     <div class="pagination justify-content-center ">
@@ -133,22 +144,50 @@
             <a class="button button-subscribe mr-auto mb-1" href="?page={{ newest.paginator.num_pages }}">last »</a>
         {% endif %}
     </span>
-</div>
+    </div>
 
 {% endblock %}
 
-{%block extra_js %}
-  {% endblock extra_js %}
- {% include 'partiall/footer.html' %}
-  <script src="{% static 'vendors/jquery/jquery-3.2.1.min.js' %}"></script>
-  <script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'vendors/skrollr.min.js' %}"></script>
-  <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-  <script src="{% static 'vendors/nice-select/jquery.nice-select.min.js' %}"></script>
-  <script src="{% static 'vendors/jquery.ajaxchimp.min.js' %}"></script>
-  <script src="{% static 'vendors/mail-script.js' %}"></script>
-  <script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}
+{% endblock extra_js %}
+{% include 'partiall/footer.html' %}
+<script src="{% static 'vendors/jquery/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendors/skrollr.min.js' %}"></script>
+<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'vendors/nice-select/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'vendors/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'vendors/mail-script.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    function get_cookie(name) {
+        return document.cookie.split(';').some(c => {
+            return c.trim().startsWith(name + '=');
+        });
+    }
 
+    function delete_cookie(name) {
+        if (get_cookie(name)) {
+            document.cookie = name + "=" +
+                ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        }
+    }
+
+    document.getElementById("logout").addEventListener("click", function (event) {
+        event.preventDefault()
+        debugger
+        delete_cookie("jwt");
+        fetch('http://127.0.0.1:8000/member/logout')
+            .then(response => {
+                    if (response.status == 200) {
+                        window.location.href = "http://127.0.0.1:8000/"
+                    } else {
+                        alert("somthing went wrong")
+                    }
+                }//end then
+            )
+    })
+</script>
 
 
 </body>

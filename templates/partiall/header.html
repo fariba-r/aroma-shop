@@ -67,12 +67,12 @@
                                     <li class="nav-item"><a class="nav-link" href="{% url "member:loginemail" %}">Login
                                         with email</a></li>
                                 {% else %}
-                                    <li class="nav-item"><a class="nav-link" href="{% url "member:logout" %}">Logout</a>
+                                    <li id="logout" class="nav-item"><a class="nav-link" href="{% url "member:logout" %}">Logout</a>
                                     </li>
                                 {% endif %}
                                 <li class="nav-item"><a class="nav-link" href="{% url "member:signup" %}">Register New
                                     person</a></li>
-                                \
+
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
