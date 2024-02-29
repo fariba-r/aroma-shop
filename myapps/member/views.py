@@ -18,6 +18,7 @@ from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .serializers import LoginSerializer
+from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated
 
 from django.http import JsonResponse
@@ -154,10 +155,11 @@ class ValidateCodeView(APIView):
             user_obj=CustomUser.objects.get(email=email)
             username = user_obj.username
             password = user_obj.password
+
             user = authenticate(request, username=username, password=password)
             login(request,user)
             print("loginnnnnnnnnnnnnnnnnnnnnnnnnnnn",request.user)
-            return  Response(status=200)
+            return  Response({'username':username,'password':password},status=200,)
 
 
 class ActivateAPIView(APIView):

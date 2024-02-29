@@ -140,9 +140,20 @@
                                 console.log(data.access);
                                 debugger
                                 setCookie("jwt", data.access, 2);
+                                window.location.href='http://127.0.0.1:8000/'
+
+                           /*      fetch('http://127.0.0.1:8000/', {
+
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+
+                            },
 
 
-                                {#window.location.href = 'http://localhost:8000/home'#}
+
+
+                        })*/
 
                             })
 

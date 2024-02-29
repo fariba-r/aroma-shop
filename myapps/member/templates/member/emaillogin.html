@@ -115,6 +115,102 @@
 {%endblock content%}
 {%block extra_js %}
     <script src="{% static 'js/loginemail.js' %}"></script>
+
+
+{#    <script>#}
+{#        let cookie = document.cookie#}
+{#        let csrfToken = cookie.substring(cookie.indexOf('=') + 1)#}
+{##}
+{#        function setCookie(name, value, days) {#}
+{#            var expires = new Date();#}
+{#            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000); // 2 days in milliseconds#}
+{#            document.cookie = name + "=" + value + "; expires=" + expires.toUTCString() + "; path=/";#}
+{#        }#}
+{##}
+{##}
+{##}
+{#        document.getElementById("submit").addEventListener("click", function (event) {#}
+{#            event.preventDefault()#}
+{##}
+{#            var username = document.getElementById("username")#}
+{#            var password = document.getElementById("password")#}
+{##}
+{#            debugger#}
+{#            fetch('http://127.0.0.1:8000/member/loginpassapi/', {#}
+{#                method: "POST",#}
+{##}
+{#                headers: {#}
+{#                    'Content-Type': 'application/json',#}
+{#                    'X-CSRFToken': csrfToken#}
+{##}
+{#                },#}
+{##}
+{#                body: JSON.stringify({#}
+{#                    'username': username,#}
+{#                    'password': password#}
+{#                })#}
+{#            }).then(response => response.json())#}
+{##}
+{#                .then(data => {#}
+{#                    if (data.status == 200) {#}
+{##}
+{#                        fetch('http://127.0.0.1:8000/api/token/', {#}
+{#                            method: "POST",#}
+{#                            headers: {#}
+{#                                'Content-Type': 'application/json',#}
+{#                                'X-CSRFToken': csrfToken#}
+{##}
+{#                            },#}
+{##}
+{#                            body: JSON.stringify({#}
+{#                                'username': document.getElementById("username").value,#}
+{#                                'password': document.getElementById("password").value#}
+{#                            })#}
+{##}
+{##}
+{#                        })#}
+{#                            .then(response => response.json())#}
+{#                            .then(data => {#}
+{#                                console.log(data.access);#}
+{#                                debugger#}
+{#                                setCookie("jwt", data.access, 2);#}
+{#                                window.location.href='http://127.0.0.1:8000/'#}
+{##}
+{#                           /*      fetch('http://127.0.0.1:8000/', {#}
+{##}
+{#                            headers: {#}
+{#                                'Content-Type': 'application/json',#}
+{#                                'X-CSRFToken': csrfToken#}
+{##}
+{#                            },#}
+{##}
+{##}
+{##}
+{##}
+{#                        })*/#}
+{##}
+{#                            })#}
+{##}
+{#                    }//end if#}
+{#                    if (data.status == 404) {#}
+{#                        document.getElementById("message").innerHTML = data.message#}
+{##}
+{##}
+{#                    } else {#}
+{#                        document.getElementById("message").innerHTML = data.message#}
+{#                    }#}
+{##}
+{#                })//end then#}
+{#                .catch(error => {#}
+{#                    console.log(error)#}
+{#                })#}
+{#        })//end addeven lessener#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#    </script>#}
   {% endblock extra_js %}
 
 
