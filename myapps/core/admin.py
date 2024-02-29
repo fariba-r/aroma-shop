@@ -12,3 +12,4 @@ class LikeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Like, LikeAdmin)
+
