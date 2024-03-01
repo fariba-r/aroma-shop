@@ -231,42 +231,48 @@
                             iner_div.appendChild(ptag3);
 
                             outer_div.appendChild(iner_div);
-
                             commentlist.appendChild(outer_div);
 
 
+
                             ////////////////////////////////////////////////////////////////////////////////////////
-                            debugger
 
-                            data.products.forEach(order => {
-                                //if (order.order_id.id == order.order_id.id) {
 
-                                     const iner_div = document.createElement('div');
+                            //data.products.forEach(order => {
+                            const inerr_div = document.createElement('div');
                                     iner_div.className += "desc";
-                                    const outer_div = document.createElement('div');
+                                    const outerr_div = document.createElement('div');
                                     outer_div.className += "single-comment justify-content-center d-flex  border mt-3"
+                                for (const pro of data.products) {
+                                    debugger
+                                if (pro.order_id.id == order.id) {
+                                    console.log(pro.order_id.id ,order.id)
+
                                     const ptag1 = document.createElement('p');
 
-                                    ptag1.textContent = `  status:  ${order.pyment_status}`;
-                                    iner_div.appendChild(ptag1);
+                                    ptag1.textContent = `  title:  ${pro.product_id.title}`;
+                                    inerr_div.appendChild(ptag1);
 
-                                    const ptag2 = document.createElement('p');
-                                    ptag2.textContent = `  created at:  ${order.created_at}`;
-                                    iner_div.appendChild(ptag2);
+                                    {#const ptag2 = document.createElement('p');#}
+                                    {#ptag2.textContent = `  description:  ${pro.product_id.description}`;#}
+                                    {#inerr_div.appendChild(ptag2);#}
 
-                                    const ptag3 = document.createElement('p');
-                                    ptag3.textContent = `final payment :  ${order.final_payment}`;
-                                    iner_div.appendChild(ptag3);
+                                    {#const ptag3 = document.createElement('p');#}
+                                    {#ptag3.textContent = `count :  ${pro.count}`;#}
+                                    {#inerr_div.appendChild(ptag3);#}
+                                        const hr1=document.createElement('hr')
+                                    inerr_div.appendChild(hr1);
+                                    outerr_div.appendChild(inerr_div);
 
-                                    outer_div.appendChild(iner_div);
-
-                                    commentlist.appendChild(outer_div)
+                                    commentlist.appendChild(outerr_div)
 
 
 
-                                //};//end if
+                                };//end if
 
-                            });//end foreach product_order
+                            }//);//end foreach product_order
+                            //outer_div.appendChild(outer_div);
+
 
                             //////////////////////////////////////////////////////////////////////////////////////
 
