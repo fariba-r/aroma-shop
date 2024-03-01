@@ -146,6 +146,8 @@ class CreateCartView(APIView):
 
         code = request.data.get("code")
         try:
+            if not CustomUser.objects.get(id=1).active_status:
+                raise Exception("please active your account first")
             id_address = int(request.data["address"])
             address = UserAddress.objects.get(id=id_address, user_id=CustomUser.objects.get(id=1))
             if code:
@@ -192,7 +194,7 @@ class CreateCartView(APIView):
             return Response({"status": "success"}, status=200)
         except Exception as e:
             print(e)
-            return Response({"status": "fail"}, status=500)
+            return Response({"status": "fail","message":str(e)}, status=500)
 
 
 class ChangeStoreMixin:

@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework_swagger',
+    'rest_framework_swagger',
     'rest_framework',
      'corsheaders',
     "myapps.member",
@@ -93,13 +93,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1)
 }
-# REST_FRAMEWORK = {
-#     # Use Django's standard `django.contrib.auth` permissions,
-#     # or allow read-only access for unauthenticated users.
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
+
 
 ROOT_URLCONF = 'config.urls'
 
@@ -124,7 +118,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  # Replace with your Redis server details
+        'LOCATION': 'redis://127.0.0.1:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -187,17 +181,19 @@ EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = 'faribarezaee321@gmail.com'
+# DEFAULT_FROM_EMAIL = 'faribarezaee321@gmail.com'
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'faribarezaee321@gmail.com'
-EMAIL_HOST_PASSWORD = 'aoop ifvp bylo sllb'
+
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# set the celery broker url
-# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
 
-# set the celery result backend
+
+
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_BEAT_SCHEDULE = {
@@ -231,3 +227,6 @@ CORS_ALLOW_HEADERS = (
     "x-csrftoken",
     "x-requested-with",
 )
+SESSION_EXPIRE_SECONDS = 2880
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT =LOGIN_URL
