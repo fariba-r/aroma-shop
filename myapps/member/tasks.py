@@ -12,5 +12,5 @@ def delete_inactive_users():
           created_at__lt=three_days_ago,
           active_status=False
      )
-     
+
      inactive_users.delete()

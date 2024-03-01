@@ -33,7 +33,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('discount_code_id', 'pyment_status', 'final_payment', 'created_at')
+        fields = ('discount_code_id', 'pyment_status', 'final_payment', 'created_at',"id")
 
 
 class ProductOrderSerializer(serializers.Serializer):
@@ -59,7 +59,7 @@ class CitySerializer(serializers.Serializer):
 class CustomerUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('first_name', 'last_name', 'created_at', 'email', 'phonenumber', 'username', 'is_active')
+        fields = ('first_name', 'last_name', 'created_at', 'email', 'phonenumber', 'username', 'active_status')
         read_only_fields = ['is_active']
 
 

@@ -1,6 +1,7 @@
 import datetime
 from linecache import cache
 from django.core.cache import cache
+from django.contrib import messages
 import requests
 from django.core.mail import send_mail
 from ..member.views import ValidateEmailView
@@ -98,10 +99,14 @@ class UpdateUserView(APIView):
 
     def put(self, request):
         user_obj = CustomUser.objects.get(id=1)
+        old_email = user_obj.email
         serializer = CustomerUserSerializer(user_obj, data=request.data, partial=True)
         if serializer.is_valid():
 
-            serializer.save()
+
+            if old_email != request.data["email"]:
+                serializer.validated_data["active_status"] = False
+                serializer.save()
             return Response({"status": "success", "message": "update success"}, status=200)
 
 
@@ -274,10 +279,8 @@ class DeleteAddresseView(APIView):
 
 class ActivateView(View):
 
-    def get(self,request):
-
+    def get(self, request):
         code = ValidateEmailView.create_code()
-
         cache.set(request.user.email, code, timeout=600)
         print("a" * 50, code)
         send_mail(
@@ -285,21 +288,19 @@ class ActivateView(View):
             f" this is your activate code:{code}",
             None,  # use default from_email
             [request.user.email],  # recipient list
-            fail_silently=False,
-        )
-        return render(request,"order/activate.html",)
-
+            fail_silently=False, )
+        return render(request, "order/activate.html", )
 
 
 class CodeActivateView(APIView):
     def post(self, request):
+        user = request.user
         serializers = ActivateCodeSerializer(request.data)
-
-        # db_code=cache.get(request.user.email)
-        db_code = cache.get(request.user.email)
-
+        db_code = cache.get(user.email)
         if serializers["code"].value == db_code:
-            request.user.active_status=True
+            user.active_status = True
+            user.save()
+            messages.success(request, 'your acount activate succefully !')
             return Response(status=200)
         else:
-                return Response(status=404)
+            return Response(status=404)

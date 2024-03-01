@@ -11,7 +11,16 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">My Portal</li>
+
+
                         </ol>
+                        {% if messages %}
+
+                            {% for message in messages %}
+                                <p class="breadcrumb-item active">{{ message }}</p>
+                            {% endfor %}
+
+                        {% endif %}
                     </nav>
                 </div>
             </div>
@@ -103,6 +112,9 @@
                                 </form>
                                 <a href="http://127.0.0.1:8000/password-reset/"
                                    class="button button-postComment button--active m-5">Reset Password</a>
+
+                                <a id="activate" href="http://127.0.0.1:8000/order/activate"
+                                   class="button button-postComment button--active m-5">Activate Account</a>
                             </div>
                         </aside>
 
@@ -174,6 +186,8 @@
 
 
     <script>
+        document.getElementById('activate').style.display = "none";
+
         window.onload = function () {
             // Fetch order data from the backend
             // document.getElementById("123").addEventListener("click", function(e) {
@@ -218,13 +232,48 @@
 
                             outer_div.appendChild(iner_div);
 
-                            commentlist.appendChild(outer_div)
+                            commentlist.appendChild(outer_div);
 
+
+                            ////////////////////////////////////////////////////////////////////////////////////////
+                            debugger
+
+                            data.products.forEach(order => {
+                                //if (order.order_id.id == order.order_id.id) {
+
+                                     const iner_div = document.createElement('div');
+                                    iner_div.className += "desc";
+                                    const outer_div = document.createElement('div');
+                                    outer_div.className += "single-comment justify-content-center d-flex  border mt-3"
+                                    const ptag1 = document.createElement('p');
+
+                                    ptag1.textContent = `  status:  ${order.pyment_status}`;
+                                    iner_div.appendChild(ptag1);
+
+                                    const ptag2 = document.createElement('p');
+                                    ptag2.textContent = `  created at:  ${order.created_at}`;
+                                    iner_div.appendChild(ptag2);
+
+                                    const ptag3 = document.createElement('p');
+                                    ptag3.textContent = `final payment :  ${order.final_payment}`;
+                                    iner_div.appendChild(ptag3);
+
+                                    outer_div.appendChild(iner_div);
+
+                                    commentlist.appendChild(outer_div)
+
+
+
+                                //};//end if
+
+                            });//end foreach product_order
+
+                            //////////////////////////////////////////////////////////////////////////////////////
 
                         });//end for each orders
                         ///////////////////////////////////////////////////////////////////////start info
                         const info = document.getElementById('Info');
-                        //data.user.forEach(user => {
+
                         const input1 = document.createElement('input');
 
                         input1.setAttribute("value", `${data.user.first_name}`);
@@ -308,7 +357,12 @@
 
                         const input7 = document.createElement('input');
 
-                        input7.setAttribute("value", `${data.user.is_active}`);
+                        input7.setAttribute("value", `${data.user.active_status}`);
+                        debugger
+                        if (!data.user.active_status) {
+                            document.getElementById('activate').style.display = "block";
+
+                        }
                         const lable7 = document.createElement('label');
                         input7.setAttribute('id', 'input7')
                         input7.disabled = true;
@@ -319,6 +373,7 @@
                         div7.appendChild(lable7);
                         div7.appendChild(input7)
                         info.appendChild(div7)
+
                         console.log(`${data.user.is_active}`)
 
 
@@ -379,7 +434,8 @@
                                     console.log(data.status);
                                     if (data.status == 200) {
                                         alert("deleted succesfully ")
-                                        
+                                        location.reload();
+
 
                                     }//end if
 
@@ -435,10 +491,9 @@
 
 
             }//end load function
-             loadd();
+            loadd();
 
         };//end load
-
 
 
     </script>
@@ -521,28 +576,8 @@
     })
 
     </script>
-    {#    <script>#}
-    {#window.onload = function () {#}
-    {#            debugger#}
-    {##}
-    {#            document.querySelectorAll('.deleteadr').forEach(function (element) {#}
-    {#                console.log(element)#}
-    {#                if (element) {#}
-    {#                    element.addEventListener("click", function (element) {#}
-    {#                        fetch('https://reqres.in/api/posts/1', {#}
-    {#                            method: 'DELETE'#}
-    {#                        }).then(() => {#}
-    {#                            console.log("lll")#}
-    {#                        });#}
-    {#                    })#}
-    {#                    console.log("ggg")#}
-    {#                }#}
-    {#            })#}
-    {##}
-    {##}
-    {#        //};#}
-    {##}
-    {##}
-    {#    </script>#}
+    <script>
 
+
+    </script>
 {% endblock extra_js %}
